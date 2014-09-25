@@ -4,8 +4,11 @@
 library(reshape)
 
 # Read in output file from Interpolation script that combines min, max and var into a single cv file 
-temp <- read.csv("VB_InterpolatedTemperatures.csv") # Interpolated temperature data
-Orig.temp <- read.csv("VB_Covariate_Data.csv") # Original (non-interpolated) temperature data
+# VB
+#temp <- read.csv("VB_InterpolatedTemperatures.csv") # Interpolated temperature data
+#Orig.temp <- read.csv("VB_Covariate_Data.csv") # Original (non-interpolated) temperature data
+
+temp <- read.csv("UDZ_InterpolatedTemperatures.csv") # Interpolated temperature data
 
 # First year of temperature data are missing in interpolated data file
 # Check with DSSG team about input data and/or correction and for the meantime use originals for these 
@@ -20,4 +23,5 @@ dim(temp)
 
 temp.melt <- melt(temp, id.vars=c("Sampling.Unit.Name", "Time"))
 temp.cast <- cast(temp.melt, Sampling.Unit.Name ~ variable + Time)
-write.csv(temp.cast, file="VB.temp.cast.csv")
+#write.csv(temp.cast, file="VB.temp.cast.csv")
+write.csv(temp.cast, file="UDZ.temp.cast.csv")
