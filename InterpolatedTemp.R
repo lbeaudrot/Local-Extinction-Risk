@@ -7,6 +7,9 @@ library(reshape)
 temp <- read.csv("VB_InterpolatedTemperatures.csv") # Interpolated temperature data
 Orig.temp <- read.csv("VB_Covariate_Data.csv") # Original (non-interpolated) temperature data
 
+# First year of temperature data are missing in interpolated data file
+# Check with DSSG team about input data and/or correction and for the meantime use originals for these 
+
 # Examine # of camera traps in each file
 length(unique(temp$Sampling.Unit.Name))
 length(unique(Orig.temp$Sampling.Unit))
@@ -14,3 +17,7 @@ head(temp)
 dim(temp)
 
 # Use cast to reshape data (data may already be melted....so may not need to do that, but explore)
+
+temp.melt <- melt(temp, id.vars=c("Sampling.Unit.Name", "Time"))
+temp.cast <- cast(temp.melt, Sampling.Unit.Name ~ variable + Time)
+write.csv(temp.cast, file="VB.temp.cast.csv")
