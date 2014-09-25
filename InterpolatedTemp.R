@@ -25,3 +25,10 @@ temp.melt <- melt(temp, id.vars=c("Sampling.Unit.Name", "Time"))
 temp.cast <- cast(temp.melt, Sampling.Unit.Name ~ variable + Time)
 #write.csv(temp.cast, file="VB.temp.cast.csv")
 write.csv(temp.cast, file="UDZ.temp.cast.csv")
+
+
+
+# Extract forest loss data from Alex's object "traps_fc"
+VBtraps <- traps_fc[traps_fc$sitecode=="VB",]
+UDZtraps <- traps_fc[traps_fc$sitecode=="UDZ" & traps_fc$buffer_m=="120m buffer",]
+write.csv(UDZtraps, file="UDZtraps.csv")
