@@ -112,79 +112,316 @@ f.matrix.creatorLB<-function(data,year){
 
 # Change site code to site of interest; check table to see sampling periods per site
 table(eventsdata$Site.Code, eventsdata$Sampling.Period)
-Matrix2008 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2007.01")
-Matrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2008.01")
-Matrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2009.01")
-Matrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2010.01")
-Matrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2011.01")
-Matrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2012.01")
-Matrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2013.01")
+# Based on sampling periods (which aren't necessarily the dates sampled):
+# VB runs 2007-2013 (Photo dates are one year ahead of Sampling.Period; Photos 2008-2014)
+# UDZ runs 2009-2013
+# BIF runs 2009-2012 (Photo dates are one year ahead of Sampling.Period; Photos 2010-2013)
+# PSH runs 2011-2013
+# YAN runs 2011-2013
+# NAK runs 2009-2012 (Photo dates are one year ahead of Sampling.Period; Photos 2010-2013)
+# RNF runs 2010-2013
+# NB VB Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
+VBMatrix2008 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2007.01")
+VBMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2008.01")
+VBMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2009.01")
+VBMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2010.01")
+VBMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2011.01")
+VBMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2012.01")
+VBMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2013.01")
 
-# Code used to extract sample data for Miguel Acevedo for Skype meeting on September 5, 2014
-names(Matrix2010)
-UDZ.bluemonkey <- cbind(Matrix2010[[22]], Matrix2011[[22]], Matrix2012[[22]], Matrix2013[[22]], Matrix2014[[22]])
-UDZ.crestedguineafowl <- cbind(Matrix2010[[19]], Matrix2011[[19]], Matrix2012[[19]], Matrix2013[[19]], Matrix2014[[19]])
-UDZ.elephant <- cbind(Matrix2010[[14]], Matrix2011[[14]], Matrix2012[[14]], Matrix2013[[14]], Matrix2014[[14]])
-UDZ.mongoose <- cbind(Matrix2010[[3]], Matrix2011[[3]], Matrix2012[[3]], Matrix2013[[3]], Matrix2014[[3]])
-UDZ.giantrat <- cbind(Matrix2010[[1]], Matrix2011[[1]], Matrix2012[[1]], Matrix2013[[1]], Matrix2014[[1]])
-UDZ.Abbottsduiker <- cbind(Matrix2010[[6]], Matrix2011[[6]], Matrix2012[[6]], Matrix2013[[6]], Matrix2014[[6]])
-UDZ.genet <- cbind(Matrix2010[[20]], Matrix2011[[20]], Matrix2012[[20]], Matrix2013[[20]], Matrix2014[[20]])
-UDZ.honeybadger <- cbind(Matrix2010[[23]], Matrix2011[[23]], Matrix2012[[23]], Matrix2013[[23]], Matrix2014[[23]])
-UDZ.Harveysduiker <- cbind(Matrix2010[[5]], Matrix2011[[5]], Matrix2012[[5]], Matrix2013[[5]], Matrix2014[[5]])
-UDZ.palmcivet <- cbind(Matrix2010[[16]], Matrix2011[[16]], Matrix2012[[16]], Matrix2013[[16]], Matrix2014[[16]])
-UDZ.bushsquirrel <- cbind(Matrix2010[[18]], Matrix2011[[18]], Matrix2012[[18]], Matrix2013[[18]], Matrix2014[[18]])
-UDZ.bushpig <- cbind(Matrix2010[[10]], Matrix2011[[10]], Matrix2012[[10]], Matrix2013[[10]], Matrix2014[[10]])
-UDZ.mangabey <- cbind(Matrix2010[[4]], Matrix2011[[4]], Matrix2012[[4]], Matrix2013[[4]], Matrix2014[[4]])
-UDZ.elephantshrew <- cbind(Matrix2010[[30]], Matrix2011[[30]], Matrix2012[[30]], Matrix2013[[30]], Matrix2014[[30]])
-UDZ.suni <- cbind(Matrix2010[[11]], Matrix2011[[11]], Matrix2012[[11]], Matrix2013[[11]], Matrix2014[[11]])
+UDZMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2009.01")
+UDZMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2010.01")
+UDZMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2011.01")
+UDZMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2012.01")
+UDZMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2013.01")
+
+# NB BIF Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
+BIFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2009.01")
+BIFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2010.01")
+BIFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2011.01")
+BIFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2012.01")
+
+PSHMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2011.01")
+PSHMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2012.01")
+PSHMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2013.01")
+
+YANMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2011.01")
+YANMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2012.01")
+YANMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2013.01")
+
+# NB NAK Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
+NAKMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2009.01")
+NAKMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2010.01")
+NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
+NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
+
+RNFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2010.01")
+RNFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2011.01")
+RNFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2012.01")
+RNFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2013.01")
+
+#test <- list()
+#test[[i]] <- f.shrink.matrix.to15(Matrix2010[[i]])
+
+VBMatrix2008.15 <- list()
+VBMatrix2009.15 <- list()
+VBMatrix2010.15 <- list()
+VBMatrix2011.15 <- list()
+VBMatrix2012.15 <- list()
+VBMatrix2013.15 <- list()
+VBMatrix2014.15 <- list()
+
+UDZMatrix2009.15 <- list()
+UDZMatrix2010.15 <- list()
+UDZMatrix2011.15 <- list()
+UDZMatrix2012.15 <- list()
+UDZMatrix2013.15 <- list()
+
+BIFMatrix2010.15 <- list()
+BIFMatrix2011.15 <- list()
+BIFMatrix2012.15 <- list()
+BIFMatrix2013.15 <- list()
+
+PSHMatrix2011.15 <- list()
+PSHMatrix2012.15 <- list()
+PSHMatrix2013.15 <- list()
+
+YANMatrix2011.15 <- list()
+YANMatrix2012.15 <- list()
+YANMatrix2013.15 <- list()
+
+NAKMatrix2010.15 <- list()
+NAKMatrix2011.15 <- list()
+NAKMatrix2012.15 <- list()
+NAKMatrix2013.15 <- list()
+
+RNFMatrix2010.15 <- list()
+RNFMatrix2011.15 <- list()
+RNFMatrix2012.15 <- list()
+RNFMatrix2013.15 <- list()
+
+for(i in 1:length(VBMatrix2008)){
+  VBMatrix2008.15[[i]] <- f.shrink.matrix.to15(VBMatrix2008[[i]])
+  VBMatrix2009.15[[i]] <- f.shrink.matrix.to15(VBMatrix2009[[i]])
+  VBMatrix2010.15[[i]] <- f.shrink.matrix.to15(VBMatrix2010[[i]])
+  VBMatrix2011.15[[i]] <- f.shrink.matrix.to15(VBMatrix2011[[i]])
+  VBMatrix2012.15[[i]] <- f.shrink.matrix.to15(VBMatrix2012[[i]])
+  VBMatrix2013.15[[i]] <- f.shrink.matrix.to15(VBMatrix2013[[i]])
+  VBMatrix2014.15[[i]] <- f.shrink.matrix.to15(VBMatrix2014[[i]])
+}
+
+for(i in 1:length(UDZMatrix2010)){
+  UDZMatrix2009.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2009[[i]])
+  UDZMatrix2010.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2010[[i]])
+  UDZMatrix2011.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2011[[i]])
+  UDZMatrix2012.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2012[[i]])
+  UDZMatrix2013.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2013[[i]])
+}
+
+for(i in 1:length(BIFMatrix2010)){
+  BIFMatrix2010.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2010[[i]])
+  BIFMatrix2011.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2011[[i]])
+  BIFMatrix2012.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2012[[i]])
+  BIFMatrix2013.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2013[[i]])
+}  
+
+for(i in 1:length(PSHMatrix2012)){
+  PSHMatrix2011.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2011[[i]])
+  PSHMatrix2012.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2012[[i]])
+  PSHMatrix2013.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2013[[i]])
+}
+
+for(i in 1:length(YANMatrix2012)){
+  YANMatrix2011.15[[i]] <- f.shrink.matrix.to15(YANMatrix2011[[i]])
+  YANMatrix2012.15[[i]] <- f.shrink.matrix.to15(YANMatrix2012[[i]])
+  YANMatrix2013.15[[i]] <- f.shrink.matrix.to15(YANMatrix2013[[i]])
+}
+
+for(i in 1:length(NAKMatrix2010)){
+  NAKMatrix2010.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2010[[i]])
+  NAKMatrix2011.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2011[[i]])
+  NAKMatrix2012.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2012[[i]])
+  NAKMatrix2013.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2013[[i]])
+}
+
+for(i in 1:length(RNFMatrix2011)){
+  RNFMatrix2010.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2010[[i]])
+  RNFMatrix2011.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2011[[i]])
+  RNFMatrix2012.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2012[[i]])
+  RNFMatrix2013.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2013[[i]])
+}
+
+# Code used to extract sample data for analysis of 32 species modeled with WPI covariates
+# 5 VB species
+names(VBMatrix2008)
+VB.Pecari_tajacu <- data.frame("2008"=VBMatrix2008.15[[1]], "2009"=VBMatrix2009.15[[1]], "2010"=VBMatrix2010.15[[1]], "2011"=VBMatrix2011.15[[1]], "2012"=VBMatrix2012.15[[1]], "2013"=VBMatrix2013.15[[1]], "2014"=VBMatrix2014.15[[1]])
+VB.Dasyprocta_punctata <- data.frame("2008"=VBMatrix2008.15[[3]], "2009"=VBMatrix2009.15[[3]], "2010"=VBMatrix2010.15[[3]], "2011"=VBMatrix2011.15[[3]], "2012"=VBMatrix2012.15[[3]], "2013"=VBMatrix2013.15[[3]], "2014"=VBMatrix2014.15[[3]])
+VB.Tapirus_bairdii <- data.frame("2008"=VBMatrix2008.15[[18]], "2009"=VBMatrix2009.15[[18]], "2010"=VBMatrix2010.15[[18]], "2011"=VBMatrix2011.15[[18]], "2012"=VBMatrix2012.15[[18]], "2013"=VBMatrix2013.15[[18]], "2014"=VBMatrix2014.15[[18]])
+VB.Cuniculus_paca <- data.frame("2008"=VBMatrix2008.15[[6]], "2009"=VBMatrix2009.15[[6]], "2010"=VBMatrix2010.15[[6]], "2011"=VBMatrix2011.15[[6]], "2012"=VBMatrix2012.15[[6]], "2013"=VBMatrix2013.15[[6]], "2014"=VBMatrix2014.15[[6]])
+VB.Dasypus_novemcinctus <- data.frame("2008"=VBMatrix2008.15[[4]], "2009"=VBMatrix2009.15[[4]], "2010"=VBMatrix2010.15[[4]], "2011"=VBMatrix2011.15[[4]], "2012"=VBMatrix2012.15[[4]], "2013"=VBMatrix2013.15[[4]], "2014"=VBMatrix2014.15[[4]])
+
+VB_covariate_species <- list(VB.Pecari_tajacu=VB.Pecari_tajacu,
+                             VB.Dasyprocta_punctata=VB.Dasyprocta_punctata,
+                             VB.Tapirus_bairdii=VB.Tapirus_bairdii,
+                             VB.Cuniculus_paca=VB.Cuniculus_paca,
+                             VB.Dasypus_novemcinctus,VB.Dasypus_novemcinctus)
+
+# 10 UDZ species
+names(UDZMatrix2009)
+UDZ.Guttera_pucherani <- data.frame("2009"=UDZMatrix2009.15[[19]], "2010"=UDZMatrix2010.15[[19]], "2011"=UDZMatrix2011.15[[19]], "2012"=UDZMatrix2012.15[[19]], "2013"=UDZMatrix2013.15[[19]])
+UDZ.Bdeogale_crassicauda <- data.frame("2009"=UDZMatrix2009.15[[3]], "2010"=UDZMatrix2010.15[[3]], "2011"=UDZMatrix2011.15[[3]], "2012"=UDZMatrix2012.15[[3]], "2013"=UDZMatrix2013.15[[3]])
+UDZ.Cricetomys_gambianus <- data.frame("2009"=UDZMatrix2009.15[[1]], "2010"=UDZMatrix2010.15[[1]], "2011"=UDZMatrix2011.15[[1]], "2012"=UDZMatrix2012.15[[1]], "2013"=UDZMatrix2013.15[[1]])
+UDZ.Cephalophus_spadix <- data.frame("2009"=UDZMatrix2009.15[[6]], "2010"=UDZMatrix2010.15[[6]], "2011"=UDZMatrix2011.15[[6]], "2012"=UDZMatrix2012.15[[6]], "2013"=UDZMatrix2013.15[[6]])
+UDZ.Genetta_servalina <- data.frame("2009"=UDZMatrix2009.15[[20]], "2010"=UDZMatrix2010.15[[20]], "2011"=UDZMatrix2011.15[[20]], "2012"=UDZMatrix2012.15[[20]], "2013"=UDZMatrix2013.15[[20]])
+UDZ.Cephalophus_harveyi <- data.frame("2009"=UDZMatrix2009.15[[5]], "2010"=UDZMatrix2010.15[[5]], "2011"=UDZMatrix2011.15[[5]], "2012"=UDZMatrix2012.15[[5]], "2013"=UDZMatrix2013.15[[5]])
+UDZ.Paraxerus_vexillarius <- data.frame("2009"=UDZMatrix2009.15[[18]], "2010"=UDZMatrix2010.15[[18]], "2011"=UDZMatrix2011.15[[18]], "2012"=UDZMatrix2012.15[[18]], "2013"=UDZMatrix2013.15[[18]])
+UDZ.Cercocebus_sanjei <- data.frame("2009"=UDZMatrix2009.15[[4]], "2010"=UDZMatrix2010.15[[4]], "2011"=UDZMatrix2011.15[[4]], "2012"=UDZMatrix2012.15[[4]], "2013"=UDZMatrix2013.15[[4]])
+UDZ.Rhynchocyon_udzungwensis <- data.frame("2009"=UDZMatrix2009.15[[30]], "2010"=UDZMatrix2010.15[[30]], "2011"=UDZMatrix2011.15[[30]], "2012"=UDZMatrix2012.15[[30]], "2013"=UDZMatrix2013.15[[30]])
+UDZ.Nesotragus_moschatus <- data.frame("2009"=UDZMatrix2009.15[[11]], "2010"=UDZMatrix2010.15[[11]], "2011"=UDZMatrix2011.15[[11]], "2012"=UDZMatrix2012.15[[11]], "2013"=UDZMatrix2013.15[[11]])
+
+UDZ_covariate_species <- list(UDZ.Guttera_pucherani=UDZ.Guttera_pucherani, 
+                              UDZ.Bdeogale_crassicauda=UDZ.Bdeogale_crassicauda, 
+                              UDZ.Cricetomys_gambianus=UDZ.Cricetomys_gambianus, 
+                              UDZ.Cephalophus_spadix=UDZ.Cephalophus_spadix, 
+                              UDZ.Genetta_servalina=UDZ.Genetta_servalina, 
+                              UDZ.Cephalophus_harveyi=UDZ.Cephalophus_harveyi, 
+                              UDZ.Paraxerus_vexillarius=UDZ.Paraxerus_vexillarius, 
+                              UDZ.Cercocebus_sanjei,UDZ.Cercocebus_sanjei,
+                              UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis, 
+                              UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus)
+
+# 3 BIF species
+names(BIFMatrix2011)
+BIF.Cercopithecus_lhoesti <- data.frame("2010"=BIFMatrix2010.15[[8]], "2011"=BIFMatrix2011.15[[8]], "2012"=BIFMatrix2012.15[[8]], "2013"=BIFMatrix2013.15[[8]])
+BIF.Cephalophus_silvicultor <- data.frame("2010"=BIFMatrix2010.15[[6]], "2011"=BIFMatrix2011.15[[6]], "2012"=BIFMatrix2012.15[[6]], "2013"=BIFMatrix2013.15[[6]])
+BIF.Cephalophus_nigrifrons <- data.frame("2010"=BIFMatrix2010.15[[1]], "2011"=BIFMatrix2011.15[[1]], "2012"=BIFMatrix2012.15[[1]], "2013"=BIFMatrix2013.15[[1]])
+
+BIF_covariate_species <- list(BIF.Cercopithecus_lhoesti=BIF.Cercopithecus_lhoesti,
+                              BIF.Cephalophus_silvicultor=BIF.Cephalophus_silvicultor,
+                              BIF.Cephalophus_nigrifrons=BIF.Cephalophus_nigrifrons)
+                              
+
+# 5 PSH species
+names(PSHMatrix2011)
+
+PSH.Leopoldamys_sabanus <- data.frame("2011"=PSHMatrix2011.15[[18]], "2012"=PSHMatrix2012.15[[18]], "2013"=PSHMatrix2013.15[[18]])
+PSH.Muntiacus_muntjak <- data.frame("2011"=PSHMatrix2011.15[[15]], "2012"=PSHMatrix2012.15[[15]], "2013"=PSHMatrix2013.15[[15]])
+PSH.Macaca_nemestrina <- data.frame("2011"=PSHMatrix2011.15[[2]], "2012"=PSHMatrix2012.15[[2]], "2013"=PSHMatrix2013.15[[2]])
+PSH.Sus_scrofa <- data.frame("2011"=PSHMatrix2011.15[[6]], "2012"=PSHMatrix2012.15[[6]], "2013"=PSHMatrix2013.15[[6]])
+PSH.Tragulus_kanchil <- data.frame("2011"=PSHMatrix2011.15[[9]], "2012"=PSHMatrix2012.15[[9]], "2013"=PSHMatrix2013.15[[9]])
+
+PSH_covariate_species <- list(PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
+                              PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
+                              PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
+                              PSH.Sus_scrofa=PSH.Sus_scrofa,
+                              PSH.Tragulus_kanchil=PSH.Tragulus_kanchil)
+
+# 5 YAN species
+names(YANMatrix2011)
+YAN.Cuniculus_paca <- data.frame("2011"=YANMatrix2011.15[[3]], "2012"=YANMatrix2012.15[[3]], "2013"=YANMatrix2013.15[[3]])
+YAN.Dasyprocta_fuliginosa <- data.frame("2011"=YANMatrix2011.15[[7]], "2012"=YANMatrix2012.15[[7]], "2013"=YANMatrix2013.15[[7]])
+YAN.Dasypus_novemcinctus <- data.frame("2011"=YANMatrix2011.15[[5]], "2012"=YANMatrix2012.15[[5]], "2013"=YANMatrix2013.15[[5]])
+YAN.Mitu_tuberosum <- data.frame("2011"=YANMatrix2011.15[[2]], "2012"=YANMatrix2012.15[[2]], "2013"=YANMatrix2013.15[[2]])
+YAN.Tapirus_terrestris <- data.frame("2011"=YANMatrix2011.15[[11]], "2012"=YANMatrix2012.15[[11]], "2013"=YANMatrix2013.15[[11]])
+
+YAN_covariate_species <- list(YAN.Cuniculus_paca=YAN.Cuniculus_paca,
+                              YAN.Dasyprocta_fuliginosa=YAN.Dasyprocta_fuliginosa,
+                              YAN.Dasypus_novemcinctus=YAN.Dasypus_novemcinctus,
+                              YAN.Mitu_tuberosum=YAN.Mitu_tuberosum,
+                              YAN.Tapirus_terrestris=YAN.Tapirus_terrestris)
+
+# 2 NAK species
+names(NAKMatrix2011)
+NAK.Muntiacus_muntjak <- data.frame("2010"=NAKMatrix2010.15[[1]], "2011"=NAKMatrix2011.15[[1]], "2012"=NAKMatrix2012.15[[1]], "2013"=NAKMatrix2013.15[[1]])
+NAK.Atherurus_macrourus <- data.frame("2010"=NAKMatrix2010.15[[10]], "2011"=NAKMatrix2011.15[[10]], "2012"=NAKMatrix2012.15[[10]], "2013"=NAKMatrix2013.15[[10]])
+
+NAK_covariate_species <- list(NAK.Muntiacus_muntjak=NAK.Muntiacus_muntjak,
+                              NAK.Atherurus_macrourus=NAK.Atherurus_macrourus)
+
+# 2 RNF species
+names(RNFMatrix2011)
+RNF.Nesomys_rufus <- data.frame("2010"=RNFMatrix2010.15[[4]], "2011"=RNFMatrix2011.15[[4]], "2012"=RNFMatrix2012.15[[4]], "2013"=RNFMatrix2013.15[[4]])
+RNF.Fossa_fossana <- data.frame("2010"=RNFMatrix2010.15[[3]], "2011"=RNFMatrix2011.15[[3]], "2012"=RNFMatrix2012.15[[3]], "2013"=RNFMatrix2013.15[[3]])
+
+RNF_covariate_species <- list(RNF.Nesomys_rufus=RNF.Nesomys_rufus,
+                              RNF.Fossa_fossana=RNF.Fossa_fossana)
 
 
-write.csv(UDZ.bluemonkey, file="UDZ.bluemonkey_Cercopithecus_mitis.csv")
+
+
+
+
+
+# Code used to extract sample data for Miguel Acevedo for Skype meeting on September 5, 2014; modified for analysis of 32 species modeled with WPI covariates
+#names(Matrix2010)
+#UDZ.crestedguineafowl <- cbind(Matrix2010[[19]], Matrix2011[[19]], Matrix2012[[19]], Matrix2013[[19]], Matrix2014[[19]])
+#UDZ.mongoose <- cbind(Matrix2010[[3]], Matrix2011[[3]], Matrix2012[[3]], Matrix2013[[3]], Matrix2014[[3]])
+#UDZ.giantrat <- cbind(Matrix2010[[1]], Matrix2011[[1]], Matrix2012[[1]], Matrix2013[[1]], Matrix2014[[1]])
+#UDZ.Abbottsduiker <- cbind(Matrix2010[[6]], Matrix2011[[6]], Matrix2012[[6]], Matrix2013[[6]], Matrix2014[[6]])
+#UDZ.genet <- cbind(Matrix2010[[20]], Matrix2011[[20]], Matrix2012[[20]], Matrix2013[[20]], Matrix2014[[20]])
+#UDZ.Harveysduiker <- cbind(Matrix2010[[5]], Matrix2011[[5]], Matrix2012[[5]], Matrix2013[[5]], Matrix2014[[5]])
+#UDZ.bushsquirrel <- cbind(Matrix2010[[18]], Matrix2011[[18]], Matrix2012[[18]], Matrix2013[[18]], Matrix2014[[18]])
+#UDZ.mangabey <- cbind(Matrix2010[[4]], Matrix2011[[4]], Matrix2012[[4]], Matrix2013[[4]], Matrix2014[[4]])
+#UDZ.elephantshrew <- cbind(Matrix2010[[30]], Matrix2011[[30]], Matrix2012[[30]], Matrix2013[[30]], Matrix2014[[30]])
+#UDZ.suni <- cbind(Matrix2010[[11]], Matrix2011[[11]], Matrix2012[[11]], Matrix2013[[11]], Matrix2014[[11]])
+# Not modeled with covariates in WPI analysis
+##UDZ.bluemonkey <- cbind(Matrix2010[[22]], Matrix2011[[22]], Matrix2012[[22]], Matrix2013[[22]], Matrix2014[[22]])
+##UDZ.elephant <- cbind(Matrix2010[[14]], Matrix2011[[14]], Matrix2012[[14]], Matrix2013[[14]], Matrix2014[[14]])
+##UDZ.honeybadger <- cbind(Matrix2010[[23]], Matrix2011[[23]], Matrix2012[[23]], Matrix2013[[23]], Matrix2014[[23]])
+##UDZ.palmcivet <- cbind(Matrix2010[[16]], Matrix2011[[16]], Matrix2012[[16]], Matrix2013[[16]], Matrix2014[[16]])
+##UDZ.bushpig <- cbind(Matrix2010[[10]], Matrix2011[[10]], Matrix2012[[10]], Matrix2013[[10]], Matrix2014[[10]])
+
 write.csv(UDZ.crestedguineafowl, file="UDZ.crestedguineafowl_Guttera_pucherani.csv")
-write.csv(UDZ.elephant, file="UDZ.elephant_Loxodonta_africana.csv")
 write.csv(UDZ.mongoose, file="UDZ.mongoose_Bdeogale_crassicauda.csv")
 write.csv(UDZ.giantrat, file="UDZ.giantrat_Cricetomys_gambianus.csv")
 write.csv(UDZ.Abbottsduiker, file="UDZ.Abbottsduiker_Cephalophus_spadix.csv")
 write.csv(UDZ.genet, file="UDZ.genet_Genetta_servalina.csv")
-write.csv(UDZ.honeybadger, file="UDZ.honeybadger_Mellivora_capensis.csv")
-write.csv(UDZ.palmcivet, file="UDZ.palmcivet_Nandinia_binotata.csv")
 write.csv(UDZ.Harveysduiker, file="UDZ.Harveysduiker_Cephalophus_harveyi.csv")
 write.csv(UDZ.bushsquirrel, file="UDZ.bushsquirrel_Paraxerus_vexillarius.csv")
-write.csv(UDZ.bushpig, file="UDZ.bushpig_Potamochoerus_larvatus.csv")
 write.csv(UDZ.mangabey, file="UDZ.mangabey_Cercocebus_sanjei.csv")
 write.csv(UDZ.elephantshrew, file="UDZ.elephantshrew_Rhynchocyon_udzungwensis.csv")
 write.csv(UDZ.suni, file="UDZ.suni_Nesotragus_moschatus.csv")
+# UDZ species not modeled with covariates in WPI analysis
+##write.csv(UDZ.bluemonkey, file="UDZ.bluemonkey_Cercopithecus_mitis.csv")
+##write.csv(UDZ.elephant, file="UDZ.elephant_Loxodonta_africana.csv")
+##write.csv(UDZ.honeybadger, file="UDZ.honeybadger_Mellivora_capensis.csv")
+##write.csv(UDZ.palmcivet, file="UDZ.palmcivet_Nandinia_binotata.csv")
+##write.csv(UDZ.bushpig, file="UDZ.bushpig_Potamochoerus_larvatus.csv")
 
 
 
 
 # Code used to extract sample data for Miguel Acevedo for Skype meeting on August 22, 2014
+#VB.pecari <- cbind(Matrix2008[[1]], Matrix2009[[1]], Matrix2010[[1]], Matrix2011[[1]], Matrix2012[[1]], Matrix2013[[1]], Matrix2014[[1]])
+#VB.agouti <- cbind(Matrix2008[[3]], Matrix2009[[3]], Matrix2010[[3]], Matrix2011[[3]], Matrix2012[[3]], Matrix2013[[3]], Matrix2014[[3]])
+#VB.Bairdstapir <- cbind(Matrix2008[[18]], Matrix2009[[18]], Matrix2010[[18]], Matrix2011[[18]], Matrix2012[[18]], Matrix2013[[18]], Matrix2014[[18]])
+#VB.paca <- cbind(Matrix2008[[6]], Matrix2009[[6]], Matrix2010[[6]], Matrix2011[[6]], Matrix2012[[6]], Matrix2013[[6]], Matrix2014[[6]])
+#VB.armadillo <- cbind(Matrix2008[[4]], Matrix2009[[4]], Matrix2010[[4]], Matrix2011[[4]], Matrix2012[[4]], Matrix2013[[4]], Matrix2014[[4]])
+# VB species not modeled with covariates in WPI analysis
+#VB.puma <- cbind(Matrix2008[[14]], Matrix2009[[14]], Matrix2010[[14]], Matrix2011[[14]], Matrix2012[[14]], Matrix2013[[14]], Matrix2014[[14]])
+#VB.coati <- cbind(Matrix2008[[15]], Matrix2009[[15]], Matrix2010[[15]], Matrix2011[[15]], Matrix2012[[15]], Matrix2013[[15]], Matrix2014[[15]])
+#VB.opossum <- cbind(Matrix2008[[5]], Matrix2009[[5]], Matrix2010[[5]], Matrix2011[[5]], Matrix2012[[5]], Matrix2013[[5]], Matrix2014[[5]])
+#VB.ocelot <- cbind(Matrix2008[[12]], Matrix2009[[12]], Matrix2010[[12]], Matrix2011[[12]], Matrix2012[[12]], Matrix2013[[12]], Matrix2014[[12]])
+#VB.jaguar <- cbind(Matrix2008[[31]], Matrix2009[[31]], Matrix2010[[31]], Matrix2011[[31]], Matrix2012[[31]], Matrix2013[[31]], Matrix2014[[31]])
+#VB.tinamou <- cbind(Matrix2008[[2]], Matrix2009[[2]], Matrix2010[[2]], Matrix2011[[2]], Matrix2012[[2]], Matrix2013[[2]], Matrix2014[[2]])
+#VB.redbrocket <- cbind(Matrix2008[[19]], Matrix2009[[19]], Matrix2010[[19]], Matrix2011[[19]], Matrix2012[[19]], Matrix2013[[19]], Matrix2014[[19]])
+#VB.curassow <- cbind(Matrix2008[[8]], Matrix2009[[8]], Matrix2010[[8]], Matrix2011[[8]], Matrix2012[[8]], Matrix2013[[8]], Matrix2014[[8]])
 
-VB.ocelot <- cbind(Matrix2008[[12]], Matrix2009[[12]], Matrix2010[[12]], Matrix2011[[12]], Matrix2012[[12]], Matrix2013[[12]], Matrix2014[[12]])
-VB.agouti <- cbind(Matrix2008[[3]], Matrix2009[[3]], Matrix2010[[3]], Matrix2011[[3]], Matrix2012[[3]], Matrix2013[[3]], Matrix2014[[3]])
-VB.jaguar <- cbind(Matrix2008[[31]], Matrix2009[[31]], Matrix2010[[31]], Matrix2011[[31]], Matrix2012[[31]], Matrix2013[[31]], Matrix2014[[31]])
-VB.tinamou <- cbind(Matrix2008[[2]], Matrix2009[[2]], Matrix2010[[2]], Matrix2011[[2]], Matrix2012[[2]], Matrix2013[[2]], Matrix2014[[2]])
-VB.redbrocket <- cbind(Matrix2008[[19]], Matrix2009[[19]], Matrix2010[[19]], Matrix2011[[19]], Matrix2012[[19]], Matrix2013[[19]], Matrix2014[[19]])
-VB.Bairdstapir <- cbind(Matrix2008[[18]], Matrix2009[[18]], Matrix2010[[18]], Matrix2011[[18]], Matrix2012[[18]], Matrix2013[[18]], Matrix2014[[18]])
-VB.curassow <- cbind(Matrix2008[[8]], Matrix2009[[8]], Matrix2010[[8]], Matrix2011[[8]], Matrix2012[[8]], Matrix2013[[8]], Matrix2014[[8]])
-VB.paca <- cbind(Matrix2008[[6]], Matrix2009[[6]], Matrix2010[[6]], Matrix2011[[6]], Matrix2012[[6]], Matrix2013[[6]], Matrix2014[[6]])
-VB.armadillo <- cbind(Matrix2008[[4]], Matrix2009[[4]], Matrix2010[[4]], Matrix2011[[4]], Matrix2012[[4]], Matrix2013[[4]], Matrix2014[[4]])
-VB.puma <- cbind(Matrix2008[[14]], Matrix2009[[14]], Matrix2010[[14]], Matrix2011[[14]], Matrix2012[[14]], Matrix2013[[14]], Matrix2014[[14]])
-VB.coati <- cbind(Matrix2008[[15]], Matrix2009[[15]], Matrix2010[[15]], Matrix2011[[15]], Matrix2012[[15]], Matrix2013[[15]], Matrix2014[[15]])
-VB.opossum <- cbind(Matrix2008[[5]], Matrix2009[[5]], Matrix2010[[5]], Matrix2011[[5]], Matrix2012[[5]], Matrix2013[[5]], Matrix2014[[5]])
-
-write.csv(VB.ocelot, file="VB.ocelot_Leopardus_pardalis.csv")
+write.csv(VB.pecari, file="VB.pecari_Pecari_tajacu.csv")
 write.csv(VB.agouti, file="VB.agouti_Dasyprocta_punctata.csv")
-write.csv(VB.jaguar, file="VB.jaguar_Panthera_onca.csv")
-write.csv(VB.tinamou, file="VB.tinamou_Tinamus_major.csv")
-write.csv(VB.redbrocket, file="VB.redbrocket_Mazama_temama.csv")
 write.csv(VB.Bairdstapir, file="VB.Bairdstapir_Tapirus_bairdii.csv")
-write.csv(VB.curassow, file="VB.curassow_Crax_rubra.csv")
 write.csv(VB.paca, file="VB.paca_Cuniculus_paca.csv")
 write.csv(VB.armadillo, file="VB.armadillo_Dasypus_novemcinctus.csv")
-write.csv(VB.puma, file="VB.puma_Puma_concolor.csv")
-write.csv(VB.coati, file="VB.coati_Nasua_narica.csv")
-write.csv(VB.opossum, file="VB.opossum_Didelphis_marsupialis.csv")
+# VB species not modeled with covariates in WPI analysis
+##write.csv(VB.puma, file="VB.puma_Puma_concolor.csv")
+##write.csv(VB.coati, file="VB.coati_Nasua_narica.csv")
+##write.csv(VB.opossum, file="VB.opossum_Didelphis_marsupialis.csv")
+##write.csv(VB.ocelot, file="VB.ocelot_Leopardus_pardalis.csv")
+##write.csv(VB.jaguar, file="VB.jaguar_Panthera_onca.csv")
+##write.csv(VB.tinamou, file="VB.tinamou_Tinamus_major.csv")
+##write.csv(VB.redbrocket, file="VB.redbrocket_Mazama_temama.csv")
+##write.csv(VB.curassow, file="VB.curassow_Crax_rubra.csv")
+
 
 
 # Code used to extract sample data for Miguel Acevedo for initial Skype meeting on August 8, 2014
