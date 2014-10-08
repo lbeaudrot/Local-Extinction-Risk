@@ -165,17 +165,17 @@ for(i in 1:length(RNFMatrix2011)){
 # Covariate species list available in file "WPI_Covariate_Populations.xlsx"; Can be recreated using "WPI_Analysis.R" file
 # 5 VB species
   names(VBMatrix2008)
-  VB.Pecari_tajacu <- data.frame("2008"=VBMatrix2008.15[[1]], "2009"=VBMatrix2009.15[[1]], "2010"=VBMatrix2010.15[[1]], "2011"=VBMatrix2011.15[[1]], "2012"=VBMatrix2012.15[[1]], "2013"=VBMatrix2013.15[[1]], "2014"=VBMatrix2014.15[[1]])
-  VB.Dasyprocta_punctata <- data.frame("2008"=VBMatrix2008.15[[3]], "2009"=VBMatrix2009.15[[3]], "2010"=VBMatrix2010.15[[3]], "2011"=VBMatrix2011.15[[3]], "2012"=VBMatrix2012.15[[3]], "2013"=VBMatrix2013.15[[3]], "2014"=VBMatrix2014.15[[3]])
-  VB.Tapirus_bairdii <- data.frame("2008"=VBMatrix2008.15[[18]], "2009"=VBMatrix2009.15[[18]], "2010"=VBMatrix2010.15[[18]], "2011"=VBMatrix2011.15[[18]], "2012"=VBMatrix2012.15[[18]], "2013"=VBMatrix2013.15[[18]], "2014"=VBMatrix2014.15[[18]])
-  VB.Cuniculus_paca <- data.frame("2008"=VBMatrix2008.15[[6]], "2009"=VBMatrix2009.15[[6]], "2010"=VBMatrix2010.15[[6]], "2011"=VBMatrix2011.15[[6]], "2012"=VBMatrix2012.15[[6]], "2013"=VBMatrix2013.15[[6]], "2014"=VBMatrix2014.15[[6]])
-  VB.Dasypus_novemcinctus <- data.frame("2008"=VBMatrix2008.15[[4]], "2009"=VBMatrix2009.15[[4]], "2010"=VBMatrix2010.15[[4]], "2011"=VBMatrix2011.15[[4]], "2012"=VBMatrix2012.15[[4]], "2013"=VBMatrix2013.15[[4]], "2014"=VBMatrix2014.15[[4]])
+  VB_.Pecari_tajacu <- data.frame("2008"=VBMatrix2008.15[[1]], "2009"=VBMatrix2009.15[[1]], "2010"=VBMatrix2010.15[[1]], "2011"=VBMatrix2011.15[[1]], "2012"=VBMatrix2012.15[[1]], "2013"=VBMatrix2013.15[[1]], "2014"=VBMatrix2014.15[[1]])
+  VB_.Dasyprocta_punctata <- data.frame("2008"=VBMatrix2008.15[[3]], "2009"=VBMatrix2009.15[[3]], "2010"=VBMatrix2010.15[[3]], "2011"=VBMatrix2011.15[[3]], "2012"=VBMatrix2012.15[[3]], "2013"=VBMatrix2013.15[[3]], "2014"=VBMatrix2014.15[[3]])
+  VB_.Tapirus_bairdii <- data.frame("2008"=VBMatrix2008.15[[18]], "2009"=VBMatrix2009.15[[18]], "2010"=VBMatrix2010.15[[18]], "2011"=VBMatrix2011.15[[18]], "2012"=VBMatrix2012.15[[18]], "2013"=VBMatrix2013.15[[18]], "2014"=VBMatrix2014.15[[18]])
+  VB_.Cuniculus_paca <- data.frame("2008"=VBMatrix2008.15[[6]], "2009"=VBMatrix2009.15[[6]], "2010"=VBMatrix2010.15[[6]], "2011"=VBMatrix2011.15[[6]], "2012"=VBMatrix2012.15[[6]], "2013"=VBMatrix2013.15[[6]], "2014"=VBMatrix2014.15[[6]])
+  VB_.Dasypus_novemcinctus <- data.frame("2008"=VBMatrix2008.15[[4]], "2009"=VBMatrix2009.15[[4]], "2010"=VBMatrix2010.15[[4]], "2011"=VBMatrix2011.15[[4]], "2012"=VBMatrix2012.15[[4]], "2013"=VBMatrix2013.15[[4]], "2014"=VBMatrix2014.15[[4]])
 
-#VB_covariate_species <- list(VB.Pecari_tajacu=VB.Pecari_tajacu,
-#                             VB.Dasyprocta_punctata=VB.Dasyprocta_punctata,
-#                             VB.Tapirus_bairdii=VB.Tapirus_bairdii,
-#                             VB.Cuniculus_paca=VB.Cuniculus_paca,
-#                             VB.Dasypus_novemcinctus,VB.Dasypus_novemcinctus)
+#VB_covariate_species <- list(VB_.Pecari_tajacu=VB.Pecari_tajacu,
+#                             VB_.Dasyprocta_punctata=VB_.Dasyprocta_punctata,
+#                             VB_.Tapirus_bairdii=VB_.Tapirus_bairdii,
+#                             VB_.Cuniculus_paca=VB_.Cuniculus_paca,
+#                             VB_.Dasypus_novemcinctus,VB_.Dasypus_novemcinctus)
 
 # 10 UDZ species
   names(UDZMatrix2009)
@@ -257,13 +257,12 @@ for(i in 1:length(RNFMatrix2011)){
 #                              RNF.Fossa_fossana=RNF.Fossa_fossana)
 
 
-# Combine all 32 species into a single list
-All500m_covariate_species <- list(VB.Pecari_tajacu=VB.Pecari_tajacu,
-                              VB.Dasyprocta_punctata=VB.Dasyprocta_punctata,
-                              VB.Tapirus_bairdii=VB.Tapirus_bairdii,
-                              VB.Cuniculus_paca=VB.Cuniculus_paca,
-                              VB.Dasypus_novemcinctus,VB.Dasypus_novemcinctus,
-                              
+################## COMBINE ALL 32 SPECIES MATRICES INTO A SINGLE LIST ########################
+All500m_covariate_species <- list(VB_.Pecari_tajacu=VB_.Pecari_tajacu,
+                              VB_.Dasyprocta_punctata=VB_.Dasyprocta_punctata,
+                              VB_.Tapirus_bairdii=VB_.Tapirus_bairdii,
+                              VB_.Cuniculus_paca=VB_.Cuniculus_paca,
+                              VB_.Dasypus_novemcinctus=VB_.Dasypus_novemcinctus,
                               UDZ.Guttera_pucherani=UDZ.Guttera_pucherani, 
                               UDZ.Bdeogale_crassicauda=UDZ.Bdeogale_crassicauda, 
                               UDZ.Cricetomys_gambianus=UDZ.Cricetomys_gambianus, 
@@ -271,34 +270,29 @@ All500m_covariate_species <- list(VB.Pecari_tajacu=VB.Pecari_tajacu,
                               UDZ.Genetta_servalina=UDZ.Genetta_servalina, 
                               UDZ.Cephalophus_harveyi=UDZ.Cephalophus_harveyi, 
                               UDZ.Paraxerus_vexillarius=UDZ.Paraxerus_vexillarius, 
-                              UDZ.Cercocebus_sanjei,UDZ.Cercocebus_sanjei,
+                              UDZ.Cercocebus_sanjei=UDZ.Cercocebus_sanjei,
                               UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis, 
                               UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus,
-                             
                               BIF.Cercopithecus_lhoesti=BIF.Cercopithecus_lhoesti,
                               BIF.Cephalophus_silvicultor=BIF.Cephalophus_silvicultor,
                               BIF.Cephalophus_nigrifrons=BIF.Cephalophus_nigrifrons,
-    
                               PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
                               PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
                               PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
                               PSH.Sus_scrofa=PSH.Sus_scrofa,
                               PSH.Tragulus_kanchil=PSH.Tragulus_kanchil,
-  
                               YAN.Cuniculus_paca=YAN.Cuniculus_paca,
                               YAN.Dasyprocta_fuliginosa=YAN.Dasyprocta_fuliginosa,
                               YAN.Dasypus_novemcinctus=YAN.Dasypus_novemcinctus,
                               YAN.Mitu_tuberosum=YAN.Mitu_tuberosum,
                               YAN.Tapirus_terrestris=YAN.Tapirus_terrestris,
-
                               NAK.Muntiacus_muntjak=NAK.Muntiacus_muntjak,
                               NAK.Atherurus_macrourus=NAK.Atherurus_macrourus,
-
                               RNF.Nesomys_rufus=RNF.Nesomys_rufus,
                               RNF.Fossa_fossana=RNF.Fossa_fossana)
 
 
-
+save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
 ################## CAMERA TRAP TEMPERATURE DATA FORMATTING ####################
 
@@ -336,52 +330,16 @@ All500m_covariate_species <- list(VB.Pecari_tajacu=VB.Pecari_tajacu,
   temp <- read.csv("Interpolated_Temperatures_500mSites.csv")
 
 # Create object with temperature covariate data to use for all sites with 500 m elevation gradients 
-Alltemp500 <- rbind(temp, CT.TempNAK, CT.TempRNF, CT.TempVB2007)
-Alltemp500 <- data.frame(Site.Code=Alltemp500$Site.Code, 
+  Alltemp500 <- rbind(temp, CT.TempNAK, CT.TempRNF, CT.TempVB2007)
+  Alltemp500 <- data.frame(Site.Code=Alltemp500$Site.Code, 
                          Sampling.Unit.Name=Alltemp500$Sampling.Unit.Name,
                          Year=as.factor(Alltemp500$Year),
                          Temp.Min=Alltemp500$Temp.Min, 
                          Temp.Max=Alltemp500$Temp.Max,
                          Temp.Var=Alltemp500$Temp.Var)
 
-CT.Temp.VB <- melt(Alltemp500[Alltemp500$Site.Code=="VB-",])
-VB.Tmin <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-VB.Tmax <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-VB.Tvar <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
 
-CT.Temp.UDZ <- melt(Alltemp500[Alltemp500$Site.Code=="UDZ",])
-UDZ.Tmin <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-UDZ.Tmax <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-UDZ.Tvar <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-
-CT.Temp.BIF <- melt(Alltemp500[Alltemp500$Site.Code=="BIF",])
-BIF.Tmin <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-BIF.Tmax <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-BIF.Tvar <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-
-CT.Temp.PSH <- melt(Alltemp500[Alltemp500$Site.Code=="PSH",])
-PSH.Tmin <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-PSH.Tmax <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-PSH.Tvar <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-
-CT.Temp.YAN <- melt(Alltemp500[Alltemp500$Site.Code=="YAN",])
-YAN.Tmin <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-YAN.Tmax <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-YAN.Tvar <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-
-CT.Temp.NAK <- melt(Alltemp500[Alltemp500$Site.Code=="NAK",])
-NAK.Tmin <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-NAK.Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-NAK.Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-
-CT.Temp.RNF <- melt(Alltemp500[Alltemp500$Site.Code=="RNF",])
-RNF.Tmin <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-RNF.Tmax <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-
-
-
-######################## COMBINE TEMPERATURE COVARIATE DATA WITH OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
+######################## FORMAT OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
 # Read in elevation data
   ELEV <- read.csv("CT_edgedist_elevation_final.txt")
 
@@ -397,10 +355,248 @@ RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ va
                                 ftraps120$sitecode=="NAK"|
                                 ftraps120$sitecode=="RNF",]
 
-  ftraps120_500m <- data.frame(Site.Code=ftraps120_500m$sitecode, 
+  ELEV_FL <- data.frame(Site.Code=ftraps120_500m$sitecode, 
                              Sampling.Unit.Name=ftraps120_500m$Sampling.Unit.Name, 
                              Elevation=ftraps120_500m$Elevation,
-                             FL210=ftraps120_500m$fc_frac_loss)
+                             FL120=ftraps120_500m$fc_frac_loss)
+  
+# Read in site level forest loss calculations from Alex (spans 5 years prior to CT sampling start at each site)
+# NB manually update VB sitecode to "VB-" in csv file to enable merging
+  site_fc <- read.csv("20141004_forest_loss.csv")
+# Extract site level forest loss for protected areas
+  FL_PA <- site_fc[site_fc$aoi=="PA",]
+
+
+# define species
+rep(FL_PA[FL_PA$sitecode==UDZ,3], dim(UDZ.Tvar)[1])
+
+
+######################## COMBINE TEMPERATURE COVARIATE DATA WITH OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
+# Create site specific covariate lists with scaled covariates
+  CT.Temp.VB <- melt(Alltemp500[Alltemp500$Site.Code=="VB-",])
+  ELEV_FL.VB <- melt(ELEV_FL[ELEV_FL$Site.Code=="VB",])
+    VB.Elev <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,2]
+    VB.FL120 <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,3]
+    VB.FL_PA <- rep(FL_PA[FL_PA$sitecode=="VB-",3], length(VB.Elev)) #NB not scaled because all values are the same
+    VB.Tmin <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    VB.Tmax <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    VB.Tvar <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      VB.Elev <- scale(VB.Elev)
+      VB.Elev[is.na(VB.Elev)] <- 0
+
+      VB.FL120 <- scale(VB.FL120)
+      VB.FL120[is.na(VB.FL120)] <- 0
+
+      VB.Tmin <- scale(VB.Tmin)
+      VB.Tmin[is.na(VB.Tmin)] <- 0
+
+      VB.Tmax <- scale(VB.Tmax)
+      VB.Tmax[is.na(VB.Tmax)] <- 0
+
+      VB.Tvar <- scale(VB.Tvar)
+      VB.Tvar[is.na(VB.Tvar)] <- 0
+
+          VB_covs <- list(Elevation=VB.Elev,
+                ForestLossCT=VB.FL120,
+                ForestLossPA=VB.FL_PA,
+                Tmin=VB.Tmin,
+                Tmax=VB.Tmax,
+                Tvar=VB.Tvar)
+
+  CT.Temp.UDZ <- melt(Alltemp500[Alltemp500$Site.Code=="UDZ",])
+  ELEV_FL.UDZ <- melt(ELEV_FL[ELEV_FL$Site.Code=="UDZ",])
+    UDZ.Elev <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,2]
+    UDZ.FL120 <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,3]
+    UDZ.FL_PA <- rep(FL_PA[FL_PA$sitecode=="UDZ",3], length(UDZ.Elev)) #NB not scaled because all values are the same
+    UDZ.Tmin <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    UDZ.Tmax <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    UDZ.Tvar <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      UDZ.Elev <- scale(UDZ.Elev)
+      UDZ.Elev[is.na(UDZ.Elev)] <- 0
+
+      UDZ.FL120 <- scale(UDZ.FL120)
+      UDZ.FL120[is.na(UDZ.FL120)] <- 0
+
+      UDZ.Tmin <- scale(UDZ.Tmin)
+      UDZ.Tmin[is.na(UDZ.Tmin)] <- 0
+
+      UDZ.Tmax <- scale(UDZ.Tmax)
+      UDZ.Tmax[is.na(UDZ.Tmax)] <- 0
+
+      UDZ.Tvar <- scale(UDZ.Tvar)
+      UDZ.Tvar[is.na(UDZ.Tvar)] <- 0
+
+          UDZ_covs <- list(Elevation=UDZ.Elev,
+                ForestLossCT=UDZ.FL120,
+                ForestLossPA=UDZ.FL_PA,
+                Tmin=UDZ.Tmin,
+                Tmax=UDZ.Tmax,
+                Tvar=UDZ.Tvar)
+
+
+  CT.Temp.BIF <- melt(Alltemp500[Alltemp500$Site.Code=="BIF",])
+  ELEV_FL.BIF <- melt(ELEV_FL[ELEV_FL$Site.Code=="BIF",])
+    BIF.Elev <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,2]
+    BIF.FL120 <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,3]
+    BIF.FL_PA <- rep(FL_PA[FL_PA$sitecode=="BIF",3], length(BIF.Elev)) #NB not scaled because all values are the same
+    BIF.Tmin <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    BIF.Tmax <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    BIF.Tvar <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      BIF.Elev <- scale(BIF.Elev)
+      BIF.Elev[is.na(BIF.Elev)] <- 0
+
+      BIF.FL120 <- scale(BIF.FL120)
+      BIF.FL120[is.na(BIF.FL120)] <- 0
+
+      BIF.Tmin <- scale(BIF.Tmin)
+      BIF.Tmin[is.na(BIF.Tmin)] <- 0
+
+      BIF.Tmax <- scale(BIF.Tmax)
+      BIF.Tmax[is.na(BIF.Tmax)] <- 0
+
+      BIF.Tvar <- scale(BIF.Tvar)
+      BIF.Tvar[is.na(BIF.Tvar)] <- 0
+
+          BIF_covs <- list(Elevation=BIF.Elev,
+                ForestLossCT=BIF.FL120,
+                ForestLossPA=BIF.FL_PA,
+                Tmin=BIF.Tmin,
+                Tmax=BIF.Tmax,
+                Tvar=BIF.Tvar)
+
+
+
+  CT.Temp.PSH <- melt(Alltemp500[Alltemp500$Site.Code=="PSH",])
+  ELEV_FL.PSH <- melt(ELEV_FL[ELEV_FL$Site.Code=="PSH",])
+    PSH.Elev <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,2]
+    PSH.FL120 <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,3]
+    PSH.FL_PA <- rep(FL_PA[FL_PA$sitecode=="PSH",3], length(PSH.Elev)) #NB not scaled because all values are the same
+    PSH.Tmin <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    PSH.Tmax <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    PSH.Tvar <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      PSH.Elev <- scale(PSH.Elev)
+      PSH.Elev[is.na(PSH.Elev)] <- 0
+
+      PSH.FL120 <- scale(PSH.FL120)
+      PSH.FL120[is.na(PSH.FL120)] <- 0
+
+      PSH.Tmin <- scale(PSH.Tmin)
+      PSH.Tmin[is.na(PSH.Tmin)] <- 0
+
+      PSH.Tmax <- scale(PSH.Tmax)
+      PSH.Tmax[is.na(PSH.Tmax)] <- 0
+
+      PSH.Tvar <- scale(PSH.Tvar)
+      PSH.Tvar[is.na(PSH.Tvar)] <- 0
+
+          PSH_covs <- list(Elevation=PSH.Elev,
+                ForestLossCT=PSH.FL120,
+                ForestLossPA=PSH.FL_PA,
+                Tmin=PSH.Tmin,
+                Tmax=PSH.Tmax,
+                Tvar=PSH.Tvar)
+
+  CT.Temp.YAN <- melt(Alltemp500[Alltemp500$Site.Code=="YAN",])
+  ELEV_FL.YAN <- melt(ELEV_FL[ELEV_FL$Site.Code=="YAN",])
+    YAN.Elev <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,2]
+    YAN.FL120 <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,3]
+    YAN.FL_PA <- rep(FL_PA[FL_PA$sitecode=="YAN",3], length(YAN.Elev)) #NB not scaled because all values are the same
+    YAN.Tmin <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    YAN.Tmax <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    YAN.Tvar <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      YAN.Elev <- scale(YAN.Elev)
+      YAN.Elev[is.na(YAN.Elev)] <- 0
+
+      YAN.FL120 <- scale(YAN.FL120)
+      YAN.FL120[is.na(YAN.FL120)] <- 0
+
+      YAN.Tmin <- scale(YAN.Tmin)
+      YAN.Tmin[is.na(YAN.Tmin)] <- 0
+
+      YAN.Tmax <- scale(YAN.Tmax)
+      YAN.Tmax[is.na(YAN.Tmax)] <- 0
+
+      YAN.Tvar <- scale(YAN.Tvar)
+      YAN.Tvar[is.na(YAN.Tvar)] <- 0
+
+            YAN_covs <- list(Elevation=YAN.Elev,
+                ForestLossCT=YAN.FL120,
+                ForestLossPA=YAN.FL_PA,
+                Tmin=YAN.Tmin,
+                Tmax=YAN.Tmax,
+                Tvar=YAN.Tvar)
+
+  CT.Temp.NAK <- melt(Alltemp500[Alltemp500$Site.Code=="NAK",])
+  ELEV_FL.NAK <- melt(ELEV_FL[ELEV_FL$Site.Code=="NAK",])
+    NAK.Elev <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,2]
+    NAK.FL120 <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,3]
+    NAK.FL_PA <- rep(FL_PA[FL_PA$sitecode=="NAK",3], length(NAK.Elev)) #NB not scaled because all values are the same
+    NAK.Tmin <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    NAK.Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    NAK.Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      NAK.Elev <- scale(NAK.Elev)
+      NAK.Elev[is.na(NAK.Elev)] <- 0
+
+      NAK.FL120 <- scale(NAK.FL120)
+      NAK.FL120[is.na(NAK.FL120)] <- 0
+
+      NAK.Tmin <- scale(NAK.Tmin)
+      NAK.Tmin[is.na(NAK.Tmin)] <- 0
+
+      NAK.Tmax <- scale(NAK.Tmax)
+      NAK.Tmax[is.na(NAK.Tmax)] <- 0
+
+      NAK.Tvar <- scale(NAK.Tvar)
+      NAK.Tvar[is.na(NAK.Tvar)] <- 0
+
+          NAK_covs <- list(Elevation=NAK.Elev,
+                ForestLossCT=NAK.FL120,
+                ForestLossPA=NAK.FL_PA,
+                Tmin=NAK.Tmin,
+                Tmax=NAK.Tmax,
+                Tvar=NAK.Tvar)
+
+  CT.Temp.RNF <- melt(Alltemp500[Alltemp500$Site.Code=="RNF",])
+  ELEV_FL.RNF <- melt(ELEV_FL[ELEV_FL$Site.Code=="RNF",])
+    RNF.Elev <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,2]
+    RNF.FL120 <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,3]
+    RNF.FL_PA <- rep(FL_PA[FL_PA$sitecode=="RNF",3], length(RNF.Elev)) #NB not scaled because all values are the same
+
+
+    RNF.Tmin <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    RNF.Tmax <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      RNF.Elev <- scale(RNF.Elev)
+      RNF.Elev[is.na(RNF.Elev)] <- 0
+
+      RNF.FL120 <- scale(RNF.FL120)
+      RNF.FL120[is.na(RNF.FL120)] <- 0
+
+      RNF.Tmin <- scale(RNF.Tmin)
+      RNF.Tmin[is.na(RNF.Tmin)] <- 0
+
+      RNF.Tmax <- scale(RNF.Tmax)
+      RNF.Tmax[is.na(RNF.Tmax)] <- 0
+
+      RNF.Tvar <- scale(RNF.Tvar)
+      RNF.Tvar[is.na(RNF.Tvar)] <- 0
+
+          RNF_covs <- list(Elevation=RNF.Elev,
+                ForestLossCT=RNF.FL120,
+                ForestLossPA=RNF.FL_PA,
+                Tmin=RNF.Tmin,
+                Tmax=RNF.Tmax,
+                Tvar=RNF.Tvar)
+
+
+
 
 # Merge covariate data
 #CTtemp_fc <- merge(Alltemp500, ftraps120_500m, by.x="Sampling.Unit.Name", by.y="Sampling.Unit.Name", all=TRUE)
@@ -414,11 +610,8 @@ RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ va
 #                      FL120=CTtemp_fc$fc_frac_loss,
 #                      Elevation=CTtemp_fc$Elevation)
 
- # Read in site level forest loss calculations from Alex (spans 5 years prior to CT sampling start at each site)
-# NB manually update VB sitecode to "VB-" in csv file to enable merging
-  site_fc <- read.csv("20141004_forest_loss.csv")
-# Extract site level forest loss for protected areas
-  FL_PA <- site_fc[site_fc$aoi=="PA",]
+
+
 
 
 
