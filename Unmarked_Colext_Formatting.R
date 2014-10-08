@@ -329,6 +329,8 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   # Read in interpolated temperature data extracted using DSSG script and excel files
   temp <- read.csv("Interpolated_Temperatures_500mSites.csv")
 
+# NB duplicate temp measurements for CT-PSH-1-25 in 2013; manually remove first entry for this CT
+
 # Create object with temperature covariate data to use for all sites with 500 m elevation gradients 
   Alltemp500 <- rbind(temp, CT.TempNAK, CT.TempRNF, CT.TempVB2007)
   Alltemp500 <- data.frame(Site.Code=Alltemp500$Site.Code, 
@@ -359,16 +361,14 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
                              Sampling.Unit.Name=ftraps120_500m$Sampling.Unit.Name, 
                              Elevation=ftraps120_500m$Elevation,
                              FL120=ftraps120_500m$fc_frac_loss)
-  
+  # Remove rows with missing Sampling.Unit.Name at PSH
+  ELEV_FL <- rbind(ELEV_FL[1:180,], ELEV_FL[211:454,])
+
 # Read in site level forest loss calculations from Alex (spans 5 years prior to CT sampling start at each site)
 # NB manually update VB sitecode to "VB-" in csv file to enable merging
   site_fc <- read.csv("20141004_forest_loss.csv")
 # Extract site level forest loss for protected areas
   FL_PA <- site_fc[site_fc$aoi=="PA",]
-
-
-# define species
-rep(FL_PA[FL_PA$sitecode==UDZ,3], dim(UDZ.Tvar)[1])
 
 
 ######################## COMBINE TEMPERATURE COVARIATE DATA WITH OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
@@ -596,47 +596,16 @@ rep(FL_PA[FL_PA$sitecode==UDZ,3], dim(UDZ.Tvar)[1])
                 Tvar=RNF.Tvar)
 
 
+################ SAVE OBJECTS CONTAINING SITE LEVEL COVARIATES
+save(VB_covs, file="VB_covs.RData")
+save(UDZ_covs, file="UDZ_covs.RData")
+save(BIF_covs, file="BIF_covs.RData")
+save(PSH_covs, file="PSH_covs.RData")
+save(YAN_covs, file="YAN_covs.RData")
+save(NAK_covs, file="NAK_covs.RData")
+save(RNF_covs, file="RNF_covs.RData")
 
 
-# Merge covariate data
-#CTtemp_fc <- merge(Alltemp500, ftraps120_500m, by.x="Sampling.Unit.Name", by.y="Sampling.Unit.Name", all=TRUE)
-
-#covs <- data.frame(Site.Code=CTtemp_fc$Site.Code.x,
-#                      Sampling.Unit.Name=CTtemp_fc$Sampling.Unit.Name, 
-#                      Temp.Min=CTtemp_fc$Temp.Min, 
-#                      Temp.Max=CTtemp_fc$Temp.Max, 
-#                      Temp.Var=CTtemp_fc$Temp.Var, 
-#                      Year=CTtemp_fc$Year, 
-#                      FL120=CTtemp_fc$fc_frac_loss,
-#                      Elevation=CTtemp_fc$Elevation)
-
-
-
-
-
-
-########## FORMAT COMPLETE COVARIATE DATA FOR UNMARKED (i.e. CT Sampling.Units as rows and covariates as columns)
-temp.melt <- melt(temp, id.vars=c("Sampling.Unit.Name", "Time"))
-temp.cast <- cast(temp.melt, Sampling.Unit.Name ~ variable + Time)
-
-cast(All_Covs, Sampling.Unit.Name ~ variable + Time)
-
-
-covs_melt <- melt(covs, id.vars=c("Sampling.Unit.Name", "Year", "Site.Code"))
-covs_cast <- cast(covs_melt, Sampling.Unit.Name ~ variable + Year)
-
-
-
-CT.Temp.NAK <- melt(CT.Temp[CT.Temp$Site.Code=="NAK",])
-Tmin <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Sampling.Period ~ variable)[,,1])
-names(Tmin) <- paste0("Tmin.",2010:2013)
-Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Sampling.Period ~ variable)[,,2])
-names(Tmax) <- paste0("Tmax.",2010:2013)
-Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Sampling.Period ~ variable)[,,3]),2)
-names(Tvar) <- paste0("Tvar.",2010:2013)
-NAK.CovariateData <- cbind(Tmin, Tmax, Tvar)
-
-ELEVsub <- ELEV[match(rownames(Tmin), ELEV$Sampling.Unit.Name),]
 
 
 
