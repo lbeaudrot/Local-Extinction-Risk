@@ -1,0 +1,529 @@
+# TEAM Local Extinction Risk project 
+# Data preparation for unmarked analysis: Format camera trap for 32 populations modeled with covariates in WPI and covariate data on CT specific temperature, elevation and forest loss
+
+library(lubridate)
+library(reshape)
+library(stringr)
+
+# Load Jorge's file "camera trap analysis functions.R"
+# Load matrix creator function at bottom of this script "f.matrix.creatorLB"
+# Load TEAM data, fix data, and add site code; no need to separate events because matrix creator functions turns all detections into trinary matrix
+#ctdata <- f.teamdb.query("camera trap")
+#load(ctdata)
+#alldata <- ctdata
+#alldata<-f.fix.data2(alldata)
+#Site.Code <- substr(alldata$Sampling.Unit.Name,4,6)
+#alldata <- cbind(alldata, Site.Code)
+#eventsdata <- alldata
+
+
+
+##################### CREATE INPUT DATA FOR UNMARKED ANALYSIS WITH 15 SECONDARY SAMPLING PERIODS #################
+# Create matrices with 15 secondary sampling periods for each year of data collection for each species for sites with >500 m elevation gradients
+# Check table to see sampling periods per site. Based on sampling periods:
+table(eventsdata$Site.Code, eventsdata$Sampling.Period)
+# VB runs 2007-2013 (Photo dates are one year ahead of Sampling.Period; Photos 2008-2014)
+# UDZ runs 2009-2013
+# BIF runs 2009-2012 (Photo dates are one year ahead of Sampling.Period; Photos 2010-2013)
+# PSH runs 2011-2013
+# YAN runs 2011-2013
+# NAK runs 2009-2012 (Photo dates are one year ahead of Sampling.Period; Photos 2010-2013)
+# RNF runs 2010-2013
+
+# Create lists of full sized matrices for each site and year
+  # NB VB Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
+  VBMatrix2008 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2007.01")
+  VBMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2008.01")
+  VBMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2009.01")
+  VBMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2010.01")
+  VBMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2011.01")
+  VBMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2012.01")
+  VBMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2013.01")
+
+  UDZMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2009.01")
+  UDZMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2010.01")
+  UDZMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2011.01")
+  UDZMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2012.01")
+  UDZMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2013.01")
+
+  # NB BIF Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
+  BIFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2009.01")
+  BIFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2010.01")
+  BIFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2011.01")
+  BIFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2012.01")
+
+  PSHMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2011.01")
+  PSHMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2012.01")
+  PSHMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2013.01")
+
+  YANMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2011.01")
+  YANMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2012.01")
+  YANMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2013.01")
+
+  # NB NAK Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
+  NAKMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2009.01")
+  NAKMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2010.01")
+  NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
+  NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
+
+  RNFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2010.01")
+  RNFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2011.01")
+  RNFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2012.01")
+  RNFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2013.01")
+
+# Create empty objects to fill with matrices collapsed to 15 secondary sampling periods
+  VBMatrix2008.15 <- list()
+  VBMatrix2009.15 <- list()
+  VBMatrix2010.15 <- list()
+  VBMatrix2011.15 <- list()
+  VBMatrix2012.15 <- list()
+  VBMatrix2013.15 <- list()
+  VBMatrix2014.15 <- list()
+
+  UDZMatrix2009.15 <- list()
+  UDZMatrix2010.15 <- list()
+  UDZMatrix2011.15 <- list()
+  UDZMatrix2012.15 <- list()
+  UDZMatrix2013.15 <- list()
+
+  BIFMatrix2010.15 <- list()
+  BIFMatrix2011.15 <- list()
+  BIFMatrix2012.15 <- list()
+  BIFMatrix2013.15 <- list()
+
+  PSHMatrix2011.15 <- list()
+  PSHMatrix2012.15 <- list()
+  PSHMatrix2013.15 <- list()
+
+  YANMatrix2011.15 <- list()
+  YANMatrix2012.15 <- list()
+  YANMatrix2013.15 <- list()
+
+  NAKMatrix2010.15 <- list()
+  NAKMatrix2011.15 <- list()
+  NAKMatrix2012.15 <- list()
+  NAKMatrix2013.15 <- list()
+
+  RNFMatrix2010.15 <- list()
+  RNFMatrix2011.15 <- list()
+  RNFMatrix2012.15 <- list()
+  RNFMatrix2013.15 <- list()
+
+# Shrink data matrices to 15 secondary sampling periods
+for(i in 1:length(VBMatrix2008)){
+  VBMatrix2008.15[[i]] <- f.shrink.matrix.to15(VBMatrix2008[[i]])
+  VBMatrix2009.15[[i]] <- f.shrink.matrix.to15(VBMatrix2009[[i]])
+  VBMatrix2010.15[[i]] <- f.shrink.matrix.to15(VBMatrix2010[[i]])
+  VBMatrix2011.15[[i]] <- f.shrink.matrix.to15(VBMatrix2011[[i]])
+  VBMatrix2012.15[[i]] <- f.shrink.matrix.to15(VBMatrix2012[[i]])
+  VBMatrix2013.15[[i]] <- f.shrink.matrix.to15(VBMatrix2013[[i]])
+  VBMatrix2014.15[[i]] <- f.shrink.matrix.to15(VBMatrix2014[[i]])
+}
+
+for(i in 1:length(UDZMatrix2010)){
+  UDZMatrix2009.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2009[[i]])
+  UDZMatrix2010.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2010[[i]])
+  UDZMatrix2011.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2011[[i]])
+  UDZMatrix2012.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2012[[i]])
+  UDZMatrix2013.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2013[[i]])
+}
+
+for(i in 1:length(BIFMatrix2010)){
+  BIFMatrix2010.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2010[[i]])
+  BIFMatrix2011.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2011[[i]])
+  BIFMatrix2012.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2012[[i]])
+  BIFMatrix2013.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2013[[i]])
+}  
+
+for(i in 1:length(PSHMatrix2012)){
+  PSHMatrix2011.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2011[[i]])
+  PSHMatrix2012.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2012[[i]])
+  PSHMatrix2013.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2013[[i]])
+}
+
+for(i in 1:length(YANMatrix2012)){
+  YANMatrix2011.15[[i]] <- f.shrink.matrix.to15(YANMatrix2011[[i]])
+  YANMatrix2012.15[[i]] <- f.shrink.matrix.to15(YANMatrix2012[[i]])
+  YANMatrix2013.15[[i]] <- f.shrink.matrix.to15(YANMatrix2013[[i]])
+}
+
+for(i in 1:length(NAKMatrix2010)){
+  NAKMatrix2010.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2010[[i]])
+  NAKMatrix2011.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2011[[i]])
+  NAKMatrix2012.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2012[[i]])
+  NAKMatrix2013.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2013[[i]])
+}
+
+for(i in 1:length(RNFMatrix2011)){
+  RNFMatrix2010.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2010[[i]])
+  RNFMatrix2011.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2011[[i]])
+  RNFMatrix2012.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2012[[i]])
+  RNFMatrix2013.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2013[[i]])
+}
+
+###################### EXTRACT 32 POPULATIONS MODELED WITH COVARIATES IN WPI ANALYSIS ########################
+# Covariate species list available in file "WPI_Covariate_Populations.xlsx"; Can be recreated using "WPI_Analysis.R" file
+# 5 VB species
+  names(VBMatrix2008)
+  VB.Pecari_tajacu <- data.frame("2008"=VBMatrix2008.15[[1]], "2009"=VBMatrix2009.15[[1]], "2010"=VBMatrix2010.15[[1]], "2011"=VBMatrix2011.15[[1]], "2012"=VBMatrix2012.15[[1]], "2013"=VBMatrix2013.15[[1]], "2014"=VBMatrix2014.15[[1]])
+  VB.Dasyprocta_punctata <- data.frame("2008"=VBMatrix2008.15[[3]], "2009"=VBMatrix2009.15[[3]], "2010"=VBMatrix2010.15[[3]], "2011"=VBMatrix2011.15[[3]], "2012"=VBMatrix2012.15[[3]], "2013"=VBMatrix2013.15[[3]], "2014"=VBMatrix2014.15[[3]])
+  VB.Tapirus_bairdii <- data.frame("2008"=VBMatrix2008.15[[18]], "2009"=VBMatrix2009.15[[18]], "2010"=VBMatrix2010.15[[18]], "2011"=VBMatrix2011.15[[18]], "2012"=VBMatrix2012.15[[18]], "2013"=VBMatrix2013.15[[18]], "2014"=VBMatrix2014.15[[18]])
+  VB.Cuniculus_paca <- data.frame("2008"=VBMatrix2008.15[[6]], "2009"=VBMatrix2009.15[[6]], "2010"=VBMatrix2010.15[[6]], "2011"=VBMatrix2011.15[[6]], "2012"=VBMatrix2012.15[[6]], "2013"=VBMatrix2013.15[[6]], "2014"=VBMatrix2014.15[[6]])
+  VB.Dasypus_novemcinctus <- data.frame("2008"=VBMatrix2008.15[[4]], "2009"=VBMatrix2009.15[[4]], "2010"=VBMatrix2010.15[[4]], "2011"=VBMatrix2011.15[[4]], "2012"=VBMatrix2012.15[[4]], "2013"=VBMatrix2013.15[[4]], "2014"=VBMatrix2014.15[[4]])
+
+#VB_covariate_species <- list(VB.Pecari_tajacu=VB.Pecari_tajacu,
+#                             VB.Dasyprocta_punctata=VB.Dasyprocta_punctata,
+#                             VB.Tapirus_bairdii=VB.Tapirus_bairdii,
+#                             VB.Cuniculus_paca=VB.Cuniculus_paca,
+#                             VB.Dasypus_novemcinctus,VB.Dasypus_novemcinctus)
+
+# 10 UDZ species
+  names(UDZMatrix2009)
+  UDZ.Guttera_pucherani <- data.frame("2009"=UDZMatrix2009.15[[19]], "2010"=UDZMatrix2010.15[[19]], "2011"=UDZMatrix2011.15[[19]], "2012"=UDZMatrix2012.15[[19]], "2013"=UDZMatrix2013.15[[19]])
+  UDZ.Bdeogale_crassicauda <- data.frame("2009"=UDZMatrix2009.15[[3]], "2010"=UDZMatrix2010.15[[3]], "2011"=UDZMatrix2011.15[[3]], "2012"=UDZMatrix2012.15[[3]], "2013"=UDZMatrix2013.15[[3]])
+  UDZ.Cricetomys_gambianus <- data.frame("2009"=UDZMatrix2009.15[[1]], "2010"=UDZMatrix2010.15[[1]], "2011"=UDZMatrix2011.15[[1]], "2012"=UDZMatrix2012.15[[1]], "2013"=UDZMatrix2013.15[[1]])
+  UDZ.Cephalophus_spadix <- data.frame("2009"=UDZMatrix2009.15[[6]], "2010"=UDZMatrix2010.15[[6]], "2011"=UDZMatrix2011.15[[6]], "2012"=UDZMatrix2012.15[[6]], "2013"=UDZMatrix2013.15[[6]])
+  UDZ.Genetta_servalina <- data.frame("2009"=UDZMatrix2009.15[[20]], "2010"=UDZMatrix2010.15[[20]], "2011"=UDZMatrix2011.15[[20]], "2012"=UDZMatrix2012.15[[20]], "2013"=UDZMatrix2013.15[[20]])
+  UDZ.Cephalophus_harveyi <- data.frame("2009"=UDZMatrix2009.15[[5]], "2010"=UDZMatrix2010.15[[5]], "2011"=UDZMatrix2011.15[[5]], "2012"=UDZMatrix2012.15[[5]], "2013"=UDZMatrix2013.15[[5]])
+  UDZ.Paraxerus_vexillarius <- data.frame("2009"=UDZMatrix2009.15[[18]], "2010"=UDZMatrix2010.15[[18]], "2011"=UDZMatrix2011.15[[18]], "2012"=UDZMatrix2012.15[[18]], "2013"=UDZMatrix2013.15[[18]])
+  UDZ.Cercocebus_sanjei <- data.frame("2009"=UDZMatrix2009.15[[4]], "2010"=UDZMatrix2010.15[[4]], "2011"=UDZMatrix2011.15[[4]], "2012"=UDZMatrix2012.15[[4]], "2013"=UDZMatrix2013.15[[4]])
+  UDZ.Rhynchocyon_udzungwensis <- data.frame("2009"=UDZMatrix2009.15[[30]], "2010"=UDZMatrix2010.15[[30]], "2011"=UDZMatrix2011.15[[30]], "2012"=UDZMatrix2012.15[[30]], "2013"=UDZMatrix2013.15[[30]])
+  UDZ.Nesotragus_moschatus <- data.frame("2009"=UDZMatrix2009.15[[11]], "2010"=UDZMatrix2010.15[[11]], "2011"=UDZMatrix2011.15[[11]], "2012"=UDZMatrix2012.15[[11]], "2013"=UDZMatrix2013.15[[11]])
+
+#UDZ_covariate_species <- list(UDZ.Guttera_pucherani=UDZ.Guttera_pucherani, 
+#                              UDZ.Bdeogale_crassicauda=UDZ.Bdeogale_crassicauda, 
+#                              UDZ.Cricetomys_gambianus=UDZ.Cricetomys_gambianus, 
+#                              UDZ.Cephalophus_spadix=UDZ.Cephalophus_spadix, 
+#                              UDZ.Genetta_servalina=UDZ.Genetta_servalina, 
+#                              UDZ.Cephalophus_harveyi=UDZ.Cephalophus_harveyi, 
+#                              UDZ.Paraxerus_vexillarius=UDZ.Paraxerus_vexillarius, 
+#                              UDZ.Cercocebus_sanjei,UDZ.Cercocebus_sanjei,
+#                              UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis, 
+#                              UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus)
+
+# 3 BIF species
+  names(BIFMatrix2011)
+  BIF.Cercopithecus_lhoesti <- data.frame("2010"=BIFMatrix2010.15[[8]], "2011"=BIFMatrix2011.15[[8]], "2012"=BIFMatrix2012.15[[8]], "2013"=BIFMatrix2013.15[[8]])
+  BIF.Cephalophus_silvicultor <- data.frame("2010"=BIFMatrix2010.15[[6]], "2011"=BIFMatrix2011.15[[6]], "2012"=BIFMatrix2012.15[[6]], "2013"=BIFMatrix2013.15[[6]])
+  BIF.Cephalophus_nigrifrons <- data.frame("2010"=BIFMatrix2010.15[[1]], "2011"=BIFMatrix2011.15[[1]], "2012"=BIFMatrix2012.15[[1]], "2013"=BIFMatrix2013.15[[1]])
+
+#BIF_covariate_species <- list(BIF.Cercopithecus_lhoesti=BIF.Cercopithecus_lhoesti,
+#                              BIF.Cephalophus_silvicultor=BIF.Cephalophus_silvicultor,
+#                              BIF.Cephalophus_nigrifrons=BIF.Cephalophus_nigrifrons)
+                              
+
+# 5 PSH species
+  names(PSHMatrix2011)
+  PSH.Leopoldamys_sabanus <- data.frame("2011"=PSHMatrix2011.15[[18]], "2012"=PSHMatrix2012.15[[18]], "2013"=PSHMatrix2013.15[[18]])
+  PSH.Muntiacus_muntjak <- data.frame("2011"=PSHMatrix2011.15[[15]], "2012"=PSHMatrix2012.15[[15]], "2013"=PSHMatrix2013.15[[15]])
+  PSH.Macaca_nemestrina <- data.frame("2011"=PSHMatrix2011.15[[2]], "2012"=PSHMatrix2012.15[[2]], "2013"=PSHMatrix2013.15[[2]])
+  PSH.Sus_scrofa <- data.frame("2011"=PSHMatrix2011.15[[6]], "2012"=PSHMatrix2012.15[[6]], "2013"=PSHMatrix2013.15[[6]])
+  PSH.Tragulus_kanchil <- data.frame("2011"=PSHMatrix2011.15[[9]], "2012"=PSHMatrix2012.15[[9]], "2013"=PSHMatrix2013.15[[9]])
+
+#PSH_covariate_species <- list(PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
+#                              PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
+#                              PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
+#                              PSH.Sus_scrofa=PSH.Sus_scrofa,
+#                              PSH.Tragulus_kanchil=PSH.Tragulus_kanchil)
+
+# 5 YAN species
+  names(YANMatrix2011)
+  YAN.Cuniculus_paca <- data.frame("2011"=YANMatrix2011.15[[3]], "2012"=YANMatrix2012.15[[3]], "2013"=YANMatrix2013.15[[3]])
+  YAN.Dasyprocta_fuliginosa <- data.frame("2011"=YANMatrix2011.15[[7]], "2012"=YANMatrix2012.15[[7]], "2013"=YANMatrix2013.15[[7]])
+  YAN.Dasypus_novemcinctus <- data.frame("2011"=YANMatrix2011.15[[5]], "2012"=YANMatrix2012.15[[5]], "2013"=YANMatrix2013.15[[5]])
+  YAN.Mitu_tuberosum <- data.frame("2011"=YANMatrix2011.15[[2]], "2012"=YANMatrix2012.15[[2]], "2013"=YANMatrix2013.15[[2]])
+  YAN.Tapirus_terrestris <- data.frame("2011"=YANMatrix2011.15[[11]], "2012"=YANMatrix2012.15[[11]], "2013"=YANMatrix2013.15[[11]])
+
+#YAN_covariate_species <- list(YAN.Cuniculus_paca=YAN.Cuniculus_paca,
+#                              YAN.Dasyprocta_fuliginosa=YAN.Dasyprocta_fuliginosa,
+#                              YAN.Dasypus_novemcinctus=YAN.Dasypus_novemcinctus,
+#                              YAN.Mitu_tuberosum=YAN.Mitu_tuberosum,
+#                              YAN.Tapirus_terrestris=YAN.Tapirus_terrestris)
+
+# 2 NAK species
+  names(NAKMatrix2011)
+  NAK.Muntiacus_muntjak <- data.frame("2010"=NAKMatrix2010.15[[1]], "2011"=NAKMatrix2011.15[[1]], "2012"=NAKMatrix2012.15[[1]], "2013"=NAKMatrix2013.15[[1]])
+  NAK.Atherurus_macrourus <- data.frame("2010"=NAKMatrix2010.15[[10]], "2011"=NAKMatrix2011.15[[10]], "2012"=NAKMatrix2012.15[[10]], "2013"=NAKMatrix2013.15[[10]])
+
+#NAK_covariate_species <- list(NAK.Muntiacus_muntjak=NAK.Muntiacus_muntjak,
+#                              NAK.Atherurus_macrourus=NAK.Atherurus_macrourus)
+
+# 2 RNF species
+  names(RNFMatrix2011)
+  RNF.Nesomys_rufus <- data.frame("2010"=RNFMatrix2010.15[[4]], "2011"=RNFMatrix2011.15[[4]], "2012"=RNFMatrix2012.15[[4]], "2013"=RNFMatrix2013.15[[4]])
+  RNF.Fossa_fossana <- data.frame("2010"=RNFMatrix2010.15[[3]], "2011"=RNFMatrix2011.15[[3]], "2012"=RNFMatrix2012.15[[3]], "2013"=RNFMatrix2013.15[[3]])
+
+#RNF_covariate_species <- list(RNF.Nesomys_rufus=RNF.Nesomys_rufus,
+#                              RNF.Fossa_fossana=RNF.Fossa_fossana)
+
+
+# Combine all 32 species into a single list
+All500m_covariate_species <- list(VB.Pecari_tajacu=VB.Pecari_tajacu,
+                              VB.Dasyprocta_punctata=VB.Dasyprocta_punctata,
+                              VB.Tapirus_bairdii=VB.Tapirus_bairdii,
+                              VB.Cuniculus_paca=VB.Cuniculus_paca,
+                              VB.Dasypus_novemcinctus,VB.Dasypus_novemcinctus,
+                              
+                              UDZ.Guttera_pucherani=UDZ.Guttera_pucherani, 
+                              UDZ.Bdeogale_crassicauda=UDZ.Bdeogale_crassicauda, 
+                              UDZ.Cricetomys_gambianus=UDZ.Cricetomys_gambianus, 
+                              UDZ.Cephalophus_spadix=UDZ.Cephalophus_spadix, 
+                              UDZ.Genetta_servalina=UDZ.Genetta_servalina, 
+                              UDZ.Cephalophus_harveyi=UDZ.Cephalophus_harveyi, 
+                              UDZ.Paraxerus_vexillarius=UDZ.Paraxerus_vexillarius, 
+                              UDZ.Cercocebus_sanjei,UDZ.Cercocebus_sanjei,
+                              UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis, 
+                              UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus,
+                             
+                              BIF.Cercopithecus_lhoesti=BIF.Cercopithecus_lhoesti,
+                              BIF.Cephalophus_silvicultor=BIF.Cephalophus_silvicultor,
+                              BIF.Cephalophus_nigrifrons=BIF.Cephalophus_nigrifrons,
+    
+                              PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
+                              PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
+                              PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
+                              PSH.Sus_scrofa=PSH.Sus_scrofa,
+                              PSH.Tragulus_kanchil=PSH.Tragulus_kanchil,
+  
+                              YAN.Cuniculus_paca=YAN.Cuniculus_paca,
+                              YAN.Dasyprocta_fuliginosa=YAN.Dasyprocta_fuliginosa,
+                              YAN.Dasypus_novemcinctus=YAN.Dasypus_novemcinctus,
+                              YAN.Mitu_tuberosum=YAN.Mitu_tuberosum,
+                              YAN.Tapirus_terrestris=YAN.Tapirus_terrestris,
+
+                              NAK.Muntiacus_muntjak=NAK.Muntiacus_muntjak,
+                              NAK.Atherurus_macrourus=NAK.Atherurus_macrourus,
+
+                              RNF.Nesomys_rufus=RNF.Nesomys_rufus,
+                              RNF.Fossa_fossana=RNF.Fossa_fossana)
+
+
+
+
+################## CAMERA TRAP TEMPERATURE DATA FORMATTING ####################
+
+# Clean temperature data and convert F measurements to C
+  library(stringr)
+  eventsdata$Temperature <- str_trim(eventsdata$Temperature, side="both")
+  temp.degrees <- sub(" .*","", eventsdata$Temperature)
+  temp.unit <- str_sub(eventsdata$Temperature, nchar(eventsdata$Temperature), nchar(eventsdata$Temperature))
+  temp.unit <- str_trim(temp.unit, side="both")
+  #Convert F temperature values to Celcius; Change C Temperatures to numeric format from character
+  temp.degreesC <- as.numeric(ifelse(temp.unit=="F", f.FtoC(as.numeric(temp.degrees)), temp.degrees))
+  eventsdata <- cbind(eventsdata, temp.degreesC)
+
+# Determine the annual min, max and variance of the non-calibrated temperature data for each CT without using interpolated data
+  Temp.Min <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=min)
+  names(Temp.Min) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min")
+  Temp.Max <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=max)
+  names(Temp.Max) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Max")
+  Temp.Var <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=var)
+  names(Temp.Var) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Var")
+  CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var)
+  names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var")
+
+# Fill in temperature data using non-interpolated data for sites with sampling periods overlapping calendar years (i.e. RNF & NAK)
+  CT.TempRNF <- CT.Temp[CT.Temp$Site.Code=="RNF",]
+  CT.TempRNF <- data.frame(CT.TempRNF, Year=as.integer(substr(CT.TempRNF$Sampling.Period,1,4)))
+  CT.TempNAK <- CT.Temp[CT.Temp$Site.Code=="NAK",]
+  CT.TempNAK <- data.frame(CT.TempNAK, Year=as.integer(substr(CT.TempNAK$Sampling.Period,1,4))+1)
+# Add in missing year of VB temperature data
+  CT.TempVB2007 <- CT.Temp[CT.Temp$Site.Code=="VB-"&CT.Temp$Sampling.Period=="2007.01",]
+  CT.TempVB2007 <- data.frame(CT.TempVB2007, Year=as.integer(substr(CT.TempVB2007$Sampling.Period,1,4))+1)
+
+
+  # Read in interpolated temperature data extracted using DSSG script and excel files
+  temp <- read.csv("Interpolated_Temperatures_500mSites.csv")
+
+# Create object with temperature covariate data to use for all sites with 500 m elevation gradients 
+Alltemp500 <- rbind(temp, CT.TempNAK, CT.TempRNF, CT.TempVB2007)
+Alltemp500 <- data.frame(Site.Code=Alltemp500$Site.Code, 
+                         Sampling.Unit.Name=Alltemp500$Sampling.Unit.Name,
+                         Year=as.factor(Alltemp500$Year),
+                         Temp.Min=Alltemp500$Temp.Min, 
+                         Temp.Max=Alltemp500$Temp.Max,
+                         Temp.Var=Alltemp500$Temp.Var)
+
+CT.Temp.VB <- melt(Alltemp500[Alltemp500$Site.Code=="VB-",])
+VB.Tmin <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+VB.Tmax <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+VB.Tvar <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+CT.Temp.UDZ <- melt(Alltemp500[Alltemp500$Site.Code=="UDZ",])
+UDZ.Tmin <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+UDZ.Tmax <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+UDZ.Tvar <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+CT.Temp.BIF <- melt(Alltemp500[Alltemp500$Site.Code=="BIF",])
+BIF.Tmin <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+BIF.Tmax <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+BIF.Tvar <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+CT.Temp.PSH <- melt(Alltemp500[Alltemp500$Site.Code=="PSH",])
+PSH.Tmin <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+PSH.Tmax <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+PSH.Tvar <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+CT.Temp.YAN <- melt(Alltemp500[Alltemp500$Site.Code=="YAN",])
+YAN.Tmin <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+YAN.Tmax <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+YAN.Tvar <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+CT.Temp.NAK <- melt(Alltemp500[Alltemp500$Site.Code=="NAK",])
+NAK.Tmin <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+NAK.Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+NAK.Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+CT.Temp.RNF <- melt(Alltemp500[Alltemp500$Site.Code=="RNF",])
+RNF.Tmin <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+RNF.Tmax <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+
+
+######################## COMBINE TEMPERATURE COVARIATE DATA WITH OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
+# Read in elevation data
+  ELEV <- read.csv("CT_edgedist_elevation_final.txt")
+
+# Read in CT specific forest loss data from Alex (spans 2000-2013)
+  traps_fc <- read.csv("traps_fc.csv")
+  ftraps120 <- traps_fc[traps_fc$buffer_m=="120m buffer",]
+  ftraps120 <- cbind(ftraps120, ELEV[match(ftraps120$trap_ID, ELEV$Sampling.Unit.Name),])
+  ftraps120_500m <- ftraps120[ftraps120$sitecode=="VB"|
+                                ftraps120$sitecode=="UDZ"|
+                                ftraps120$sitecode=="BIF"|
+                                ftraps120$sitecode=="PSH"|
+                                ftraps120$sitecode=="YAN"|
+                                ftraps120$sitecode=="NAK"|
+                                ftraps120$sitecode=="RNF",]
+
+  ftraps120_500m <- data.frame(Site.Code=ftraps120_500m$sitecode, 
+                             Sampling.Unit.Name=ftraps120_500m$Sampling.Unit.Name, 
+                             Elevation=ftraps120_500m$Elevation,
+                             FL210=ftraps120_500m$fc_frac_loss)
+
+# Merge covariate data
+#CTtemp_fc <- merge(Alltemp500, ftraps120_500m, by.x="Sampling.Unit.Name", by.y="Sampling.Unit.Name", all=TRUE)
+
+#covs <- data.frame(Site.Code=CTtemp_fc$Site.Code.x,
+#                      Sampling.Unit.Name=CTtemp_fc$Sampling.Unit.Name, 
+#                      Temp.Min=CTtemp_fc$Temp.Min, 
+#                      Temp.Max=CTtemp_fc$Temp.Max, 
+#                      Temp.Var=CTtemp_fc$Temp.Var, 
+#                      Year=CTtemp_fc$Year, 
+#                      FL120=CTtemp_fc$fc_frac_loss,
+#                      Elevation=CTtemp_fc$Elevation)
+
+ # Read in site level forest loss calculations from Alex (spans 5 years prior to CT sampling start at each site)
+# NB manually update VB sitecode to "VB-" in csv file to enable merging
+  site_fc <- read.csv("20141004_forest_loss.csv")
+# Extract site level forest loss for protected areas
+  FL_PA <- site_fc[site_fc$aoi=="PA",]
+
+
+
+########## FORMAT COMPLETE COVARIATE DATA FOR UNMARKED (i.e. CT Sampling.Units as rows and covariates as columns)
+temp.melt <- melt(temp, id.vars=c("Sampling.Unit.Name", "Time"))
+temp.cast <- cast(temp.melt, Sampling.Unit.Name ~ variable + Time)
+
+cast(All_Covs, Sampling.Unit.Name ~ variable + Time)
+
+
+covs_melt <- melt(covs, id.vars=c("Sampling.Unit.Name", "Year", "Site.Code"))
+covs_cast <- cast(covs_melt, Sampling.Unit.Name ~ variable + Year)
+
+
+
+CT.Temp.NAK <- melt(CT.Temp[CT.Temp$Site.Code=="NAK",])
+Tmin <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Sampling.Period ~ variable)[,,1])
+names(Tmin) <- paste0("Tmin.",2010:2013)
+Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Sampling.Period ~ variable)[,,2])
+names(Tmax) <- paste0("Tmax.",2010:2013)
+Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Sampling.Period ~ variable)[,,3]),2)
+names(Tvar) <- paste0("Tvar.",2010:2013)
+NAK.CovariateData <- cbind(Tmin, Tmax, Tvar)
+
+ELEVsub <- ELEV[match(rownames(Tmin), ELEV$Sampling.Unit.Name),]
+
+
+
+
+
+
+######################## FUNCTION TO FORMAT TRINARY (1/0/NA) CT DATA MATRICES ###############
+f.matrix.creatorLB<-function(data,year){
+  #results object
+  res<-list()
+  
+  #get the dimensions of the matrix
+  
+  #list if sanpling units
+  cams<-unique(data$Sampling.Unit.Name)
+  cams<-sort(cams)
+  rows<-length(cams)
+  species<-unique(data$bin)
+  #start and end dates of sampling periods
+  data<-data[data$Sampling.Period==year,]
+  min<-min(data$Start.Date)
+  max<-max(data$End.Date)
+  cols<-max-min+1
+  
+  #sampling period
+  date.header<-seq(from=min,to=max, by="days")
+  mat<-matrix(NA,rows,cols,dimnames=list(cams,as.character(date.header)))
+  
+  #for all cameras, determine the open and close date and mark in the matrix
+  start.dates<-tapply(as.character(data$Start.Date),data$Sampling.Unit.Name,unique)
+  nms<-names(start.dates)
+  start.dates<-ymd(start.dates)
+  names(start.dates)<-nms
+  end.dates<-tapply(as.character(data$End.Date),data$Sampling.Unit.Name,unique)
+  end.dates<-ymd(end.dates)
+  names(end.dates)<-nms
+  
+  #outline the sampling periods for each camera j
+  for(j in 1:length(start.dates)){
+    #for each camera beginning and end of sampling
+    low<-which(date.header==start.dates[j])
+    hi<-which(date.header==end.dates[j])
+    if(length(low)+length(hi)>0){
+      indx<-seq(from=low,to=hi)
+      mat[names(start.dates)[j],indx]<-0
+    } else next
+  }
+  mat.template<-mat
+  #get the species
+  #species<-unique(data$bin)
+  #construct the matrix for each species i
+  for(i in 1:length(species)){
+    indx<-which(data$bin==species[i])
+    #dates and cameras when/where the species was photographed
+    dates<-data$Photo.Date[indx]
+    cameras<-data$Sampling.Unit.Name[indx]
+    dates.cameras<-data.frame(dates,cameras)
+    #unique combination of dates and cameras 
+    dates.cameras<-unique(dates.cameras)
+    #fill in the matrix
+    for(j in 1:length(dates.cameras[,1])){
+      col<-which(date.header==dates.cameras[j,1])
+      row<-which(cams==dates.cameras[j,2])
+      mat[row,col]<-1
+    }
+    mat.nas<-is.na(mat)
+    sum.nas<-apply(mat.nas,2,sum)
+    indx.nas<-which(sum.nas==rows)
+    if(length(indx.nas)>0){
+      mat<-mat[,-indx.nas]
+    }
+    
+    res<-c(res,list(mat))
+    #return the matrix to its original form
+    mat<-mat.template
+  }
+  
+  names(res)<-species
+  #res<-lapply(res,f.dum)
+  res
+  
+}
+
