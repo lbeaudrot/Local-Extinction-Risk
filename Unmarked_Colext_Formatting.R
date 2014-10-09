@@ -410,7 +410,7 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     VB.Tmax <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     VB.Tvar <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
 
-          VB_covs <- list(Elevation=VB.Elev,
+          VB__covs <- list(Elevation=VB.Elev,
                 ForestLossCT=VB.FL120,
                 ForestLossPA=VB.FL_PA,
                 Tmin=VB.Tmin,
@@ -516,15 +516,25 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
                 Tmax=RNF.Tmax,
                 Tvar=RNF.Tvar)
 
+All_covs <- list(VB__covs=VB__covs,
+                 UDZ_covs=UDZ_covs, 
+                 BIF_covs=BIF_covs,
+                 PSH_covs=PSH_covs,
+                 YAN_covs=YAN_covs,
+                 NAK_covs=NAK_covs,
+                 RNF_covs=RNF_covs)
+
+save(All_covs, file="All_covs.RData")
+
 
 ################ SAVE OBJECTS CONTAINING SITE LEVEL COVARIATES
-save(VB_covs, file="VB_covs.RData")
-save(UDZ_covs, file="UDZ_covs.RData")
-save(BIF_covs, file="BIF_covs.RData")
-save(PSH_covs, file="PSH_covs.RData")
-save(YAN_covs, file="YAN_covs.RData")
-save(NAK_covs, file="NAK_covs.RData")
-save(RNF_covs, file="RNF_covs.RData")
+#save(VB_covs, file="VB_covs.RData")
+#save(UDZ_covs, file="UDZ_covs.RData")
+#save(BIF_covs, file="BIF_covs.RData")
+#save(PSH_covs, file="PSH_covs.RData")
+#save(YAN_covs, file="YAN_covs.RData")
+#save(NAK_covs, file="NAK_covs.RData")
+#save(RNF_covs, file="RNF_covs.RData")
 
 
 
