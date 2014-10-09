@@ -410,6 +410,22 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     VB.Tmax <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     VB.Tvar <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
 
+      VB.Elev <- scale(VB.Elev)
+      VB.Elev[is.na(VB.Elev)] <- 0
+
+      VB.FL120 <- scale(VB.FL120)
+      VB.FL120[is.na(VB.FL120)] <- 0
+
+      VB.Tmin <- scale(VB.Tmin)
+      VB.Tmin[is.na(VB.Tmin)] <- 0
+
+      VB.Tmax <- scale(VB.Tmax)
+      VB.Tmax[is.na(VB.Tmax)] <- 0
+
+      VB.Tvar <- scale(VB.Tvar)
+      VB.Tvar[is.na(VB.Tvar)] <- 0
+
+
           VB__covs <- list(Elevation=VB.Elev,
                 ForestLossCT=VB.FL120,
                 ForestLossPA=VB.FL_PA,
@@ -425,6 +441,23 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     UDZ.Tmin <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     UDZ.Tmax <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     UDZ.Tvar <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+
+      UDZ.Elev <- scale(UDZ.Elev)
+      UDZ.Elev[is.na(UDZ.Elev)] <- 0
+
+      UDZ.FL120 <- scale(UDZ.FL120)
+      UDZ.FL120[is.na(UDZ.FL120)] <- 0
+
+      UDZ.Tmin <- scale(UDZ.Tmin)
+      UDZ.Tmin[is.na(UDZ.Tmin)] <- 0
+
+      UDZ.Tmax <- scale(UDZ.Tmax)
+      UDZ.Tmax[is.na(UDZ.Tmax)] <- 0
+
+      UDZ.Tvar <- scale(UDZ.Tvar)
+      UDZ.Tvar[is.na(UDZ.Tvar)] <- 0
+
 
           UDZ_covs <- list(Elevation=UDZ.Elev,
                 ForestLossCT=UDZ.FL120,
@@ -442,6 +475,22 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     BIF.Tmin <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     BIF.Tmax <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     BIF.Tvar <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      BIF.Elev <- scale(BIF.Elev)
+      BIF.Elev[is.na(BIF.Elev)] <- 0
+
+      BIF.FL120 <- scale(BIF.FL120)
+      BIF.FL120[is.na(BIF.FL120)] <- 0
+
+      BIF.Tmin <- scale(BIF.Tmin)
+      BIF.Tmin[is.na(BIF.Tmin)] <- 0
+
+      BIF.Tmax <- scale(BIF.Tmax)
+      BIF.Tmax[is.na(BIF.Tmax)] <- 0
+
+      BIF.Tvar <- scale(BIF.Tvar)
+      BIF.Tvar[is.na(BIF.Tvar)] <- 0
+
 
           BIF_covs <- list(Elevation=BIF.Elev,
                 ForestLossCT=BIF.FL120,
@@ -461,6 +510,21 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     PSH.Tmax <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     PSH.Tvar <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
 
+      PSH.Elev <- scale(PSH.Elev)
+      PSH.Elev[is.na(PSH.Elev)] <- 0
+
+      PSH.FL120 <- scale(PSH.FL120)
+      PSH.FL120[is.na(PSH.FL120)] <- 0
+
+      PSH.Tmin <- scale(PSH.Tmin)
+      PSH.Tmin[is.na(PSH.Tmin)] <- 0
+
+      PSH.Tmax <- scale(PSH.Tmax)
+      PSH.Tmax[is.na(PSH.Tmax)] <- 0
+
+      PSH.Tvar <- scale(PSH.Tvar)
+      PSH.Tvar[is.na(PSH.Tvar)] <- 0
+
           PSH_covs <- list(Elevation=PSH.Elev,
                 ForestLossCT=PSH.FL120,
                 ForestLossPA=PSH.FL_PA,
@@ -476,6 +540,21 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     YAN.Tmin <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     YAN.Tmax <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     YAN.Tvar <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      YAN.Elev <- scale(YAN.Elev)
+      YAN.Elev[is.na(YAN.Elev)] <- 0
+
+      YAN.FL120 <- scale(YAN.FL120)
+      YAN.FL120[is.na(YAN.FL120)] <- 0
+
+      YAN.Tmin <- scale(YAN.Tmin)
+      YAN.Tmin[is.na(YAN.Tmin)] <- 0
+
+      YAN.Tmax <- scale(YAN.Tmax)
+      YAN.Tmax[is.na(YAN.Tmax)] <- 0
+
+      YAN.Tvar <- scale(YAN.Tvar)
+      YAN.Tvar[is.na(YAN.Tvar)] <- 0
 
             YAN_covs <- list(Elevation=YAN.Elev,
                 ForestLossCT=YAN.FL120,
@@ -493,6 +572,22 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     NAK.Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     NAK.Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
 
+      NAK.Elev <- scale(NAK.Elev)
+      NAK.Elev[is.na(NAK.Elev)] <- 0
+
+      NAK.FL120 <- scale(NAK.FL120)
+      NAK.FL120[is.na(NAK.FL120)] <- 0
+
+      NAK.Tmin <- scale(NAK.Tmin)
+      NAK.Tmin[is.na(NAK.Tmin)] <- 0
+
+      NAK.Tmax <- scale(NAK.Tmax)
+      NAK.Tmax[is.na(NAK.Tmax)] <- 0
+
+      NAK.Tvar <- scale(NAK.Tvar)
+      NAK.Tvar[is.na(NAK.Tvar)] <- 0
+
+
           NAK_covs <- list(Elevation=NAK.Elev,
                 ForestLossCT=NAK.FL120,
                 ForestLossPA=NAK.FL_PA,
@@ -508,6 +603,21 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     RNF.Tmin <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     RNF.Tmax <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+
+      RNF.Elev <- scale(RNF.Elev)
+      RNF.Elev[is.na(RNF.Elev)] <- 0
+
+      RNF.FL120 <- scale(RNF.FL120)
+      RNF.FL120[is.na(RNF.FL120)] <- 0
+
+      RNF.Tmin <- scale(RNF.Tmin)
+      RNF.Tmin[is.na(RNF.Tmin)] <- 0
+
+      RNF.Tmax <- scale(RNF.Tmax)
+      RNF.Tmax[is.na(RNF.Tmax)] <- 0
+
+      RNF.Tvar <- scale(RNF.Tvar)
+      RNF.Tvar[is.na(RNF.Tvar)] <- 0
 
           RNF_covs <- list(Elevation=RNF.Elev,
                 ForestLossCT=RNF.FL120,
