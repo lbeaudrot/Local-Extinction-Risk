@@ -5,8 +5,13 @@ library(unmarked)
 # Matrices for each population are contained in the object "All500m_covariate_species"
 names(All500m_covariate_species)
 
+
+
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
 index <- 1
+# if setting up loop, change "index" to "i"
+#for(i in 1:length(All500m_covariate_species)){
+
 sp.name <- names(All500m_covariate_species)[index]
 sp.name
 species <- All500m_covariate_species[[index]]
@@ -22,7 +27,6 @@ ForestLossPA <- data.frame(sapply(covs, "[", 3))
 Tmin <- data.frame(sapply(covs, "[", 4))
 Tmax <- data.frame(sapply(covs, "[", 5))
 Tvar <- data.frame(sapply(covs, "[", 6))
-d
 
 
 ###############################
@@ -154,6 +158,10 @@ models=fitList(
 
 (ms <- modSel(models))
 
+outputname <- paste(sp.name, "colextAIC", "csv", sep=".")
+
+write.csv(ms, file=outputname)
+}
 
 ##############################
 #FIGURE WITH BEST MODEL
