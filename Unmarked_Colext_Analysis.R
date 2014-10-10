@@ -1,6 +1,9 @@
 # Unmarked analysis of 32 TEAM populations with >8% detection rates at sites with >500 m elevation change
 #load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All_covs_scaled.RData')
 #load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All500m_covariate_species.RData')
+rm(list=ls())
+load("All_covs.RData")
+load("All500m_covariate_species.RData")
 library(unmarked)
 
 # Matrices for each population are contained in the object "All500m_covariate_species"
