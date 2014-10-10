@@ -249,7 +249,7 @@ if(exists("fm11.1")){mods=c(mods,fm11.1)}
 
 try((fm11.2=colext(psiformula=~1,gammaformula=~1,epsilonformula=~(year-1)+Elevation,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-if(exists("fm11.1")){mods=c(mods,fm11.2)}
+if(exists("fm11.2")){mods=c(mods,fm11.2)}
 
 
 #Time+ForestLossCT
@@ -291,23 +291,5 @@ mods.all[[k]]=mods
 rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,fm4,fm4.1,fm4.2,fm5,fm5.1,fm5.2,fm6,fm6.1,fm6.2,fm7,fm7.1,fm7.2,fm8,fm8.1,fm8.2,fm9,fm9.1,fm9.2,fm10,fm10.1,fm10.2,fm11,fm11.1,fm11.2,fm12,fm12.1,fm12.2,fm13,fm13.1,fm13.2,mods,ms)
 }
 
-##############################
-#FIGURE WITH BEST MODEL
-##############################
-
-ndm=data.frame(Elevation=0,Tmin=seq(min(Tmin),max(Tmin,length=50)))
-
-E.eps=predict(fm2,type="col",newdata=ndm,appendData=TRUE)
-
-x=ndm$Tmin
-y=E.eps$Predicted
-y.Err=1.96*E.eps$SE
-y.Up = y + y.Err; y.Dn =y-y.Err
-
-plot(x,y,type="l",lty=1,ylim=c(0,1),xlim=c(-1.2,5),col="red",xlab="Scaled(Elevation)",ylab=expression(bold(hat(epsilon)),cex.lab=1.0,main="Tvar"))
-
-polygon(c(x,rev(x)),c(y.Up,rev(y.Dn)),col=rgb(255,0,0,25,maxColorValue=255),border=rgb(255,0,0,25,maxColorValue=255))
-# Use the rev commands so the border moves logically around the shaded area
-lines(x,y,type="l",lty=1,col="red") # put the means back on top of the polygon 
-
+save.image(file="spp32_results.RData")
  
