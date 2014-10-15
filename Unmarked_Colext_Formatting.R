@@ -9,8 +9,8 @@ library(stringr)
 # Load matrix creator function at bottom of this script "f.matrix.creatorLB"
 # Load TEAM data, fix data, and add site code; no need to separate events because matrix creator functions turns all detections into trinary matrix
 #ctdata <- f.teamdb.query("camera trap")
-#load(ctdata)
-#alldata <- ctdata
+#load("ct_data2014-08-20.gzip")
+#alldata <- cam_trap_data
 #alldata<-f.fix.data2(alldata)
 #Site.Code <- substr(alldata$Sampling.Unit.Name,4,6)
 #alldata <- cbind(alldata, Site.Code)
@@ -177,6 +177,13 @@ for(i in 1:length(RNFMatrix2011)){
 #                             VB_.Cuniculus_paca=VB_.Cuniculus_paca,
 #                             VB_.Dasypus_novemcinctus,VB_.Dasypus_novemcinctus)
 
+# Extract all VB species
+VB_.species <- list()
+for(i in 1:length(VBMatrix2008)){
+  VB_.species[[i]] <- data.frame("2008"=VBMatrix2008.15[[i]], "2009"=VBMatrix2009.15[[i]], "2010"=VBMatrix2010.15[[i]], "2011"=VBMatrix2011.15[[i]], "2012"=VBMatrix2012.15[[i]], "2013"=VBMatrix2013.15[[i]], "2014"=VBMatrix2014.15[[i]])
+}
+names(VB_.species) <- paste("VB_", names(VBMatrix2008), sep=".")
+
 # 10 UDZ species
   names(UDZMatrix2009)
   UDZ.Guttera_pucherani <- data.frame("2009"=UDZMatrix2009.15[[19]], "2010"=UDZMatrix2010.15[[19]], "2011"=UDZMatrix2011.15[[19]], "2012"=UDZMatrix2012.15[[19]], "2013"=UDZMatrix2013.15[[19]])
@@ -200,6 +207,16 @@ for(i in 1:length(RNFMatrix2011)){
 #                              UDZ.Cercocebus_sanjei,UDZ.Cercocebus_sanjei,
 #                              UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis, 
 #                              UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus)
+
+
+UDZ_.species <- list()
+for(i in 1:length(UDZMatrix2009)){
+  UDZ_.species[[i]] <- data.frame("2009"=UDZMatrix2009.15[[i]], "2010"=UDZMatrix2010.15[[i]], "2011"=UDZMatrix2011.15[[i]], "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]])
+}
+names(UDZ_.species) <- paste("UDZ_", names(UDZMatrix2008), sep=".")
+
+
+
 
 # 3 BIF species
   names(BIFMatrix2011)
@@ -276,11 +293,11 @@ All500m_covariate_species <- list(VB_.Pecari_tajacu=VB_.Pecari_tajacu,
                               BIF.Cercopithecus_lhoesti=BIF.Cercopithecus_lhoesti,
                               BIF.Cephalophus_silvicultor=BIF.Cephalophus_silvicultor,
                               BIF.Cephalophus_nigrifrons=BIF.Cephalophus_nigrifrons,
-                              PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
-                              PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
-                              PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
-                              PSH.Sus_scrofa=PSH.Sus_scrofa,
-                              PSH.Tragulus_kanchil=PSH.Tragulus_kanchil,
+                              #PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
+                              #PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
+                              #PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
+                              #PSH.Sus_scrofa=PSH.Sus_scrofa,
+                              #PSH.Tragulus_kanchil=PSH.Tragulus_kanchil,
                               YAN.Cuniculus_paca=YAN.Cuniculus_paca,
                               YAN.Dasyprocta_fuliginosa=YAN.Dasyprocta_fuliginosa,
                               YAN.Dasypus_novemcinctus=YAN.Dasypus_novemcinctus,
@@ -383,12 +400,7 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     Tmax.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     Tvar.All <- round(as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
 
-          VB_covs <- list(Elevation=VB.Elev,
-                ForestLossCT=VB.FL120,
-                ForestLossPA=VB.FL_PA,
-                Tmin=VB.Tmin,
-                Tmax=VB.Tmax,
-                Tvar=VB.Tvar)
+          
 
 
 
@@ -629,7 +641,7 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
 All_covs <- list(VB__covs=VB__covs,
                  UDZ_covs=UDZ_covs, 
                  BIF_covs=BIF_covs,
-                 PSH_covs=PSH_covs,
+                 #PSH_covs=PSH_covs,
                  YAN_covs=YAN_covs,
                  NAK_covs=NAK_covs,
                  RNF_covs=RNF_covs)
