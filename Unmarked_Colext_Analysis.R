@@ -294,5 +294,12 @@ mods.all[[k]]=mods
 rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,fm4,fm4.1,fm4.2,fm5,fm5.1,fm5.2,fm6,fm6.1,fm6.2,fm7,fm7.1,fm7.2,fm8,fm8.1,fm8.2,fm9,fm9.1,fm9.2,fm10,fm10.1,fm10.2,fm11,fm11.1,fm11.2,fm12,fm12.1,fm12.2,fm13,fm13.1,fm13.2,mods,ms)
 }
 
+names(results.all) <- nms
 save.image(file="spp32_results.RData")
- 
+
+length(nms)
+for(i in 1:length(nms)) {
+  outputname <- paste(nms[i], "colextAIC", "csv", sep=".")
+	output <- results.all[[i]]@Full
+	write.csv(output, file=outputname)
+} 
