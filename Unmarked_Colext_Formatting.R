@@ -168,195 +168,206 @@ for(i in 1:length(RNFMatrix2011)){
   RNFMatrix2013.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2013[[i]])
 }
 
+# Extract all species for each site
+
+    # Extract all VB species
+    VB_.species <- list()
+    for(i in 1:length(VBMatrix2008)){
+      VB_.species[[i]] <- data.frame("2008"=VBMatrix2008.15[[i]], "2009"=VBMatrix2009.15[[i]], "2010"=VBMatrix2010.15[[i]], "2011"=VBMatrix2011.15[[i]], "2012"=VBMatrix2012.15[[i]], "2013"=VBMatrix2013.15[[i]], "2014"=VBMatrix2014.15[[i]])
+    }
+    names(VB_.species) <- paste("VB_", names(VBMatrix2008), sep=".")
+
+    # Extract all UDZ species
+    UDZ.species <- list()
+    for(i in 1:length(UDZMatrix2009)){
+      UDZ.species[[i]] <- data.frame("2009"=UDZMatrix2009.15[[i]], "2010"=UDZMatrix2010.15[[i]], "2011"=UDZMatrix2011.15[[i]], "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]])
+    }
+    names(UDZ.species) <- paste("UDZ", names(UDZMatrix2009), sep=".")
+
+    # Extract all BIF species
+    BIF.species <- list()
+    for(i in 1:length(BIFMatrix2011)){
+      BIF.species[[i]] <- data.frame("2010"=BIFMatrix2010.15[[i]], "2011"=BIFMatrix2011.15[[i]], "2012"=BIFMatrix2012.15[[i]], "2013"=BIFMatrix2013.15[[i]])
+    }
+    names(BIF.species) <- paste("BIF", names(BIFMatrix2011), sep=".")
+
+    # Extract all PSH species
+    PSH.species <- list()
+    for(i in 1:length(PSHMatrix2011)){
+      PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]])
+    }
+    names(PSH.species) <- paste("PSH", names(PSHMatrix2011), sep=".")
+
+    # Extract all YAN species
+    YAN.species <- list()
+    for(i in 1:length(YANMatrix2011)){
+      YAN.species[[i]] <- data.frame("2011"=YANMatrix2011.15[[i]], "2012"=YANMatrix2012.15[[i]], "2013"=YANMatrix2013.15[[i]])
+    }
+    names(YAN.species) <- paste("YAN", names(YANMatrix2011), sep=".")
+
+    # Extract all NAK species
+    NAK.species <- list()
+    for(i in 1:length(NAKMatrix2011)){
+      NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], "2013"=NAKMatrix2013.15[[i]])
+    }
+    names(NAK.species) <- paste("NAK", names(NAKMatrix2011), sep=".")
+
+    # Extract all RNF species
+    RNF.species <- list()
+    for(i in 1:length(RNFMatrix2011)){
+      RNF.species[[i]] <- data.frame("2010"=RNFMatrix2010.15[[i]], "2011"=RNFMatrix2011.15[[i]], "2012"=RNFMatrix2012.15[[i]], "2013"=RNFMatrix2013.15[[i]])
+    }
+    names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
+
+All_species7sites <- list(VB_.species=VB_.species,
+                          UDZ.species=UDZ.species,
+                          BIF.species=BIF.species,
+                          PSH.species=PSH.species,
+                          YAN.species=YAN.species,
+                          NAK.species=NAK.species,
+                          RNF.species=RNF.species)
+
+
+
 ###################### EXTRACT 32 POPULATIONS MODELED WITH COVARIATES IN WPI ANALYSIS ########################
 # Covariate species list available in file "WPI_Covariate_Populations.xlsx"; Can be recreated using "WPI_Analysis.R" file
 
-# Extract all VB species
-VB_.species <- list()
-for(i in 1:length(VBMatrix2008)){
-  VB_.species[[i]] <- data.frame("2008"=VBMatrix2008.15[[i]], "2009"=VBMatrix2009.15[[i]], "2010"=VBMatrix2010.15[[i]], "2011"=VBMatrix2011.15[[i]], "2012"=VBMatrix2012.15[[i]], "2013"=VBMatrix2013.15[[i]], "2014"=VBMatrix2014.15[[i]])
-}
-names(VB_.species) <- paste("VB_", names(VBMatrix2008), sep=".")
-
 # 5 VB species
   names(VBMatrix2008)
-  VB_.Pecari_tajacu <- VB_.species[[1]]
-  VB_.Dasyprocta_punctata <- VB_.species[[3]] 
-  VB_.Tapirus_bairdii <- VB_.species[[18]] 
-  VB_.Cuniculus_paca <-  VB_.species[[6]] 
-  VB_.Dasypus_novemcinctus <- VB_.species[[4]] 
+  VB_.Pecari_tajacu <- VB_.species$"VB_.Pecari tajacu"
+  VB_.Dasyprocta_punctata <- VB_.species$"VB_.Dasyprocta punctata"
+  VB_.Tapirus_bairdii <- VB_.species$"VB_.Tapirus bairdii" 
+  VB_.Cuniculus_paca <-  VB_.species$"VB_.Cuniculus paca" 
+  VB_.Dasypus_novemcinctus <- VB_.species$"VB_.Dasypus novemcinctus"
 
-#VB_covariate_species <- list(VB_.Pecari_tajacu=VB.Pecari_tajacu,
-#                             VB_.Dasyprocta_punctata=VB_.Dasyprocta_punctata,
-#                             VB_.Tapirus_bairdii=VB_.Tapirus_bairdii,
-#                             VB_.Cuniculus_paca=VB_.Cuniculus_paca,
-#                             VB_.Dasypus_novemcinctus,VB_.Dasypus_novemcinctus)
-
-# Extract all UDZ species
-UDZ.species <- list()
-for(i in 1:length(UDZMatrix2009)){
-  UDZ.species[[i]] <- data.frame("2009"=UDZMatrix2009.15[[i]], "2010"=UDZMatrix2010.15[[i]], "2011"=UDZMatrix2011.15[[i]], "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]])
-}
-names(UDZ.species) <- paste("UDZ", names(UDZMatrix2009), sep=".")
-
+  VB_covariate_species <- list(VB_.Pecari_tajacu=VB.Pecari_tajacu,
+                             VB_.Dasyprocta_punctata=VB_.Dasyprocta_punctata,
+                             VB_.Tapirus_bairdii=VB_.Tapirus_bairdii,
+                             VB_.Cuniculus_paca=VB_.Cuniculus_paca,
+                             VB_.Dasypus_novemcinctus,VB_.Dasypus_novemcinctus)
 
 # 10 UDZ species
   names(UDZMatrix2009)
-  UDZ.Guttera_pucherani <- UDZ.species[[12]]
-  UDZ.Bdeogale_crassicauda <- UDZ.species[[3]]
-  UDZ.Cricetomys_gambianus <- UDZ.species[[1]]
-  UDZ.Cephalophus_spadix <- UDZ.species[[6]]
-  UDZ.Genetta_servalina <- UDZ.species[[10]]
-  UDZ.Cephalophus_harveyi <- UDZ.species[[5]]
-  UDZ.Paraxerus_vexillarius <- UDZ.species[[11]]
-  UDZ.Cercocebus_sanjei <- UDZ.species[[4]]
-  UDZ.Rhynchocyon_udzungwensis <- UDZ.species[[28]]
+  UDZ.Guttera_pucherani <- UDZ.species$"UDZ.Guttera pucherani" 
+  UDZ.Bdeogale_crassicauda <- UDZ.species$"UDZ.Bdeogale crassicauda"
+  UDZ.Cricetomys_gambianus <- UDZ.species$"UDZ.Cricetomys gambianus"
+  UDZ.Cephalophus_spadix <- UDZ.species$"UDZ.Cephalophus spadix"
+  UDZ.Genetta_servalina <- UDZ.species$"UDZ.Genetta servalina"
+  UDZ.Cephalophus_harveyi <- UDZ.species$"UDZ.Cephalophus harveyi"
+  UDZ.Paraxerus_vexillarius <- UDZ.species$"UDZ.Paraxerus vexillarius"
+  UDZ.Cercocebus_sanjei <- UDZ.species$"UDZ.Cercocebus sanjei"
+  UDZ.Rhynchocyon_udzungwensis <- UDZ.species$"UDZ.Rhynchocyon udzungwensis"
   #UDZ.Nesotragus_moschatus <- #NB mismatch of names causing species to be absent from matched list
 
-#UDZ_covariate_species <- list(UDZ.Guttera_pucherani=UDZ.Guttera_pucherani, 
-#                              UDZ.Bdeogale_crassicauda=UDZ.Bdeogale_crassicauda, 
-#                              UDZ.Cricetomys_gambianus=UDZ.Cricetomys_gambianus, 
-#                              UDZ.Cephalophus_spadix=UDZ.Cephalophus_spadix, 
-#                              UDZ.Genetta_servalina=UDZ.Genetta_servalina, 
-#                              UDZ.Cephalophus_harveyi=UDZ.Cephalophus_harveyi, 
-#                              UDZ.Paraxerus_vexillarius=UDZ.Paraxerus_vexillarius, 
-#                              UDZ.Cercocebus_sanjei,UDZ.Cercocebus_sanjei,
-#                              UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis, 
-#                              UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus)
-
-
-# Extract all BIF species
-BIF.species <- list()
-for(i in 1:length(BIFMatrix2011)){
-  BIF.species[[i]] <- data.frame("2010"=BIFMatrix2010.15[[i]], "2011"=BIFMatrix2011.15[[i]], "2012"=BIFMatrix2012.15[[i]], "2013"=BIFMatrix2013.15[[i]])
-}
-names(BIF.species) <- paste("BIF", names(BIFMatrix2011), sep=".")
-
-
-# 3 BIF species
-  names(BIFMatrix2011)
-  BIF.Cercopithecus_lhoesti <- BIF.species[[5]]
-  BIF.Cephalophus_silvicultor <- BIF.species[[4]]
-  BIF.Cephalophus_nigrifrons <- BIF.species[[1]]
-
-#BIF_covariate_species <- list(BIF.Cercopithecus_lhoesti=BIF.Cercopithecus_lhoesti,
-#                              BIF.Cephalophus_silvicultor=BIF.Cephalophus_silvicultor,
-#                              BIF.Cephalophus_nigrifrons=BIF.Cephalophus_nigrifrons)
-
-
-# Extract all PSH species
-PSH.species <- list()
-for(i in 1:length(PSHMatrix2011)){
-  PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]])
-}
-names(PSH.species) <- paste("PSH", names(PSHMatrix2011), sep=".")
-
-# 5 PSH species
-  names(PSHMatrix2011)
-  PSH.Leopoldamys_sabanus <- PSH.species[[5]]
-  PSH.Muntiacus_muntjak <- PSH.species[[13]]
-  PSH.Macaca_nemestrina <- PSH.species[[2]]
-  PSH.Sus_scrofa <- PSH.species[[6]]
-  PSH.Tragulus_kanchil <- PSH.species[[10]]
-
-#PSH_covariate_species <- list(PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
-#                              PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
-#                              PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
-#                              PSH.Sus_scrofa=PSH.Sus_scrofa,
-#                              PSH.Tragulus_kanchil=PSH.Tragulus_kanchil)
-
-
-
-# Extract all YAN species
-YAN.species <- list()
-for(i in 1:length(YANMatrix2011)){
-  YAN.species[[i]] <- data.frame("2011"=YANMatrix2011.15[[i]], "2012"=YANMatrix2012.15[[i]], "2013"=YANMatrix2013.15[[i]])
-}
-names(YAN.species) <- paste("YAN", names(YANMatrix2011), sep=".")
-
-# 5 YAN species
-  names(YANMatrix2011)
-  YAN.Cuniculus_paca <- YAN.species[[2]]
-  YAN.Dasyprocta_fuliginosa <- YAN.species[[5]]
-  YAN.Dasypus_novemcinctus <- YAN.species[[3]]
-  YAN.Mitu_tuberosum <- YAN.species[[1]]
-  YAN.Tapirus_terrestris <- YAN.species[[7]]
-
-#YAN_covariate_species <- list(YAN.Cuniculus_paca=YAN.Cuniculus_paca,
-#                              YAN.Dasyprocta_fuliginosa=YAN.Dasyprocta_fuliginosa,
-#                              YAN.Dasypus_novemcinctus=YAN.Dasypus_novemcinctus,
-#                              YAN.Mitu_tuberosum=YAN.Mitu_tuberosum,
-#                              YAN.Tapirus_terrestris=YAN.Tapirus_terrestris)
-
-
-# Extract all NAK species
-NAK.species <- list()
-for(i in 1:length(NAKMatrix2011)){
-  NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], "2013"=NAKMatrix2013.15[[i]])
-}
-names(NAK.species) <- paste("NAK", names(NAKMatrix2011), sep=".")
-
-
-# 2 NAK species
-  names(NAKMatrix2011)
-  NAK.Muntiacus_muntjak <- NAK.species[[1]]
-  NAK.Atherurus_macrourus <- NAK.species[[5]]
-
-#NAK_covariate_species <- list(NAK.Muntiacus_muntjak=NAK.Muntiacus_muntjak,
-#                              NAK.Atherurus_macrourus=NAK.Atherurus_macrourus)
-
-
-
-# Extract all RNF species
-RNF.species <- list()
-for(i in 1:length(RNFMatrix2011)){
-  RNF.species[[i]] <- data.frame("2010"=RNFMatrix2010.15[[i]], "2011"=RNFMatrix2011.15[[i]], "2012"=RNFMatrix2012.15[[i]], "2013"=RNFMatrix2013.15[[i]])
-}
-names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
-
-
-# 2 RNF species
-  names(RNFMatrix2011)
-  RNF.Nesomys_rufus <- RNF.species[[2]]
-  RNF.Fossa_fossana <- RNF.species[[1]]
-
-#RNF_covariate_species <- list(RNF.Nesomys_rufus=RNF.Nesomys_rufus,
-#                              RNF.Fossa_fossana=RNF.Fossa_fossana)
-
-
-################## COMBINE ALL 32 SPECIES MATRICES INTO A SINGLE LIST ########################
-All500m_covariate_species <- list(VB_.Pecari_tajacu=VB_.Pecari_tajacu,
-                              VB_.Dasyprocta_punctata=VB_.Dasyprocta_punctata,
-                              VB_.Tapirus_bairdii=VB_.Tapirus_bairdii,
-                              VB_.Cuniculus_paca=VB_.Cuniculus_paca,
-                              VB_.Dasypus_novemcinctus=VB_.Dasypus_novemcinctus,
-                              UDZ.Guttera_pucherani=UDZ.Guttera_pucherani, 
+  UDZ_covariate_species <- list(UDZ.Guttera_pucherani=UDZ.Guttera_pucherani, 
                               UDZ.Bdeogale_crassicauda=UDZ.Bdeogale_crassicauda, 
                               UDZ.Cricetomys_gambianus=UDZ.Cricetomys_gambianus, 
                               UDZ.Cephalophus_spadix=UDZ.Cephalophus_spadix, 
                               UDZ.Genetta_servalina=UDZ.Genetta_servalina, 
                               UDZ.Cephalophus_harveyi=UDZ.Cephalophus_harveyi, 
                               UDZ.Paraxerus_vexillarius=UDZ.Paraxerus_vexillarius, 
-                              UDZ.Cercocebus_sanjei=UDZ.Cercocebus_sanjei,
+                              UDZ.Cercocebus_sanjei,UDZ.Cercocebus_sanjei,
                               UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis, 
-                              UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus,
-                              BIF.Cercopithecus_lhoesti=BIF.Cercopithecus_lhoesti,
+                              UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus)
+
+
+# 3 BIF species
+  names(BIFMatrix2011)
+  BIF.Cercopithecus_lhoesti <- BIF.species$"BIF.Cercopithecus lhoesti"
+  BIF.Cephalophus_silvicultor <- BIF.species$"BIF.Cephalophus silvicultor"
+  BIF.Cephalophus_nigrifrons <- BIF.species$"BIF.Cephalophus nigrifrons"
+
+  BIF_covariate_species <- list(BIF.Cercopithecus_lhoesti=BIF.Cercopithecus_lhoesti,
                               BIF.Cephalophus_silvicultor=BIF.Cephalophus_silvicultor,
-                              BIF.Cephalophus_nigrifrons=BIF.Cephalophus_nigrifrons,
-                              #PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
-                              #PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
-                              #PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
-                              #PSH.Sus_scrofa=PSH.Sus_scrofa,
-                              #PSH.Tragulus_kanchil=PSH.Tragulus_kanchil,
-                              #YAN.Cuniculus_paca=YAN.Cuniculus_paca,
-                              #YAN.Dasyprocta_fuliginosa=YAN.Dasyprocta_fuliginosa,
-                              #YAN.Dasypus_novemcinctus=YAN.Dasypus_novemcinctus,
-                              #YAN.Mitu_tuberosum=YAN.Mitu_tuberosum,
-                              #YAN.Tapirus_terrestris=YAN.Tapirus_terrestris,
-                              NAK.Muntiacus_muntjak=NAK.Muntiacus_muntjak,
-                              NAK.Atherurus_macrourus=NAK.Atherurus_macrourus,
-                              RNF.Nesomys_rufus=RNF.Nesomys_rufus,
+                              BIF.Cephalophus_nigrifrons=BIF.Cephalophus_nigrifrons)
+
+# 5 PSH species
+  names(PSHMatrix2011)
+  PSH.Leopoldamys_sabanus <- PSH.species$"PSH.Leopoldamys sabanus" 
+  PSH.Muntiacus_muntjak <- PSH.species$"PSH.Muntiacus muntjak"
+  PSH.Macaca_nemestrina <- PSH.species$"PSH.Macaca nemestrina"
+  PSH.Sus_scrofa <- PSH.species$"PSH.Sus scrofa" 
+  PSH.Tragulus_kanchil <- PSH.species$"PSH.Tragulus kanchil"
+
+  PSH_covariate_species <- list(PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
+                              PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
+                              PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
+                              PSH.Sus_scrofa=PSH.Sus_scrofa,
+                              PSH.Tragulus_kanchil=PSH.Tragulus_kanchil)
+
+# 5 YAN species
+  names(YANMatrix2011)
+  YAN.Cuniculus_paca <- YAN.species$"YAN.Cuniculus paca"
+  YAN.Dasyprocta_fuliginosa <- YAN.species$"YAN.Dasyprocta fuliginosa"
+  YAN.Dasypus_novemcinctus <- YAN.species$"YAN.Dasypus novemcinctus"
+  YAN.Mitu_tuberosum <- YAN.species$"YAN.Mitu tuberosum"
+  YAN.Tapirus_terrestris <- YAN.species$"YAN.Tapirus terrestris"
+
+  YAN_covariate_species <- list(YAN.Cuniculus_paca=YAN.Cuniculus_paca,
+                              YAN.Dasyprocta_fuliginosa=YAN.Dasyprocta_fuliginosa,
+                              YAN.Dasypus_novemcinctus=YAN.Dasypus_novemcinctus,
+                              YAN.Mitu_tuberosum=YAN.Mitu_tuberosum,
+                              YAN.Tapirus_terrestris=YAN.Tapirus_terrestris)
+
+# 2 NAK species
+  names(NAKMatrix2011)
+  NAK.Muntiacus_muntjak <- NAK.species$"NAK.Muntiacus muntjak"
+  NAK.Atherurus_macrourus <- NAK.species$"NAK.Atherurus macrourus"
+
+  NAK_covariate_species <- list(NAK.Muntiacus_muntjak=NAK.Muntiacus_muntjak,
+                              NAK.Atherurus_macrourus=NAK.Atherurus_macrourus)
+
+
+# 2 RNF species
+  names(RNFMatrix2011)
+  RNF.Nesomys_rufus <- RNF.species$"RNF.Nesomys rufus"
+  RNF.Fossa_fossana <- RNF.species$"RNF.Fossa fossana"
+
+  RNF_covariate_species <- list(RNF.Nesomys_rufus=RNF.Nesomys_rufus,
                               RNF.Fossa_fossana=RNF.Fossa_fossana)
+
+
+################## COMBINE ALL 32 SPECIES MATRICES INTO A SINGLE LIST ########################
+All500m_covariate_species <- list(VB_covariate_species=VB_covariate_species,
+                                  UDZ_covariate_species=UDZ_covariate_species, 
+                                  BIF_covariate_species=BIF_covariate_species,
+                                  PSH_covariate_species=PSH_covariate_species,
+                                  YAN_covariate_species=YAN_covariate_species,
+                                  NAK_covariate_species=NAK_covariate_species,
+                                  RNF_covariate_species=RNF_covariate_species)
+
+#All500m_covariate_species <- list(VB_.Pecari_tajacu=VB_.Pecari_tajacu,
+#                              VB_.Dasyprocta_punctata=VB_.Dasyprocta_punctata,
+#                              VB_.Tapirus_bairdii=VB_.Tapirus_bairdii,
+#                              VB_.Cuniculus_paca=VB_.Cuniculus_paca,
+#                              VB_.Dasypus_novemcinctus=VB_.Dasypus_novemcinctus,
+#                              UDZ.Guttera_pucherani=UDZ.Guttera_pucherani, 
+#                              UDZ.Bdeogale_crassicauda=UDZ.Bdeogale_crassicauda, 
+#                              UDZ.Cricetomys_gambianus=UDZ.Cricetomys_gambianus, 
+#                              UDZ.Cephalophus_spadix=UDZ.Cephalophus_spadix, 
+#                              UDZ.Genetta_servalina=UDZ.Genetta_servalina, 
+#                              UDZ.Cephalophus_harveyi=UDZ.Cephalophus_harveyi, 
+#                              UDZ.Paraxerus_vexillarius=UDZ.Paraxerus_vexillarius, 
+#                              UDZ.Cercocebus_sanjei=UDZ.Cercocebus_sanjei,
+#                              UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis, 
+#                              UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus,
+#                              BIF.Cercopithecus_lhoesti=BIF.Cercopithecus_lhoesti,
+#                              BIF.Cephalophus_silvicultor=BIF.Cephalophus_silvicultor,
+#                              BIF.Cephalophus_nigrifrons=BIF.Cephalophus_nigrifrons,
+#                              PSH.Leopoldamys_sabanus=PSH.Leopoldamys_sabanus,
+#                              PSH.Muntiacus_muntjak=PSH.Muntiacus_muntjak,
+#                              PSH.Macaca_nemestrina=PSH.Macaca_nemestrina,
+#                              PSH.Sus_scrofa=PSH.Sus_scrofa,
+#                              PSH.Tragulus_kanchil=PSH.Tragulus_kanchil,
+#                              YAN.Cuniculus_paca=YAN.Cuniculus_paca,
+#                              YAN.Dasyprocta_fuliginosa=YAN.Dasyprocta_fuliginosa,
+#                              YAN.Dasypus_novemcinctus=YAN.Dasypus_novemcinctus,
+#                              YAN.Mitu_tuberosum=YAN.Mitu_tuberosum,
+#                              YAN.Tapirus_terrestris=YAN.Tapirus_terrestris,
+#                              NAK.Muntiacus_muntjak=NAK.Muntiacus_muntjak,
+#                              NAK.Atherurus_macrourus=NAK.Atherurus_macrourus,
+#                              RNF.Nesomys_rufus=RNF.Nesomys_rufus,
+#                              RNF.Fossa_fossana=RNF.Fossa_fossana)
 
 
 save(All500m_covariate_species, file="All500m_covariate_species.RData")
@@ -380,26 +391,55 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   names(Temp.Max) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Max")
   Temp.Var <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=var)
   names(Temp.Var) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Var")
-  CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var)
-  names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var")
+  Temp.Mean <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=mean)
+  names(Temp.Mean) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Mean")
+  Temp.SD <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=sd)
+  names(Temp.SD) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.SD")
+  CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var, Temp.Mean$Temp.Mean, Temp.SD$Temp.SD)
+  names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var", "Temp.Mean", "Temp.SD")
+
+# Read in elevation data
+  ELEV <- read.csv("CT_edgedist_elevation_final.txt")
+
+# Read in CT specific forest loss data from Alex (spans 2000-2013)
+  traps_fc <- read.csv("traps_fc.csv")
+  ftraps120 <- traps_fc[traps_fc$buffer_m=="120m buffer",]
+  ftraps120 <- cbind(ftraps120, ELEV[match(ftraps120$trap_ID, ELEV$Sampling.Unit.Name),]) # THIS NEEDS TO BE CORRECTED; CURRENTLY EXCLUDES INCOMPARABLES
+
+merge(ELEV[match(ftraps120$trap_ID, ELEV$Sampling.Unit.Name),], ftraps120, by.x="trap_ID", by.y="Sampling.Unit.Name", incomparables = NA)
+
+# Combine temperature data with elevation and forest loss data
+
+trythis <- merge(CT.Temp, ftraps120, by.x="Sampling.Unit.Name", by.y="Sampling.Unit.Name", incomparables = NA)
+
+
+# Create loop to format observed CT temperature data for all sites
+  hold <- list
+  Site.Temp <- list()
+      for(i in 1:length(levels(CT.Temp$Site.Code))){
+        hold <- CT.Temp[CT.Temp$Site.Code==levels(CT.Temp$Site.Code)[i],]
+        Site.Temp[[i]] <- data.frame(hold, Year=as.integer(substr(hold$Sampling.Period,1,4)))
+      }
+  names(Site.Temp) <- levels(CT.Temp$Site.Code)
+
 
 # Fill in temperature data using non-interpolated data for sites with sampling periods overlapping calendar years (i.e. RNF & NAK)
-  CT.TempRNF <- CT.Temp[CT.Temp$Site.Code=="RNF",]
-  CT.TempRNF <- data.frame(CT.TempRNF, Year=as.integer(substr(CT.TempRNF$Sampling.Period,1,4)))
-  CT.TempNAK <- CT.Temp[CT.Temp$Site.Code=="NAK",]
-  CT.TempNAK <- data.frame(CT.TempNAK, Year=as.integer(substr(CT.TempNAK$Sampling.Period,1,4))+1)
+#  CT.TempRNF <- CT.Temp[CT.Temp$Site.Code=="RNF",]
+#  CT.TempRNF <- data.frame(CT.TempRNF, Year=as.integer(substr(CT.TempRNF$Sampling.Period,1,4)))
+#  CT.TempNAK <- CT.Temp[CT.Temp$Site.Code=="NAK",]
+#  CT.TempNAK <- data.frame(CT.TempNAK, Year=as.integer(substr(CT.TempNAK$Sampling.Period,1,4))+1)
 # Add in missing year of VB temperature data
-  CT.TempVB2007 <- CT.Temp[CT.Temp$Site.Code=="VB-"&CT.Temp$Sampling.Period=="2007.01",]
-  CT.TempVB2007 <- data.frame(CT.TempVB2007, Year=as.integer(substr(CT.TempVB2007$Sampling.Period,1,4))+1)
+#  CT.TempVB2007 <- CT.Temp[CT.Temp$Site.Code=="VB-"&CT.Temp$Sampling.Period=="2007.01",]
+#  CT.TempVB2007 <- data.frame(CT.TempVB2007, Year=as.integer(substr(CT.TempVB2007$Sampling.Period,1,4))+1)
 
 
   # Read in interpolated temperature data extracted using DSSG script and excel files
-  temp <- read.csv("Interpolated_Temperatures_500mSites.csv")
+#  temp <- read.csv("Interpolated_Temperatures_500mSites.csv")
 
 # NB duplicate temp measurements for CT-PSH-1-25 in 2013; manually remove first entry for this CT
 
 # Create object with temperature covariate data to use for all sites with 500 m elevation gradients 
-  Alltemp500 <- rbind(temp, CT.TempNAK, CT.TempRNF, CT.TempVB2007)
+#  Alltemp500 <- rbind(temp, CT.TempNAK, CT.TempRNF, CT.TempVB2007)
   Alltemp500 <- data.frame(Site.Code=Alltemp500$Site.Code, 
                          Sampling.Unit.Name=Alltemp500$Sampling.Unit.Name,
                          Year=as.factor(Alltemp500$Year),
