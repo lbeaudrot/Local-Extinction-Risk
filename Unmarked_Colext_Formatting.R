@@ -398,20 +398,21 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var, Temp.Mean$Temp.Mean, Temp.SD$Temp.SD)
   names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var", "Temp.Mean", "Temp.SD")
 
+
+########### NB: THE FOLLOW TWO FILES FOR ELEV AND FOREST LOSS WILL NEED TO BE UPDATED WITH NEW FILES FROM ALEX ################
 # Read in elevation data
   ELEV <- read.csv("CT_edgedist_elevation_final.txt")
-
 # Read in CT specific forest loss data from Alex (spans 2000-2013)
   traps_fc <- read.csv("traps_fc.csv")
   ftraps120 <- traps_fc[traps_fc$buffer_m=="120m buffer",]
-  ftraps120 <- cbind(ftraps120, ELEV[match(ftraps120$trap_ID, ELEV$Sampling.Unit.Name),]) # THIS NEEDS TO BE CORRECTED; CURRENTLY EXCLUDES INCOMPARABLES
 
-merge(ELEV[match(ftraps120$trap_ID, ELEV$Sampling.Unit.Name),], ftraps120, by.x="trap_ID", by.y="Sampling.Unit.Name", incomparables = NA)
+# Combine forest loss and elevatino data
+  ELEV_FL <- merge(ftraps120, ELEV, by.x="trap_ID", by.y="Sampling.Unit.Name", all=TRUE)
 
 # Combine temperature data with elevation and forest loss data
+Site.Covs <- merge(CT.Temp, ELEV_FL, by.x="Sampling.Unit.Name", by.y="trap_ID", incomparables = NA)
 
-trythis <- merge(CT.Temp, ftraps120, by.x="Sampling.Unit.Name", by.y="Sampling.Unit.Name", incomparables = NA)
-
+###### ONCE NEW DATA ARE ENTERED, MODIFY THE LOOP BELOW TO EXTRACT COVS FOR ALL SITES AND CREATE A SINGLE LIST FOR ALL_COVS
 
 # Create loop to format observed CT temperature data for all sites
   hold <- list
@@ -422,6 +423,7 @@ trythis <- merge(CT.Temp, ftraps120, by.x="Sampling.Unit.Name", by.y="Sampling.U
       }
   names(Site.Temp) <- levels(CT.Temp$Site.Code)
 
+####### ONCE ABOVE CODE IS OPERATIONAL, THE REST OF THE CODE (EXCEPT the matrix creator function) SHOULD BE OBSOLETE (as long as we don't want to use the interpolated temp data)
 
 # Fill in temperature data using non-interpolated data for sites with sampling periods overlapping calendar years (i.e. RNF & NAK)
 #  CT.TempRNF <- CT.Temp[CT.Temp$Site.Code=="RNF",]
