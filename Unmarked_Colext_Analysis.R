@@ -48,7 +48,7 @@ years=matrix(years,nrow(species),to,byrow=TRUE)
 
 site.covs<-data.frame(Elevation, ForestLossCT, ForestLossPA)
 
-umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(year=years,Tmin=Tmin,Tmax=Tmax,Tvar=Tvar), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
+umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(year=years,Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
 
 mods=list()
 
@@ -171,7 +171,7 @@ try((fm7.4=colext(psiformula=~Elevation,gammaformula=~Tmean+Tsd,epsilonformula=~
 
 if(exists("fm7.4")){mods=c(mods,fm7.4)}
 
-try((fm7.5=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmin+Tvar,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm7.5=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmean+Tsd,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7.5")){mods=c(mods,fm7.5)}
 
