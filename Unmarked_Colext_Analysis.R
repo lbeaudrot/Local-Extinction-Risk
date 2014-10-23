@@ -36,6 +36,10 @@ ForestLossPA <- unlist(as.matrix(sapply(covs, "[", 3)))
 Tmin <- as.data.frame(sapply(covs, "[", 4))
 Tmax <- as.data.frame(sapply(covs, "[", 5))
 Tvar <- as.data.frame(sapply(covs, "[", 6))
+Tsd <- as.data.frame(sapply(covs, "[", 7))
+Tmean <- as.data.frame(sapply(covs, "[", 8))
+
+
 
 to=dim(Tmin)[2]
 years=as.character(1:to)
@@ -146,24 +150,24 @@ try((fm6.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~ForestLo
 
 if(exists("fm6.2")){mods=c(mods,fm6.2)}
 
-#Tmin*Tvar##################################################################################
-try((fm7=colext(psiformula=~Elevation,gammaformula=~Tmin*Tvar,epsilonformula=~Tmin*Tvar,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+#Tmean*Tsd##################################################################################
+try((fm7=colext(psiformula=~Elevation,gammaformula=~Tmean*Tsd,epsilonformula=~Tmean*Tsd,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7")){mods=c(mods,fm7)}
 
-try((fm7.1=colext(psiformula=~Elevation,gammaformula=~Tmin*Tvar,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm7.1=colext(psiformula=~Elevation,gammaformula=~Tmean*Tsd,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7.1")){mods=c(mods,fm7.1)}
 
-try((fm7.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmin*Tvar,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm7.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmean*Tsd,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7.2")){mods=c(mods,fm7.2)}
 
-try((fm7.3=colext(psiformula=~Elevation,gammaformula=~Tmin+Tvar,epsilonformula=~Tmin+Tvar,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm7.3=colext(psiformula=~Elevation,gammaformula=~Tmean+Tsd,epsilonformula=~Tmean+Tsd,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7.3")){mods=c(mods,fm7.3)}
 
-try((fm7.4=colext(psiformula=~Elevation,gammaformula=~Tmin+Tvar,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm7.4=colext(psiformula=~Elevation,gammaformula=~Tmean+Tsd,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7.4")){mods=c(mods,fm7.4)}
 
@@ -342,6 +346,7 @@ mods.all[[k]]=mods
 rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,fm4,fm4.1,fm4.2,fm5,fm5.1,fm5.2,fm6,fm6.1,fm6.2,fm7,fm7.1,fm7.2,fm7.3,fm7.4,fm7.5,fm8,fm8.1,fm8.2,fm9,fm9.1,fm9.2,fm10,fm10.1,fm10.2,fm11,fm11.1,fm11.2,fm12,fm12.1,fm12.2,fm13,fm13.1,fm13.2,fm14,fm14.1,fm14.2,fm15,fm15.1,fm15.2,fm16,fm16.1,fm16.2,fm17,fm17.1,fm17.2,fm18,fm18.1,fm18.2,fm19,fm19.1,fm19.2,mods,ms)
 }
 
+save.image(file="spp32_results_v2.RData")
 names(results.all) <- nms
 
 length(nms)
