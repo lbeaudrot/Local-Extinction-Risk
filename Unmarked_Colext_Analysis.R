@@ -159,7 +159,7 @@ try((fm7.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmin*Tva
 
 if(exists("fm7.2")){mods=c(mods,fm7.2)}
 
-try((fm7.3,=colext(psiformula=~Elevation,gammaformula=~Tmin+Tvar,epsilonformula=~Tmin+Tvar,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm7.3=colext(psiformula=~Elevation,gammaformula=~Tmin+Tvar,epsilonformula=~Tmin+Tvar,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7.3")){mods=c(mods,fm7.3)}
 
