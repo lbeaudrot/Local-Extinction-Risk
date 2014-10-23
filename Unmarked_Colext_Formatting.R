@@ -219,7 +219,7 @@ for(i in 1:length(RNFMatrix2011)){
     }
     names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
 
-All_species7sites <- list(VB_.species=VB_.species,
+All_species7sites <- c(VB_.species=VB_.species,
                           UDZ.species=UDZ.species,
                           BIF.species=BIF.species,
                           PSH.species=PSH.species,
@@ -240,11 +240,11 @@ All_species7sites <- list(VB_.species=VB_.species,
   VB_.Cuniculus_paca <-  VB_.species$"VB_.Cuniculus paca" 
   VB_.Dasypus_novemcinctus <- VB_.species$"VB_.Dasypus novemcinctus"
 
-  VB_covariate_species <- list(VB_.Pecari_tajacu=VB.Pecari_tajacu,
+  VB_covariate_species <- list(VB_.Pecari_tajacu=VB_.Pecari_tajacu,
                              VB_.Dasyprocta_punctata=VB_.Dasyprocta_punctata,
                              VB_.Tapirus_bairdii=VB_.Tapirus_bairdii,
                              VB_.Cuniculus_paca=VB_.Cuniculus_paca,
-                             VB_.Dasypus_novemcinctus,VB_.Dasypus_novemcinctus)
+                             VB_.Dasypus_novemcinctus=VB_.Dasypus_novemcinctus)
 
 # 10 UDZ species
   names(UDZMatrix2009)
@@ -266,9 +266,9 @@ All_species7sites <- list(VB_.species=VB_.species,
                               UDZ.Genetta_servalina=UDZ.Genetta_servalina, 
                               UDZ.Cephalophus_harveyi=UDZ.Cephalophus_harveyi, 
                               UDZ.Paraxerus_vexillarius=UDZ.Paraxerus_vexillarius, 
-                              UDZ.Cercocebus_sanjei,UDZ.Cercocebus_sanjei,
-                              UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis, 
-                              UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus)
+                              UDZ.Cercocebus_sanjei=UDZ.Cercocebus_sanjei,
+                              #UDZ.Nesotragus_moschatus=UDZ.Nesotragus_moschatus,
+                              UDZ.Rhynchocyon_udzungwensis=UDZ.Rhynchocyon_udzungwensis)
 
 
 # 3 BIF species
@@ -328,7 +328,7 @@ All_species7sites <- list(VB_.species=VB_.species,
 
 
 ################## COMBINE ALL 32 SPECIES MATRICES INTO A SINGLE LIST ########################
-All500m_covariate_species <- list(VB_covariate_species=VB_covariate_species,
+All500m_covariate_species <- c(VB_covariate_species=VB_covariate_species,
                                   UDZ_covariate_species=UDZ_covariate_species, 
                                   BIF_covariate_species=BIF_covariate_species,
                                   PSH_covariate_species=PSH_covariate_species,
@@ -397,9 +397,8 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   names(Temp.SD) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.SD")
   CT.Year <- as.integer(substr(Temp.SD$Sampling.Period,1,4))
   CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var, Temp.Mean$Temp.Mean, Temp.SD$Temp.SD, Year=CT.Year)
-  names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var", "Temp.Mean", "Temp.SD")
+  names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var", "Temp.Mean", "Temp.SD", "Year")
   
-
 ########### NB: THE FOLLOW TWO FILES FOR ELEV AND FOREST LOSS WILL NEED TO BE UPDATED WITH NEW FILES FROM ALEX ################
 # Bring in new elevation data from Alex Zvoleff as of 10/21/2014
   load("ct_pts_elev.RData")
@@ -417,7 +416,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
 ######################## FORMAT OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
 # Read in elevation data
-  #ELEV <- read.csv("CT_edgedist_elevation_final.txt")
+  #ELEV <- read.csv("CT_edgedist_elevation_final.txt") # Elevation data from Melissa Rosa to be replaced with Data from Alex Zvoleff
   ELEV <- ct_pts_elev
   
 
