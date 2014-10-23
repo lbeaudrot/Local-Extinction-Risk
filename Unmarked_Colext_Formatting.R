@@ -190,11 +190,11 @@ for(i in 1:length(RNFMatrix2011)){
       BIF.species[[i]] <- data.frame("2010"=BIFMatrix2010.15[[i]], "2011"=BIFMatrix2011.15[[i]], "2012"=BIFMatrix2012.15[[i]], "2013"=BIFMatrix2013.15[[i]])
     }
     names(BIF.species) <- paste("BIF", names(BIFMatrix2011), sep=".")
-
+## All Pasoh data (camera trap and covariates) need to be limited to Array 1 only
     # Extract all PSH species
     PSH.species <- list()
     for(i in 1:length(PSHMatrix2011)){
-      PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]])
+      PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]])[1:30,]
     }
     names(PSH.species) <- paste("PSH", names(PSHMatrix2011), sep=".")
 
@@ -395,69 +395,36 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   names(Temp.Mean) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Mean")
   Temp.SD <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=sd)
   names(Temp.SD) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.SD")
-  CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var, Temp.Mean$Temp.Mean, Temp.SD$Temp.SD)
+  CT.Year <- as.integer(substr(Temp.SD$Sampling.Period,1,4))
+  CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var, Temp.Mean$Temp.Mean, Temp.SD$Temp.SD, Year=CT.Year)
   names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var", "Temp.Mean", "Temp.SD")
-
+  
 
 ########### NB: THE FOLLOW TWO FILES FOR ELEV AND FOREST LOSS WILL NEED TO BE UPDATED WITH NEW FILES FROM ALEX ################
-# Read in elevation data
-  ELEV <- read.csv("CT_edgedist_elevation_final.txt")
-# Read in CT specific forest loss data from Alex (spans 2000-2013)
-  traps_fc <- read.csv("traps_fc.csv")
-  ftraps120 <- traps_fc[traps_fc$buffer_m=="120m buffer",]
-
-# Combine forest loss and elevatino data
-  ELEV_FL <- merge(ftraps120, ELEV, by.x="trap_ID", by.y="Sampling.Unit.Name", all=TRUE)
-
-# Combine temperature data with elevation and forest loss data
-Site.Covs <- merge(CT.Temp, ELEV_FL, by.x="Sampling.Unit.Name", by.y="trap_ID", incomparables = NA)
-
-###### ONCE NEW DATA ARE ENTERED, MODIFY THE LOOP BELOW TO EXTRACT COVS FOR ALL SITES AND CREATE A SINGLE LIST FOR ALL_COVS
-
-# Create loop to format observed CT temperature data for all sites
-  hold <- list
-  Site.Temp <- list()
-      for(i in 1:length(levels(CT.Temp$Site.Code))){
-        hold <- CT.Temp[CT.Temp$Site.Code==levels(CT.Temp$Site.Code)[i],]
-        Site.Temp[[i]] <- data.frame(hold, Year=as.integer(substr(hold$Sampling.Period,1,4)))
-      }
-  names(Site.Temp) <- levels(CT.Temp$Site.Code)
-
-####### ONCE ABOVE CODE IS OPERATIONAL, THE REST OF THE CODE (EXCEPT the matrix creator function) SHOULD BE OBSOLETE (as long as we don't want to use the interpolated temp data)
-
-# Fill in temperature data using non-interpolated data for sites with sampling periods overlapping calendar years (i.e. RNF & NAK)
-#  CT.TempRNF <- CT.Temp[CT.Temp$Site.Code=="RNF",]
-#  CT.TempRNF <- data.frame(CT.TempRNF, Year=as.integer(substr(CT.TempRNF$Sampling.Period,1,4)))
-#  CT.TempNAK <- CT.Temp[CT.Temp$Site.Code=="NAK",]
-#  CT.TempNAK <- data.frame(CT.TempNAK, Year=as.integer(substr(CT.TempNAK$Sampling.Period,1,4))+1)
-# Add in missing year of VB temperature data
-#  CT.TempVB2007 <- CT.Temp[CT.Temp$Site.Code=="VB-"&CT.Temp$Sampling.Period=="2007.01",]
-#  CT.TempVB2007 <- data.frame(CT.TempVB2007, Year=as.integer(substr(CT.TempVB2007$Sampling.Period,1,4))+1)
-
-
-  # Read in interpolated temperature data extracted using DSSG script and excel files
-#  temp <- read.csv("Interpolated_Temperatures_500mSites.csv")
-
-# NB duplicate temp measurements for CT-PSH-1-25 in 2013; manually remove first entry for this CT
+# Bring in new elevation data from Alex Zvoleff as of 10/21/2014
+  load("ct_pts_elev.RData")
 
 # Create object with temperature covariate data to use for all sites with 500 m elevation gradients 
-#  Alltemp500 <- rbind(temp, CT.TempNAK, CT.TempRNF, CT.TempVB2007)
-  Alltemp500 <- data.frame(Site.Code=Alltemp500$Site.Code, 
-                         Sampling.Unit.Name=Alltemp500$Sampling.Unit.Name,
-                         Year=as.factor(Alltemp500$Year),
-                         Temp.Min=Alltemp500$Temp.Min, 
-                         Temp.Max=Alltemp500$Temp.Max,
-                         Temp.Var=Alltemp500$Temp.Var)
 
+  Alltemp500 <- data.frame(Site.Code=CT.Temp$Site.Code, 
+                         Sampling.Unit.Name=CT.Temp$Sampling.Unit.Name,
+                         Year=as.factor(CT.Temp$Year),
+                         Temp.Min=CT.Temp$Temp.Min, 
+                         Temp.Max=CT.Temp$Temp.Max,
+                         Temp.Var=CT.Temp$Temp.Var, 
+                         Temp.SD=CT.Temp$Temp.SD,
+                         Temp.Mean=CT.Temp$Temp.Mean)
 
 ######################## FORMAT OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
 # Read in elevation data
-  ELEV <- read.csv("CT_edgedist_elevation_final.txt")
+  #ELEV <- read.csv("CT_edgedist_elevation_final.txt")
+  ELEV <- ct_pts_elev
+  
 
 # Read in CT specific forest loss data from Alex (spans 2000-2013)
   traps_fc <- read.csv("traps_fc.csv")
   ftraps120 <- traps_fc[traps_fc$buffer_m=="120m buffer",]
-  ftraps120 <- cbind(ftraps120, ELEV[match(ftraps120$trap_ID, ELEV$Sampling.Unit.Name),])
+  ftraps120 <- cbind(ftraps120, ELEV[match(ftraps120$trap_ID, ELEV$ct_ID),])
   ftraps120_500m <- ftraps120[ftraps120$sitecode=="VB"|
                                 ftraps120$sitecode=="UDZ"|
                                 ftraps120$sitecode=="BIF"|
@@ -467,11 +434,13 @@ Site.Covs <- merge(CT.Temp, ELEV_FL, by.x="Sampling.Unit.Name", by.y="trap_ID", 
                                 ftraps120$sitecode=="RNF",]
 
   ELEV_FL <- data.frame(Site.Code=ftraps120_500m$sitecode, 
-                             Sampling.Unit.Name=ftraps120_500m$Sampling.Unit.Name, 
-                             Elevation=ftraps120_500m$Elevation,
+                             Sampling.Unit.Name=ftraps120_500m$ct_ID, 
+                             Elevation=ftraps120_500m$elev_m,
                              FL120=ftraps120_500m$fc_frac_loss)
-  # Remove rows with missing Sampling.Unit.Name at PSH
-  ELEV_FL <- rbind(ELEV_FL[1:180,], ELEV_FL[211:454,])
+# Remove inactive camera traps from YAN to preseve integrity of covariate structure below  
+  ELEV_FL <- ELEV_FL[-437,] # Remove CT-YAN-1-04
+  ELEV_FL <- ELEV_FL[-395,] # Remove CT-YAN-2-16   
+
 
 # Read in site level forest loss calculations from Alex (spans 5 years prior to CT sampling start at each site)
 # NB manually update VB sitecode to "VB-" in csv file to enable merging
@@ -481,27 +450,6 @@ Site.Covs <- merge(CT.Temp, ELEV_FL, by.x="Sampling.Unit.Name", by.y="trap_ID", 
 
 
 ######################## COMBINE TEMPERATURE COVARIATE DATA WITH OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
-  CT.Temp.All <- melt(Alltemp500)
-  ELEV_FL.All <- melt(ELEV_FL)
-    Elev.All <- cast(ELEV_FL.All, Sampling.Unit.Name ~ variable)[,1:2]
-    FL120.All <- cast(ELEV_FL.All, Sampling.Unit.Name ~ variable)[,3]
-    FL_PA.All <- rep(FL_PA[FL_PA$sitecode=="VB-",3], length(VB.Elev)) #NB not scaled because all values are the same
-      #add site code column and then use match function to combine single value of PA forest loss with all rows    
-
-Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-    Tmax.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-    Tvar.All <- round(as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-
-          
-
-
-
-
-
-
-
-
-
 
 
 # Create site specific covariate lists with scaled covariates
@@ -513,6 +461,9 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     VB.Tmin <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     VB.Tmax <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     VB.Tvar <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    VB.SD <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    VB.Mean <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+
 
       VB.Elev <- scale(VB.Elev)
       VB.Elev[is.na(VB.Elev)] <- 0
@@ -529,13 +480,21 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
       VB.Tvar <- scale(VB.Tvar)
       VB.Tvar[is.na(VB.Tvar)] <- 0
 
+      VB.SD <- scale(VB.SD)
+      VB.SD[is.na(VB.SD)] <- 0
+
+      VB.Mean <- scale(VB.Mean)
+      VB.Mean[is.na(VB.Mean)] <- 0
+
 
           VB__covs <- list(Elevation=VB.Elev,
                 ForestLossCT=VB.FL120,
                 ForestLossPA=VB.FL_PA,
                 Tmin=VB.Tmin,
                 Tmax=VB.Tmax,
-                Tvar=VB.Tvar)
+                Tvar=VB.Tvar,
+                Tsd=VB.SD,
+                Tmean=VB.Mean)
 
   CT.Temp.UDZ <- melt(Alltemp500[Alltemp500$Site.Code=="UDZ",])
   ELEV_FL.UDZ <- melt(ELEV_FL[ELEV_FL$Site.Code=="UDZ",])
@@ -545,6 +504,8 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     UDZ.Tmin <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     UDZ.Tmax <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     UDZ.Tvar <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    UDZ.SD <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    UDZ.Mean <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,5])
 
 
       UDZ.Elev <- scale(UDZ.Elev)
@@ -562,13 +523,21 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
       UDZ.Tvar <- scale(UDZ.Tvar)
       UDZ.Tvar[is.na(UDZ.Tvar)] <- 0
 
+      UDZ.SD <- scale(UDZ.SD)
+      UDZ.SD[is.na(UDZ.SD)] <- 0
+
+      UDZ.Mean <- scale(UDZ.Mean)
+      UDZ.Mean[is.na(UDZ.Mean)] <- 0
+
 
           UDZ_covs <- list(Elevation=UDZ.Elev,
                 ForestLossCT=UDZ.FL120,
                 ForestLossPA=UDZ.FL_PA,
                 Tmin=UDZ.Tmin,
                 Tmax=UDZ.Tmax,
-                Tvar=UDZ.Tvar)
+                Tvar=UDZ.Tvar,
+                Tsd=UDZ.SD,
+                Tmean=UDZ.Mean)
 
 
   CT.Temp.BIF <- melt(Alltemp500[Alltemp500$Site.Code=="BIF",])
@@ -579,6 +548,9 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     BIF.Tmin <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     BIF.Tmax <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     BIF.Tvar <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    BIF.SD <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    BIF.Mean <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+
 
       BIF.Elev <- scale(BIF.Elev)
       BIF.Elev[is.na(BIF.Elev)] <- 0
@@ -595,16 +567,24 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
       BIF.Tvar <- scale(BIF.Tvar)
       BIF.Tvar[is.na(BIF.Tvar)] <- 0
 
+      BIF.SD <- scale(BIF.SD)
+      BIF.SD[is.na(BIF.SD)] <- 0
+
+      BIF.Mean <- scale(BIF.Mean)
+      BIF.Mean[is.na(BIF.Mean)] <- 0
+
 
           BIF_covs <- list(Elevation=BIF.Elev,
                 ForestLossCT=BIF.FL120,
                 ForestLossPA=BIF.FL_PA,
                 Tmin=BIF.Tmin,
                 Tmax=BIF.Tmax,
-                Tvar=BIF.Tvar)
+                Tvar=BIF.Tvar,
+                Tsd=BIF.SD,
+                Tmean=BIF.Mean)
 
 
-
+## All Pasoh data (camera trap and covariates) need to be limited to Array 1 only
   CT.Temp.PSH <- melt(Alltemp500[Alltemp500$Site.Code=="PSH",])
   ELEV_FL.PSH <- melt(ELEV_FL[ELEV_FL$Site.Code=="PSH",])
     PSH.Elev <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,2]
@@ -613,6 +593,9 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     PSH.Tmin <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     PSH.Tmax <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     PSH.Tvar <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    PSH.SD <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    PSH.Mean <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+
 
       PSH.Elev <- scale(PSH.Elev)
       PSH.Elev[is.na(PSH.Elev)] <- 0
@@ -629,13 +612,23 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
       PSH.Tvar <- scale(PSH.Tvar)
       PSH.Tvar[is.na(PSH.Tvar)] <- 0
 
-          PSH_covs <- list(Elevation=PSH.Elev,
-                ForestLossCT=PSH.FL120,
-                ForestLossPA=PSH.FL_PA,
-                Tmin=PSH.Tmin,
-                Tmax=PSH.Tmax,
-                Tvar=PSH.Tvar)
+      PSH.SD <- scale(PSH.SD)
+      PSH.SD[is.na(PSH.SD)] <- 0
 
+      PSH.Mean <- scale(PSH.Mean)
+      PSH.Mean[is.na(PSH.Mean)] <- 0
+
+# Limit PSH covariate data to array 1 (rows 1:30)
+          PSH_covs <- list(Elevation=PSH.Elev[1:30],
+                ForestLossCT=PSH.FL120[1:30],
+                ForestLossPA=PSH.FL_PA[1:30],
+                Tmin=PSH.Tmin[1:30,],
+                Tmax=PSH.Tmax[1:30,],
+                Tvar=PSH.Tvar[1:30,],
+                Tsd=PSH.SD[1:30,],
+                Tmean=PSH.Mean[1:30,])
+
+# Need to remove CT-YAN-2-16.1 and CT-YAN-1-04 from Elevation data 
   CT.Temp.YAN <- melt(Alltemp500[Alltemp500$Site.Code=="YAN",])
   ELEV_FL.YAN <- melt(ELEV_FL[ELEV_FL$Site.Code=="YAN",])
     YAN.Elev <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,2]
@@ -644,6 +637,9 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     YAN.Tmin <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     YAN.Tmax <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     YAN.Tvar <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    YAN.SD <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    YAN.Mean <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+
 
       YAN.Elev <- scale(YAN.Elev)
       YAN.Elev[is.na(YAN.Elev)] <- 0
@@ -660,12 +656,21 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
       YAN.Tvar <- scale(YAN.Tvar)
       YAN.Tvar[is.na(YAN.Tvar)] <- 0
 
-            YAN_covs <- list(Elevation=YAN.Elev,
+      YAN.SD <- scale(YAN.SD)
+      YAN.SD[is.na(YAN.SD)] <- 0
+
+      YAN.Mean <- scale(YAN.Mean)
+      YAN.Mean[is.na(YAN.Mean)] <- 0
+
+
+          YAN_covs <- list(Elevation=YAN.Elev,
                 ForestLossCT=YAN.FL120,
                 ForestLossPA=YAN.FL_PA,
                 Tmin=YAN.Tmin,
                 Tmax=YAN.Tmax,
-                Tvar=YAN.Tvar)
+                Tvar=YAN.Tvar,
+                Tsd=YAN.SD,
+                Tmean=YAN.Mean)
 
   CT.Temp.NAK <- melt(Alltemp500[Alltemp500$Site.Code=="NAK",])
   ELEV_FL.NAK <- melt(ELEV_FL[ELEV_FL$Site.Code=="NAK",])
@@ -675,6 +680,9 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     NAK.Tmin <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     NAK.Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     NAK.Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    NAK.SD <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    NAK.Mean <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+
 
       NAK.Elev <- scale(NAK.Elev)
       NAK.Elev[is.na(NAK.Elev)] <- 0
@@ -691,13 +699,21 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
       NAK.Tvar <- scale(NAK.Tvar)
       NAK.Tvar[is.na(NAK.Tvar)] <- 0
 
+      NAK.SD <- scale(NAK.SD)
+      NAK.SD[is.na(NAK.SD)] <- 0
+
+      NAK.Mean <- scale(NAK.Mean)
+      NAK.Mean[is.na(NAK.Mean)] <- 0
+
 
           NAK_covs <- list(Elevation=NAK.Elev,
                 ForestLossCT=NAK.FL120,
                 ForestLossPA=NAK.FL_PA,
                 Tmin=NAK.Tmin,
                 Tmax=NAK.Tmax,
-                Tvar=NAK.Tvar)
+                Tvar=NAK.Tvar,
+                Tsd=NAK.SD,
+                Tmean=NAK.Mean)
 
   CT.Temp.RNF <- melt(Alltemp500[Alltemp500$Site.Code=="RNF",])
   ELEV_FL.RNF <- melt(ELEV_FL[ELEV_FL$Site.Code=="RNF",])
@@ -707,6 +723,9 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
     RNF.Tmin <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     RNF.Tmax <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    RNF.SD <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    RNF.Mean <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+
 
       RNF.Elev <- scale(RNF.Elev)
       RNF.Elev[is.na(RNF.Elev)] <- 0
@@ -723,18 +742,27 @@ Tmin.All <- as.data.frame(cast(CT.Temp.All, Sampling.Unit.Name ~ Year ~ variable
       RNF.Tvar <- scale(RNF.Tvar)
       RNF.Tvar[is.na(RNF.Tvar)] <- 0
 
+      RNF.SD <- scale(RNF.SD)
+      RNF.SD[is.na(RNF.SD)] <- 0
+
+      RNF.Mean <- scale(RNF.Mean)
+      RNF.Mean[is.na(RNF.Mean)] <- 0
+
+
           RNF_covs <- list(Elevation=RNF.Elev,
                 ForestLossCT=RNF.FL120,
                 ForestLossPA=RNF.FL_PA,
                 Tmin=RNF.Tmin,
                 Tmax=RNF.Tmax,
-                Tvar=RNF.Tvar)
+                Tvar=RNF.Tvar,
+                Tsd=RNF.SD,
+                Tmean=RNF.Mean)
 
 All_covs <- list(VB__covs=VB__covs,
                  UDZ_covs=UDZ_covs, 
                  BIF_covs=BIF_covs,
-                 #PSH_covs=PSH_covs,
-                 #YAN_covs=YAN_covs,
+                 PSH_covs=PSH_covs,
+                 YAN_covs=YAN_covs,
                  NAK_covs=NAK_covs,
                  RNF_covs=RNF_covs)
 
