@@ -9,7 +9,7 @@ library(stringr)
 # Load matrix creator function at bottom of this script "f.matrix.creatorLB"
 # Load TEAM data, fix data, and add site code; no need to separate events because matrix creator functions turns all detections into trinary matrix
 #ctdata <- f.teamdb.query("camera trap")
-#load("ct_data2014-08-20.gzip")
+#load("ct_data2014-10-31.gzip")
 #alldata <- cam_trap_data
 #alldata<-f.fix.data2(alldata)
 #Site.Code <- substr(alldata$Sampling.Unit.Name,4,6)
@@ -227,7 +227,7 @@ All_species7sites <- c(VB_.species=VB_.species,
                           NAK.species=NAK.species,
                           RNF.species=RNF.species)
 
-
+save(All_species7sites, file="All_species7sites.RData")
 
 ###################### EXTRACT 32 POPULATIONS MODELED WITH COVARIATES IN WPI ANALYSIS ########################
 # Covariate species list available in file "WPI_Covariate_Populations.xlsx"; Can be recreated using "WPI_Analysis.R" file
@@ -422,6 +422,9 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
 # Read in CT specific forest loss data from Alex (spans 2000-2013)
   traps_fc <- read.csv("traps_fc.csv")
+  #load("ct_fc_loss.RData")
+  #traps_fc <- ct_loss  
+
   ftraps120 <- traps_fc[traps_fc$buffer_m=="120m buffer",]
   ftraps120 <- cbind(ftraps120, ELEV[match(ftraps120$trap_ID, ELEV$ct_ID),])
   ftraps120_500m <- ftraps120[ftraps120$sitecode=="VB"|
@@ -435,7 +438,8 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   ELEV_FL <- data.frame(Site.Code=ftraps120_500m$sitecode, 
                              Sampling.Unit.Name=ftraps120_500m$ct_ID, 
                              Elevation=ftraps120_500m$elev_m,
-                             FL120=ftraps120_500m$fc_frac_loss)
+                             FL120=ftraps120_500m$fc_frac_loss, 
+                             FG120=ftraps120_500m$fc_frac_gain)
 # Remove inactive camera traps from YAN to preseve integrity of covariate structure below  
   ELEV_FL <- ELEV_FL[-437,] # Remove CT-YAN-1-04
   ELEV_FL <- ELEV_FL[-395,] # Remove CT-YAN-2-16   
@@ -443,9 +447,9 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
 # Read in site level forest loss calculations from Alex (spans 5 years prior to CT sampling start at each site)
 # NB manually update VB sitecode to "VB-" in csv file to enable merging
-  site_fc <- read.csv("20141004_forest_loss.csv")
+  #site_fc <- read.csv("20141004_forest_loss.csv")
 # Extract site level forest loss for protected areas
-  FL_PA <- site_fc[site_fc$aoi=="PA",]
+  #FL_PA <- site_fc[site_fc$aoi=="PA",]
 
 
 ######################## COMBINE TEMPERATURE COVARIATE DATA WITH OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
@@ -456,7 +460,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   ELEV_FL.VB <- melt(ELEV_FL[ELEV_FL$Site.Code=="VB",])
     VB.Elev <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,2]
     VB.FL120 <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,3]
-    VB.FL_PA <- rep(FL_PA[FL_PA$sitecode=="VB-",3], length(VB.Elev)) #NB not scaled because all values are the same
+    VB.FG120 <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,4] 
     VB.Tmin <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     VB.Tmax <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     VB.Tvar <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
@@ -469,6 +473,9 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
       VB.FL120 <- scale(VB.FL120)
       VB.FL120[is.na(VB.FL120)] <- 0
+
+      VB.FG120 <- scale(VB.FG120)
+      VB.FG120[is.na(VB.FG120)] <- 0
 
       VB.Tmin <- scale(VB.Tmin)
       VB.Tmin[is.na(VB.Tmin)] <- 0
@@ -488,7 +495,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
           VB__covs <- list(Elevation=VB.Elev,
                 ForestLossCT=VB.FL120,
-                ForestLossPA=VB.FL_PA,
+                ForestGainCT=VB.FG120,
                 Tmin=VB.Tmin,
                 Tmax=VB.Tmax,
                 Tvar=VB.Tvar,
@@ -499,7 +506,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   ELEV_FL.UDZ <- melt(ELEV_FL[ELEV_FL$Site.Code=="UDZ",])
     UDZ.Elev <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,2]
     UDZ.FL120 <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,3]
-    UDZ.FL_PA <- rep(FL_PA[FL_PA$sitecode=="UDZ",3], length(UDZ.Elev)) #NB not scaled because all values are the same
+    UDZ.FG120 <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,4] 
     UDZ.Tmin <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     UDZ.Tmax <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     UDZ.Tvar <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
@@ -512,6 +519,9 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
       UDZ.FL120 <- scale(UDZ.FL120)
       UDZ.FL120[is.na(UDZ.FL120)] <- 0
+
+      UDZ.FG120 <- scale(UDZ.FG120)
+      UDZ.FG120[is.na(UDZ.FG120)] <- 0
 
       UDZ.Tmin <- scale(UDZ.Tmin)
       UDZ.Tmin[is.na(UDZ.Tmin)] <- 0
@@ -531,7 +541,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
           UDZ_covs <- list(Elevation=UDZ.Elev,
                 ForestLossCT=UDZ.FL120,
-                ForestLossPA=UDZ.FL_PA,
+                ForestGainCT=UDZ.FG120,
                 Tmin=UDZ.Tmin,
                 Tmax=UDZ.Tmax,
                 Tvar=UDZ.Tvar,
@@ -543,7 +553,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   ELEV_FL.BIF <- melt(ELEV_FL[ELEV_FL$Site.Code=="BIF",])
     BIF.Elev <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,2]
     BIF.FL120 <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,3]
-    BIF.FL_PA <- rep(FL_PA[FL_PA$sitecode=="BIF",3], length(BIF.Elev)) #NB not scaled because all values are the same
+    BIF.FG120 <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,4] 
     BIF.Tmin <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     BIF.Tmax <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     BIF.Tvar <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
@@ -556,6 +566,9 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
       BIF.FL120 <- scale(BIF.FL120)
       BIF.FL120[is.na(BIF.FL120)] <- 0
+
+      BIF.FG120 <- scale(BIF.FG120)
+      BIF.FG120[is.na(BIF.FG120)] <- 0
 
       BIF.Tmin <- scale(BIF.Tmin)
       BIF.Tmin[is.na(BIF.Tmin)] <- 0
@@ -575,7 +588,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
           BIF_covs <- list(Elevation=BIF.Elev,
                 ForestLossCT=BIF.FL120,
-                ForestLossPA=BIF.FL_PA,
+                ForestGainCT=BIF.FG120,
                 Tmin=BIF.Tmin,
                 Tmax=BIF.Tmax,
                 Tvar=BIF.Tvar,
@@ -588,7 +601,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   ELEV_FL.PSH <- melt(ELEV_FL[ELEV_FL$Site.Code=="PSH",])
     PSH.Elev <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,2]
     PSH.FL120 <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,3]
-    PSH.FL_PA <- rep(FL_PA[FL_PA$sitecode=="PSH",3], length(PSH.Elev)) #NB not scaled because all values are the same
+    PSH.FG120 <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,4] 
     PSH.Tmin <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     PSH.Tmax <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     PSH.Tvar <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
@@ -601,6 +614,9 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
       PSH.FL120 <- scale(PSH.FL120)
       PSH.FL120[is.na(PSH.FL120)] <- 0
+
+      PSH.FG120 <- scale(PSH.FG120)
+      PSH.FG120[is.na(PSH.FG120)] <- 0
 
       PSH.Tmin <- scale(PSH.Tmin)
       PSH.Tmin[is.na(PSH.Tmin)] <- 0
@@ -620,7 +636,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 # Limit PSH covariate data to array 1 (rows 1:30)
           PSH_covs <- list(Elevation=PSH.Elev[1:30],
                 ForestLossCT=PSH.FL120[1:30],
-                ForestLossPA=PSH.FL_PA[1:30],
+                ForestGainCT=PSH.FG120[1:30],
                 Tmin=PSH.Tmin[1:30,],
                 Tmax=PSH.Tmax[1:30,],
                 Tvar=PSH.Tvar[1:30,],
@@ -632,7 +648,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   ELEV_FL.YAN <- melt(ELEV_FL[ELEV_FL$Site.Code=="YAN",])
     YAN.Elev <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,2]
     YAN.FL120 <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,3]
-    YAN.FL_PA <- rep(FL_PA[FL_PA$sitecode=="YAN",3], length(YAN.Elev)) #NB not scaled because all values are the same
+    YAN.FG120 <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,4] 
     YAN.Tmin <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     YAN.Tmax <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     YAN.Tvar <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
@@ -645,6 +661,9 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
       YAN.FL120 <- scale(YAN.FL120)
       YAN.FL120[is.na(YAN.FL120)] <- 0
+
+      YAN.FG120 <- scale(YAN.FG120)
+      YAN.FG120[is.na(YAN.FG120)] <- 0
 
       YAN.Tmin <- scale(YAN.Tmin)
       YAN.Tmin[is.na(YAN.Tmin)] <- 0
@@ -664,7 +683,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
           YAN_covs <- list(Elevation=YAN.Elev,
                 ForestLossCT=YAN.FL120,
-                ForestLossPA=YAN.FL_PA,
+                ForestGainCT=YAN.FG120,
                 Tmin=YAN.Tmin,
                 Tmax=YAN.Tmax,
                 Tvar=YAN.Tvar,
@@ -675,7 +694,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   ELEV_FL.NAK <- melt(ELEV_FL[ELEV_FL$Site.Code=="NAK",])
     NAK.Elev <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,2]
     NAK.FL120 <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,3]
-    NAK.FL_PA <- rep(FL_PA[FL_PA$sitecode=="NAK",3], length(NAK.Elev)) #NB not scaled because all values are the same
+    NAK.FG120 <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,4] 
     NAK.Tmin <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     NAK.Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     NAK.Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
@@ -688,6 +707,9 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
       NAK.FL120 <- scale(NAK.FL120)
       NAK.FL120[is.na(NAK.FL120)] <- 0
+
+      NAK.FG120 <- scale(NAK.FG120)
+      NAK.FG120[is.na(NAK.FG120)] <- 0
 
       NAK.Tmin <- scale(NAK.Tmin)
       NAK.Tmin[is.na(NAK.Tmin)] <- 0
@@ -707,7 +729,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
           NAK_covs <- list(Elevation=NAK.Elev,
                 ForestLossCT=NAK.FL120,
-                ForestLossPA=NAK.FL_PA,
+                ForestGainCT=NAK.FG120,
                 Tmin=NAK.Tmin,
                 Tmax=NAK.Tmax,
                 Tvar=NAK.Tvar,
@@ -718,7 +740,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
   ELEV_FL.RNF <- melt(ELEV_FL[ELEV_FL$Site.Code=="RNF",])
     RNF.Elev <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,2]
     RNF.FL120 <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,3]
-    RNF.FL_PA <- rep(FL_PA[FL_PA$sitecode=="RNF",3], length(RNF.Elev)) #NB not scaled because all values are the same
+    RNF.FG120 <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,4] 
     RNF.Tmin <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
     RNF.Tmax <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
     RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
@@ -731,6 +753,9 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
       RNF.FL120 <- scale(RNF.FL120)
       RNF.FL120[is.na(RNF.FL120)] <- 0
+
+      RNF.FG120 <- scale(RNF.FG120)
+      RNF.FG120[is.na(RNF.FG120)] <- 0
 
       RNF.Tmin <- scale(RNF.Tmin)
       RNF.Tmin[is.na(RNF.Tmin)] <- 0
@@ -750,7 +775,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
           RNF_covs <- list(Elevation=RNF.Elev,
                 ForestLossCT=RNF.FL120,
-                ForestLossPA=RNF.FL_PA,
+                ForestGainCT=RNF.FG120,
                 Tmin=RNF.Tmin,
                 Tmax=RNF.Tmax,
                 Tvar=RNF.Tvar,
