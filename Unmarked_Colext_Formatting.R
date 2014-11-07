@@ -52,6 +52,9 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   UDZMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2011.01")
   UDZMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2012.01")
   UDZMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2013.01")
+  UDZMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2014.01")
+
+
 
   # NB BIF Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
   BIFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2009.01")
@@ -62,6 +65,9 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   PSHMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2011.01")
   PSHMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2012.01")
   PSHMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2013.01")
+  PSHMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2014.01")
+
+
 
   YANMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2011.01")
   YANMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2012.01")
@@ -72,6 +78,9 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   NAKMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2010.01")
   NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
   NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
+  NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01")
+
+
 
   RNFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2010.01")
   RNFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2011.01")
@@ -92,6 +101,9 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   UDZMatrix2011.15 <- list()
   UDZMatrix2012.15 <- list()
   UDZMatrix2013.15 <- list()
+  UDZMatrix2014.15 <- list()
+
+
 
   BIFMatrix2010.15 <- list()
   BIFMatrix2011.15 <- list()
@@ -101,6 +113,9 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   PSHMatrix2011.15 <- list()
   PSHMatrix2012.15 <- list()
   PSHMatrix2013.15 <- list()
+  PSHMatrix2014.15 <- list()
+
+
 
   YANMatrix2011.15 <- list()
   YANMatrix2012.15 <- list()
@@ -110,6 +125,9 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   NAKMatrix2011.15 <- list()
   NAKMatrix2012.15 <- list()
   NAKMatrix2013.15 <- list()
+  NAKMatrix2014.15 <- list()
+
+
 
   RNFMatrix2010.15 <- list()
   RNFMatrix2011.15 <- list()
@@ -133,6 +151,9 @@ for(i in 1:length(UDZMatrix2010)){
   UDZMatrix2011.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2011[[i]])
   UDZMatrix2012.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2012[[i]])
   UDZMatrix2013.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2013[[i]])
+  UDZMatrix2014.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2014[[i]])
+
+
 }
 
 for(i in 1:length(BIFMatrix2010)){
@@ -146,6 +167,9 @@ for(i in 1:length(PSHMatrix2012)){
   PSHMatrix2011.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2011[[i]])
   PSHMatrix2012.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2012[[i]])
   PSHMatrix2013.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2013[[i]])
+  PSHMatrix2014.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2014[[i]])
+
+
 }
 
 for(i in 1:length(YANMatrix2012)){
@@ -159,6 +183,9 @@ for(i in 1:length(NAKMatrix2010)){
   NAKMatrix2011.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2011[[i]])
   NAKMatrix2012.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2012[[i]])
   NAKMatrix2013.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2013[[i]])
+  NAKMatrix2014.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2014[[i]])
+
+
 }
 
 for(i in 1:length(RNFMatrix2011)){
@@ -180,7 +207,7 @@ for(i in 1:length(RNFMatrix2011)){
     # Extract all UDZ species
     UDZ.species <- list()
     for(i in 1:length(UDZMatrix2009)){
-      UDZ.species[[i]] <- data.frame("2009"=UDZMatrix2009.15[[i]], "2010"=UDZMatrix2010.15[[i]], "2011"=UDZMatrix2011.15[[i]], "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]])
+      UDZ.species[[i]] <- data.frame("2009"=UDZMatrix2009.15[[i]], "2010"=UDZMatrix2010.15[[i]], "2011"=UDZMatrix2011.15[[i]], "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]], "2014"=UDZMatrix2014.15[[i]])
     }
     names(UDZ.species) <- paste("UDZ", names(UDZMatrix2009), sep=".")
 
@@ -194,7 +221,7 @@ for(i in 1:length(RNFMatrix2011)){
     # Extract all PSH species
     PSH.species <- list()
     for(i in 1:length(PSHMatrix2011)){
-      PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]])[1:30,]
+      PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]], "2014"=PSHMatrix2014.15[[i]])[1:30,]
     }
     names(PSH.species) <- paste("PSH", names(PSHMatrix2011), sep=".")
 
@@ -208,7 +235,7 @@ for(i in 1:length(RNFMatrix2011)){
     # Extract all NAK species
     NAK.species <- list()
     for(i in 1:length(NAKMatrix2011)){
-      NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], "2013"=NAKMatrix2013.15[[i]])
+      NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]])
     }
     names(NAK.species) <- paste("NAK", names(NAKMatrix2011), sep=".")
 
@@ -502,7 +529,7 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
                 Tsd=VB.SD,
                 Tmean=VB.Mean)
 
-  CT.Temp.UDZ <- melt(Alltemp500[Alltemp500$Site.Code=="UDZ",])
+    CT.Temp.UDZ <- melt(Alltemp500[Alltemp500$Site.Code=="UDZ",])
   ELEV_FL.UDZ <- melt(ELEV_FL[ELEV_FL$Site.Code=="UDZ",])
     UDZ.Elev <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,2]
     UDZ.FL120 <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,3]
@@ -547,6 +574,8 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
                 Tvar=UDZ.Tvar,
                 Tsd=UDZ.SD,
                 Tmean=UDZ.Mean)
+
+
 
 
   CT.Temp.BIF <- melt(Alltemp500[Alltemp500$Site.Code=="BIF",])
