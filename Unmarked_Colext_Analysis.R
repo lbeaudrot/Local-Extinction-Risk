@@ -15,7 +15,15 @@ nms=names(All500m_covariate_species)
 results.all=list()
 mods.all=list()
 
-for(k in 157:158){
+# add 3 new objects from Miguel's script here 
+results.table.ma=list() #add at the begining
+results.table.aic=list() #add at the begining
+colext.transformed=list() #add at the beginning
+
+
+
+####
+for(k in 1:2){
 #for(k in 1:length(nms)){
 print(k)
 
@@ -463,7 +471,35 @@ models=fitList(fits=mods)
 
 results.all[[k]]=ms
 mods.all[[k]]=mods
-rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,fm4,fm4.1,fm4.2,fm5,fm5.1,fm5.2,fm6,fm6.1,fm6.2,fm7,fm7.1,fm7.2,fm7.3,fm7.4,fm7.5,fm8,fm8.1,fm8.2,fm9,fm9.1,fm9.2,fm10,fm10.1,fm10.2,fm11,fm11.1,fm11.2,fm12,fm12.1,fm12.2,fm13,fm13.1,fm13.2,fm14,fm14.1,fm14.2,fm15,fm15.1,fm15.2,fm16,fm16.1,fm16.2,fm17,fm17.1,fm17.2,fm18,fm18.1,fm18.2,fm19,fm19.1,fm19.2,fm20,fm20.1,fm20.2,fm21,fm21.1,fm21.2,fm22,fm22.1,fm22.2,fm23,fm23.1,fm23.2,fm24,fm24.1,fm24.2,fm25,fm25.1,fm25.2,fm26,fm26.1,fm26.2,fm27,fm27.1,fm27.2,mods,ms)
+
+#### add to Export to the end (including the bracket)
+
+toExport<-as(ms,"data.frame") #add after ms object
+
+if(toExport$delta[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1"]==0 || toExport$delta[toExport$formula=="~1 ~ 1 ~ 1 ~ 1"]==0){  
+
+results.table.ma[[k]]=rbind(toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",],toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",])	
+
+temp=as.data.frame(cbind(toExport$formula,toExport$delta,toExport$AICwt))
+names(temp)=c("formula","delta","AICwt")
+results.table.aic[[k]]=rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])}else{
+
+results.table.ma[[k]]=rbind(toExport[1,],toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",],toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",])
+
+temp=as.data.frame(cbind(toExport$formula,toExport$delta,toExport$AICwt))
+names(temp)=c("formula","delta","AICwt")
+results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])
+
+tmp=as.data.frame(cbind(exp(toExport$"col(Elevation)"[1]),exp(toExport$"col(ForestGainCT)"[1]),exp(toExport$"col(ForestLossCT)"[1]),exp(toExport$"col(ForestLossCT:Elevation)"[1]),exp(toExport$"col(Tmax)"[1]),exp(toExport$"col(Tmax:Elevation)"[1]),exp(toExport$"col(Tmax:ForestGainCT)"[1]),exp(toExport$"col(Tmax:ForestLossCT)"[1]),exp(toExport$"col(Tmean)"[1]),exp(toExport$"col(Tmean:Tsd)"[1]),exp(toExport$"col(Tmin)"[1]),exp(toExport$"col(Tmin:Elevation)"[1]),exp(toExport$"col(Tmin:ForestGainCT)"[1]),exp(toExport$"col(Tmin:ForestLossCT)"[1]),exp(toExport$"col(Tsd)"[1]),exp(toExport$"col(Tvar)"[1]),exp(toExport$"col(Tvar:Elevation)"[1]),exp(toExport$"col(Tvar:ForestGainCT)"[1]),exp(toExport$"col(Tvar:ForestLossCT)"[1]),exp(toExport$"ext(Elevation)"[1]),exp(toExport$"ext(ForestGainCT)"[1]),exp(toExport$"ext(ForestLossCT)"[1]),exp(toExport$"ext(ForestLossCT:Elevation)"[1]),exp(toExport$"ext(Tmax)"[1]),exp(toExport$"ext(Tmax:Elevation)"[1]),exp(toExport$"ext(Tmax:ForestGainCT)"[1]),exp(toExport$"ext(Tmax:ForestLossCT)"[1]),exp(toExport$"ext(Tmean)"[1]),exp(toExport$"ext(Tmean:Tsd)"[1]),exp(toExport$"ext(Tmin)"[1]),exp(toExport$"ext(Tmin:Elevation)"[1]),exp(toExport$"ext(Tmin:ForestGainCT)"[1]),exp(toExport$"ext(Tmin:ForestLossCT)"[1]),exp(toExport$"ext(Tsd)"[1]),exp(toExport$"ext(Tvar)"[1]),exp(toExport$"ext(Tvar:Elevation)"[1]),exp(toExport$"ext(Tvar:ForestGainCT)"[1]),exp(toExport$"ext(Tvar:ForestLossCT)"[1])))
+
+
+names(tmp)=c("col(Elevation)","col(ForestGainCT)","col(ForestLossCT)","col(ForestLossCT:Elevation)","col(Tmax)","col(Tmax:Elevation)","col(Tmax:ForestGainCT)","col(Tmax:ForestLossCT)","col(Tmean)","col(Tmean:Tsd)","col(Tmin)","col(Tmin:Elevation)","col(Tmin:ForestGainCT)","col(Tmin:ForestLossCT)","col(Tsd)","col(Tvar)","col(Tvar:Elevation)","col(Tvar:ForestGainCT)","col(Tvar:ForestLossCT)","ext(Elevation)","ext(ForestGainCT)","ext(ForestLossCT)","ext(ForestLossCT:Elevation)","ext(Tmax)","ext(Tmax:Elevation)","ext(Tmax:ForestGainCT)","ext(Tmax:ForestLossCT)","ext(Tmean)","ext(Tmean:Tsd)","ext(Tmin)","ext(Tmin:Elevation)","ext(Tmin:ForestGainCT)","ext(Tmin:ForestLossCT)","ext(Tsd)","ext(Tvar)","ext(Tvar:Elevation)","ext(Tvar:ForestGainCT)","ext(Tvar:ForestLossCT)")
+
+colext.transformed[[k]]=tmp
+
+}
+#add tmp, temp and toExport to the rm object 
+rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,fm4,fm4.1,fm4.2,fm5,fm5.1,fm5.2,fm6,fm6.1,fm6.2,fm7,fm7.1,fm7.2,fm7.3,fm7.4,fm7.5,fm8,fm8.1,fm8.2,fm9,fm9.1,fm9.2,fm10,fm10.1,fm10.2,fm11,fm11.1,fm11.2,fm12,fm12.1,fm12.2,fm13,fm13.1,fm13.2,fm14,fm14.1,fm14.2,fm15,fm15.1,fm15.2,fm16,fm16.1,fm16.2,fm17,fm17.1,fm17.2,fm18,fm18.1,fm18.2,fm19,fm19.1,fm19.2,fm20,fm20.1,fm20.2,fm21,fm21.1,fm21.2,fm22,fm22.1,fm22.2,fm23,fm23.1,fm23.2,fm24,fm24.1,fm24.2,fm25,fm25.1,fm25.2,fm26,fm26.1,fm26.2,fm27,fm27.1,fm27.2,mods,ms, tmp, temp, toExport)
 }
 
 
