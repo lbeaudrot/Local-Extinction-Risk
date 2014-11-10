@@ -78,7 +78,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   NAKMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2010.01")
   NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
   NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
-  NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01")
+  #NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01")
 
 
 
@@ -125,7 +125,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   NAKMatrix2011.15 <- list()
   NAKMatrix2012.15 <- list()
   NAKMatrix2013.15 <- list()
-  NAKMatrix2014.15 <- list()
+  #NAKMatrix2014.15 <- list()
 
 
 
@@ -183,7 +183,7 @@ for(i in 1:length(NAKMatrix2010)){
   NAKMatrix2011.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2011[[i]])
   NAKMatrix2012.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2012[[i]])
   NAKMatrix2013.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2013[[i]])
-  NAKMatrix2014.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2014[[i]])
+  #NAKMatrix2014.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2014[[i]])
 
 
 }
@@ -235,7 +235,7 @@ for(i in 1:length(RNFMatrix2011)){
     # Extract all NAK species
     NAK.species <- list()
     for(i in 1:length(NAKMatrix2011)){
-      NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]])
+      NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], "2013"=NAKMatrix2013.15[[i]])
     }
     names(NAK.species) <- paste("NAK", names(NAKMatrix2011), sep=".")
 
@@ -820,7 +820,7 @@ All_covs <- list(VB__covs=VB__covs,
                  RNF_covs=RNF_covs)
 
 save(All_covs, file="All_covs.RData")
-
+save(All_covs, file="All_covs_unscaled.RData")
 
 ################ SAVE OBJECTS CONTAINING SITE LEVEL COVARIATES
 #save(VB_covs, file="VB_covs.RData")
