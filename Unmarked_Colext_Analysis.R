@@ -23,8 +23,8 @@ colext.transformed=list() #add at the beginning
 
 
 ####
-for(k in 156:157){
-#for(k in 1:length(nms)){
+#for(k in 156:157){
+for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
@@ -503,7 +503,7 @@ rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,fm4,fm4.1,fm4.2,fm5
 }
 
 
-save.image(file="sppAll_results_v2.RData")
+save.image(file="sppAll_results_v3.RData")
 names(results.all) <- nms
 
 length(nms)
