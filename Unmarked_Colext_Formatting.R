@@ -26,6 +26,7 @@ eventsdata <- subdata
 # Reduce dataset to mammals only
 eventsdata <- eventsdata[eventsdata$Class=="MAMMALIA",]
 
+
 ##################### CREATE INPUT DATA FOR UNMARKED ANALYSIS WITH 15 SECONDARY SAMPLING PERIODS #################
 # Create matrices with 15 secondary sampling periods for each year of data collection for each species for sites with >500 m elevation gradients
 # Check table to see sampling periods per site. Based on sampling periods:
@@ -501,6 +502,12 @@ save(SitesBinary, file="SitesBinary.RData")
   #Convert F temperature values to Celcius; Change C Temperatures to numeric format from character
   temp.degreesC <- as.numeric(ifelse(temp.unit=="F", f.FtoC(as.numeric(temp.degrees)), temp.degrees))
   eventsdata <- cbind(eventsdata, temp.degreesC)
+
+# Note that CT-PSH-1-21 has problematic temperature values (Max=67 degrees) 
+# Change all temp values to NA for CT-PSH-1-21
+  eventsdata$temp.degreesC <- ifelse(eventsdata$Sampling.Unit.Name=="CT-PSH-1-21", NA, eventsdata$temp.degreesC)
+
+
 
 # Determine the annual min, max and variance of the non-calibrated temperature data for each CT without using interpolated data
   Temp.Min <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=min)
