@@ -23,7 +23,8 @@ subdata<-subset(alldata, alldata$bin %in% newsplist$Unique_Name) #this is the or
 subdata<-f.correct.DF(subdata)
 eventsdata <- subdata
 
-
+# Reduce dataset to mammals only
+eventsdata <- eventsdata[eventsdata$Class=="MAMMALIA",]
 
 ##################### CREATE INPUT DATA FOR UNMARKED ANALYSIS WITH 15 SECONDARY SAMPLING PERIODS #################
 # Create matrices with 15 secondary sampling periods for each year of data collection for each species for sites with >500 m elevation gradients
@@ -398,6 +399,65 @@ All500m_covariate_species <- c(VB_covariate_species=VB_covariate_species,
 
 
 save(All500m_covariate_species, file="All500m_covariate_species.RData")
+
+
+########### Format presence absence matrices for
+# Reduce overall data to the 7 sites only
+Sites7data <- eventsdata[eventsdata$Site.Code=="VB-"|eventsdata$Site.Code=="UDZ"|eventsdata$Site.Code=="BIF"|eventsdata$Site.Code=="PSH"|eventsdata$Site.Code=="YAN"|eventsdata$Site.Code=="NAK"|eventsdata$Site.Code=="RNF",]
+spnames <- c(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011))
+
+
+SitesdataVB <- eventsdata[eventsdata$Site.Code=="VB-",]
+SitesdataUDZ <- eventsdata[eventsdata$Site.Code=="UDZ",]
+SitesdataBIF <- eventsdata[eventsdata$Site.Code=="BIF",]
+SitesdataPSH <- eventsdata[eventsdata$Site.Code=="PSH",]
+SitesdataYAN <- eventsdata[eventsdata$Site.Code=="YAN",]
+SitesdataNAK <- eventsdata[eventsdata$Site.Code=="NAK",]
+SitesdataRNF <- eventsdata[eventsdata$Site.Code=="RNF",]
+
+
+Sites7data <- list(SitesdataVB, SitesdataUDZ, SitesdataBIF, SitesdataPSH, SitesdataYAN, SitesdataNAK, SitesdataRNF)
+Sitenames <- list("SitesdataVB", "SitesdataUDZ", "SitesdataBIF", "SitesdataPSH", "SitesdataYAN", "SitesdataNAK", "SitesdataRNF")
+
+
+spnames <- list(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011))
+
+
+# Sort by rownames then add table to list and save as an RData object
+
+SitesBinary <- list()
+
+for(i in 1:length(Sites7data)){
+  sptable <- table(Sites7data[[i]]$bin, Sites7data[[i]]$Sampling.Unit.Name)
+  sptable <- sptable[match(spnames[[i]], rownames(sptable)),]
+  sptable <- ifelse(sptable>0,1,0)
+  sptable <- sptable[order(rownames(sptable)),]
+  SitesBinary[[i]] <- sptable
+  #outputname <- paste(Sitenames[i], "Binary", "csv", sep=".")
+  #write.csv(sptable, file=outputname)
+}
+save(SitesBinary, file="SitesBinary.RData")
+
+# Next Steps: Figure out why there are 4 mismatched species between what I sent JP for phylogeny and overall matrix
+
+# WORKS BELOW for overall data
+# Table species by camera trap
+#sptable <- table(Sites7data$bin, Sites7data$Sampling.Unit.Name)
+
+# Make list of unique species names for the 7 sites
+#spnames <- unique(c(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011)))
+
+# Reduce the table to only the species for which we are interested
+#sptable <- sptable[match(spnames, rownames(sptable)),]
+#sptable <- ifelse(sptable>0,1,0)
+
+#write.csv(sptable, file="Species_PresenceAbsenceTable.csv")
+#rowSums(sptable)
+
+
+
+
+
 
 ################## CAMERA TRAP TEMPERATURE DATA FORMATTING ####################
 

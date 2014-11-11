@@ -23,7 +23,7 @@ colext.transformed=list() #add at the beginning
 
 
 ####
-for(k in 1:2){
+for(k in 156:157){
 #for(k in 1:length(nms)){
 print(k)
 
