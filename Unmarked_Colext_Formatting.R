@@ -403,8 +403,10 @@ save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
 ########### Format presence absence matrices for
 # Reduce overall data to the 7 sites only
-Sites7data <- eventsdata[eventsdata$Site.Code=="VB-"|eventsdata$Site.Code=="UDZ"|eventsdata$Site.Code=="BIF"|eventsdata$Site.Code=="PSH"|eventsdata$Site.Code=="YAN"|eventsdata$Site.Code=="NAK"|eventsdata$Site.Code=="RNF",]
+Sites7dataDF <- eventsdata[eventsdata$Site.Code=="VB-"|eventsdata$Site.Code=="UDZ"|eventsdata$Site.Code=="BIF"|eventsdata$Site.Code=="PSH"|eventsdata$Site.Code=="YAN"|eventsdata$Site.Code=="NAK"|eventsdata$Site.Code=="RNF",]
 spnames <- c(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011))
+#spnames[order(spnames)]
+#Sites7dataDF[order(spnames)]
 
 
 SitesdataVB <- eventsdata[eventsdata$Site.Code=="VB-",]
@@ -421,19 +423,36 @@ Sites7data <- list(SitesdataVB, SitesdataUDZ, SitesdataBIF, SitesdataPSH, Sitesd
 Sitenames <- list("VB", "UDZ", "BIF", "PSH", "YAN", "NAK", "RNF")
 
 
-
 spnames <- list(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011))
 
 
-# Sort by rownames then add table to list and save as an RData object
+# CREATE A UNIQUE IDENTIFICATION TO INDEX ALL 126 SPECIES
+# Make list of unique species names for the 7 sites
+UID <- unique(c(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011)))# Remove 
+UID <- UID[order(UID)]
 
+# Remove 4 extra species "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
+UID <- UID[-127]
+UID <- UID[-125]
+UID <- UID[-71]
+UID <- UID[-32]
+UID <- data.frame(UID, 1:length(UID))
+colnames(UID) <- c("bin", "UID")
+
+#UID$UID[match(as.factor(rownames(SitesBinary[[1]])), UID$bin)]
+
+# Sort by rownames then add table to list and save as an RData object
+# 
 SitesBinary <- list()
+SpID <- vector()
 
 for(i in 1:length(Sites7data)){
   sptable <- table(Sites7data[[i]]$bin, Sites7data[[i]]$Sampling.Unit.Name)
   sptable <- sptable[match(spnames[[i]], rownames(sptable)),]
   sptable <- ifelse(sptable>0,1,0)
   sptable <- sptable[order(rownames(sptable)),]
+  SpID    <- UID$UID[match(as.factor(rownames(sptable)), UID$bin)]
+  sptable <- cbind(SpID, sptable)
   SitesBinary[[i]] <- sptable
   #outputname <- paste(Sitenames[i], "Binary", "csv", sep=".")
   #write.csv(sptable, file=outputname)
@@ -455,12 +474,9 @@ save(SitesBinary, file="SitesBinary.RData")
 
 # Next Steps: Figure out why there are 4 mismatched species between what I sent JP for phylogeny and overall matrix
 
-# WORKS BELOW for overall data
+# WORKS BELOW for overall data - no longer works b/c missing spnames to match on; try using UID instead
 # Table species by camera trap
 #sptable <- table(Sites7data$bin, Sites7data$Sampling.Unit.Name)
-
-# Make list of unique species names for the 7 sites
-#spnames <- unique(c(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011)))
 
 # Reduce the table to only the species for which we are interested
 #sptable <- sptable[match(spnames, rownames(sptable)),]
