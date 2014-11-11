@@ -490,10 +490,8 @@ temp=as.data.frame(cbind(toExport$formula,toExport$delta,toExport$AICwt))
 names(temp)=c("formula","delta","AICwt")
 results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])
 
-tmp=as.data.frame(cbind(exp(toExport$"col(Elevation)"[1]),exp(toExport$"col(ForestGainCT)"[1]),exp(toExport$"col(ForestLossCT)"[1]),exp(toExport$"col(ForestLossCT:Elevation)"[1]),exp(toExport$"col(Tmax)"[1]),exp(toExport$"col(Tmax:Elevation)"[1]),exp(toExport$"col(Tmax:ForestGainCT)"[1]),exp(toExport$"col(Tmax:ForestLossCT)"[1]),exp(toExport$"col(Tmean)"[1]),exp(toExport$"col(Tmean:Tsd)"[1]),exp(toExport$"col(Tmin)"[1]),exp(toExport$"col(Tmin:Elevation)"[1]),exp(toExport$"col(Tmin:ForestGainCT)"[1]),exp(toExport$"col(Tmin:ForestLossCT)"[1]),exp(toExport$"col(Tsd)"[1]),exp(toExport$"col(Tvar)"[1]),exp(toExport$"col(Tvar:Elevation)"[1]),exp(toExport$"col(Tvar:ForestGainCT)"[1]),exp(toExport$"col(Tvar:ForestLossCT)"[1]),exp(toExport$"ext(Elevation)"[1]),exp(toExport$"ext(ForestGainCT)"[1]),exp(toExport$"ext(ForestLossCT)"[1]),exp(toExport$"ext(ForestLossCT:Elevation)"[1]),exp(toExport$"ext(Tmax)"[1]),exp(toExport$"ext(Tmax:Elevation)"[1]),exp(toExport$"ext(Tmax:ForestGainCT)"[1]),exp(toExport$"ext(Tmax:ForestLossCT)"[1]),exp(toExport$"ext(Tmean)"[1]),exp(toExport$"ext(Tmean:Tsd)"[1]),exp(toExport$"ext(Tmin)"[1]),exp(toExport$"ext(Tmin:Elevation)"[1]),exp(toExport$"ext(Tmin:ForestGainCT)"[1]),exp(toExport$"ext(Tmin:ForestLossCT)"[1]),exp(toExport$"ext(Tsd)"[1]),exp(toExport$"ext(Tvar)"[1]),exp(toExport$"ext(Tvar:Elevation)"[1]),exp(toExport$"ext(Tvar:ForestGainCT)"[1]),exp(toExport$"ext(Tvar:ForestLossCT)"[1])))
-
-
-names(tmp)=c("col(Elevation)","col(ForestGainCT)","col(ForestLossCT)","col(ForestLossCT:Elevation)","col(Tmax)","col(Tmax:Elevation)","col(Tmax:ForestGainCT)","col(Tmax:ForestLossCT)","col(Tmean)","col(Tmean:Tsd)","col(Tmin)","col(Tmin:Elevation)","col(Tmin:ForestGainCT)","col(Tmin:ForestLossCT)","col(Tsd)","col(Tvar)","col(Tvar:Elevation)","col(Tvar:ForestGainCT)","col(Tvar:ForestLossCT)","ext(Elevation)","ext(ForestGainCT)","ext(ForestLossCT)","ext(ForestLossCT:Elevation)","ext(Tmax)","ext(Tmax:Elevation)","ext(Tmax:ForestGainCT)","ext(Tmax:ForestLossCT)","ext(Tmean)","ext(Tmean:Tsd)","ext(Tmin)","ext(Tmin:Elevation)","ext(Tmin:ForestGainCT)","ext(Tmin:ForestLossCT)","ext(Tsd)","ext(Tvar)","ext(Tvar:Elevation)","ext(Tvar:ForestGainCT)","ext(Tvar:ForestLossCT)")
+test=seq(3,length(toExport)-17,by=2)
+tmp=toExport[1,test]
 
 colext.transformed[[k]]=tmp
 
