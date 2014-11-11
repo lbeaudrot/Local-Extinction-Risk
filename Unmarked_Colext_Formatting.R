@@ -417,7 +417,9 @@ SitesdataRNF <- eventsdata[eventsdata$Site.Code=="RNF",]
 
 
 Sites7data <- list(SitesdataVB, SitesdataUDZ, SitesdataBIF, SitesdataPSH, SitesdataYAN, SitesdataNAK, SitesdataRNF)
-Sitenames <- list("SitesdataVB", "SitesdataUDZ", "SitesdataBIF", "SitesdataPSH", "SitesdataYAN", "SitesdataNAK", "SitesdataRNF")
+#Sitenames <- list("SitesdataVB", "SitesdataUDZ", "SitesdataBIF", "SitesdataPSH", "SitesdataYAN", "SitesdataNAK", "SitesdataRNF")
+Sitenames <- list("VB", "UDZ", "BIF", "PSH", "YAN", "NAK", "RNF")
+
 
 
 spnames <- list(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011))
@@ -436,6 +438,19 @@ for(i in 1:length(Sites7data)){
   #outputname <- paste(Sitenames[i], "Binary", "csv", sep=".")
   #write.csv(sptable, file=outputname)
 }
+
+# Remove PSH camera traps from arrays 2 and 3
+SitesBinary[[4]] <- SitesBinary[[4]][,1:30]
+
+# Remove all populations of "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
+SitesBinary[[2]] <- SitesBinary[[2]][-10,] # Remove Dendrohyrax arboreus from UDZ
+SitesBinary[[4]] <- SitesBinary[[4]][-35,] # Remove Tragulus napu from PSH
+SitesBinary[[4]] <- SitesBinary[[4]][-18,] # Remove Muntiacus muntjak from PSH
+SitesBinary[[6]] <- SitesBinary[[6]][-22,] # Remove Tragulus javanicus from NAK
+SitesBinary[[6]] <- SitesBinary[[6]][-16,] # Remove Muntiacus muntjak from NAK
+
+names(SitesBinary) <- Sitenames
+
 save(SitesBinary, file="SitesBinary.RData")
 
 # Next Steps: Figure out why there are 4 mismatched species between what I sent JP for phylogeny and overall matrix
