@@ -402,7 +402,7 @@ All500m_covariate_species <- c(VB_covariate_species=VB_covariate_species,
 save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
 
-########### Format presence absence matrices for
+########### Format presence absence matrices for sites
 # Reduce overall data to the 7 sites only
 Sites7dataDF <- eventsdata[eventsdata$Site.Code=="VB-"|eventsdata$Site.Code=="UDZ"|eventsdata$Site.Code=="BIF"|eventsdata$Site.Code=="PSH"|eventsdata$Site.Code=="YAN"|eventsdata$Site.Code=="NAK"|eventsdata$Site.Code=="RNF",]
 spnames <- c(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011))
@@ -470,10 +470,38 @@ SitesBinary[[6]] <- SitesBinary[[6]][-22,] # Remove Tragulus javanicus from NAK
 SitesBinary[[6]] <- SitesBinary[[6]][-16,] # Remove Muntiacus muntjak from NAK
 
 names(SitesBinary) <- Sitenames
-
 save(SitesBinary, file="SitesBinary.RData")
 
-# Next Steps: Figure out why there are 4 mismatched species between what I sent JP for phylogeny and overall matrix
+# Create Presence-Absence matrices for each CT for each year
+
+temp <- list()
+SitesBinaryAnnual <- list()
+SpID <- vector()
+
+SiteYears <- length(table(Sites7data[[1]]$Sampling.Period)) + length(table(Sites7data[[2]]$Sampling.Period)) +
+             length(table(Sites7data[[3]]$Sampling.Period)) + length(table(Sites7data[[4]]$Sampling.Period)) + 
+             length(table(Sites7data[[5]]$Sampling.Period)) + length(table(Sites7data[[6]]$Sampling.Period)) + 
+             length(table(Sites7data[[7]]$Sampling.Period))  
+
+# First get inner loop to work (i.e. get it to make a separate matrix for each year at one site)
+# Then add outer loop to loop over all sites
+
+for(i in 1:length(Sites7data)){
+  for(j in 1:length(table(Sites7data[[i]]$Sampling.Period))){
+  sptable <- table(Sites7data[[i]]$bin, Sites7data[[i]]$Sampling.Unit.Name, Sites7data[[i]]$Sampling.Period)[,,j]
+  sptable <- sptable[match(spnames[[i]], rownames(sptable)),]
+  sptable <- ifelse(sptable>0,1,0)
+  sptable <- sptable[order(rownames(sptable)),]
+  SpID    <- UID$UID[match(as.factor(rownames(sptable)), UID$bin)]
+  sptable <- cbind(SpID, sptable)
+  temp[[j]] <- sptable
+  }
+  SitesBinaryAnnual[[i]] <- temp
+  #outputname <- paste(Sitenames[i], "Binary", "csv", sep=".")
+  #write.csv(sptable, file=outputname)
+}
+
+# Figure out why there are 4 mismatched species between what I sent JP for phylogeny and overall matrix
 
 # WORKS BELOW for overall data - no longer works b/c missing spnames to match on; try using UID instead
 # Table species by camera trap
