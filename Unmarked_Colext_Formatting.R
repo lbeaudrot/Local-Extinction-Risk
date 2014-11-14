@@ -460,7 +460,7 @@ for(i in 1:length(Sites7data)){
 }
 
 # Remove PSH camera traps from arrays 2 and 3
-SitesBinary[[4]] <- SitesBinary[[4]][,1:30]
+SitesBinary[[4]] <- SitesBinary[[4]][,1:31]
 
 # Remove all populations of "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
 SitesBinary[[2]] <- SitesBinary[[2]][-10,] # Remove Dendrohyrax arboreus from UDZ
@@ -496,10 +496,25 @@ for(i in 1:length(Sites7data)){
   sptable <- cbind(SpID, sptable)
   temp[[j]] <- sptable
   }
+  names(temp) <- names(table(Sites7data[[i]]$Sampling.Period))
   SitesBinaryAnnual[[i]] <- temp
+  rm(temp)
+  temp <- list()
   #outputname <- paste(Sitenames[i], "Binary", "csv", sep=".")
   #write.csv(sptable, file=outputname)
 }
+names(SitesBinaryAnnual) <- Sitenames
+
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", ,1:31) # Remove arrays 2 and 3 at PSH
+SitesBinaryAnnual[[2]] <- lapply(SitesBinaryAnnual[[2]], "[", -10,)  # Remove Dendrohyrax arboreus from UDZ
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -35,)  # Remove Tragulus napu from PSH
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -18,)  # Remove Muntiacus muntjak from PSH
+SitesBinaryAnnual[[6]] <- lapply(SitesBinaryAnnual[[6]], "[", -22,)  # Remove Tragulus javanicus from NAK
+SitesBinaryAnnual[[6]] <- lapply(SitesBinaryAnnual[[6]], "[", -16,)  # Remove Muntiacus muntjak from NAK
+
+save(SitesBinaryAnnual, file="SitesBinaryAnnual.RData")
+
+
 
 # Figure out why there are 4 mismatched species between what I sent JP for phylogeny and overall matrix
 
