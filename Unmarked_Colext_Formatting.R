@@ -571,6 +571,39 @@ adply(test4, .margins=c(1,2), fun=count)
 
 # We want to know the number of times there is a -1 or 1 for each row
 
+##################### Try to generalize number of col and ext events for site 4 for all transitions
+T1 <- list()
+T1col <- list()
+T1ext <- list()
+Tsum <- list()
+for(i in 1:length(SitesBinaryAnnual[[4]])-1){
+    T1[[i]] <- data.frame(SitesBinaryAnnual[[4]][i+1]) - data.frame(SitesBinaryAnnual[[4]][i])
+    T1col[[i]] <- T1[[i]]
+    T1col[[i]][T1col[[i]]==-1] <- 0
+    T1col[[i]] <- rowSums(T1col[[i]])
+
+    T1ext <- T1
+    T1ext[T1ext==1] <- 0
+    T1ext <- rowSums(T1ext)
+
+    Tsum[[i]] <- data.frame(T1col, T1ext)
+}
+# above loop works and creates a list of col events for each time period transition for one site
+
+
+    T1.ID <- data.frame(SitesBinaryAnnual[[4]][2])[,1]
+
+
+T1.ID <- data.frame(SitesBinaryAnnual[[4]][2])[,1] # reassign species ID values 
+data.frame(UID=T1.ID, T1col, T1ext)
+
+####################### End code for the col and ext events 
+
+
+
+
+
+
 ################## CAMERA TRAP TEMPERATURE DATA FORMATTING ####################
 
 # Clean temperature data and convert F measurements to C
