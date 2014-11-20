@@ -572,27 +572,30 @@ adply(test4, .margins=c(1,2), fun=count)
 # We want to know the number of times there is a -1 or 1 for each row
 
 ##################### Generalize number of col and ext events for site 4 for all annual transitions
-T1 <- list()
-T1col <- list()
-T1ext <- list()
-T1occ <- list()
+Ti <- list()
+Col <- list()
+Ext <- list()
+Occ <- list()
 Tsum <- list()
-Tsum2 <- data.frame(SitesBinaryAnnual[[4]][2])[,1]
+Species <- data.frame(SitesBinaryAnnual[[4]][2])[,1]
+Percent <- data.frame()
 for(i in 1:(length(SitesBinaryAnnual[[4]])-1)){
-    T1[[i]] <- data.frame(SitesBinaryAnnual[[4]][i+1]) - data.frame(SitesBinaryAnnual[[4]][i])
+    Ti[[i]] <- data.frame(SitesBinaryAnnual[[4]][i+1]) - data.frame(SitesBinaryAnnual[[4]][i])
     
-    T1occ[[i]] <- data.frame(lapply(SitesBinaryAnnual[[4]], "rowSums")[i+1]) - data.frame(lapply(SitesBinaryAnnual[[4]], "[", ,1)[1]) # Note initial year of occupancy data is omitted
+    Occ[[i]] <- data.frame(lapply(SitesBinaryAnnual[[4]], "rowSums")[i+1]) - data.frame(lapply(SitesBinaryAnnual[[4]], "[", ,1)[1]) # Note initial year of occupancy data is omitted
     
-    T1col[[i]] <- T1[[i]]
-    T1col[[i]][T1col[[i]]==-1] <- 0
-    T1col[[i]] <- rowSums(T1col[[i]])
+    Col[[i]] <- Ti[[i]]
+    Col[[i]][Col[[i]]==-1] <- 0
+    Col[[i]] <- rowSums(Col[[i]])
 
-    T1ext[[i]] <- T1[[i]]
-    T1ext[[i]][T1ext[[i]]==1] <- 0
-    T1ext[[i]] <- rowSums(T1ext[[i]])
+    Ext[[i]] <- Ti[[i]]
+    Ext[[i]][Ext[[i]]==1] <- 0
+    Ext[[i]] <- rowSums(Ext[[i]])
 
-    Tsum[[i]] <- data.frame(T1col[[i]], T1ext[[i]])
-    Tsum2 <- data.frame(Tsum2, T1occ[[i]], T1col[[i]], T1ext[[i]])
+    Tsum[[i]] <- data.frame(Col[[i]], Ext[[i]])
+    
+    Species <- data.frame(Species, Occ[[i]], Col[[i]], Ext[[i]])
+    Percent <- data.frame(Species=Species[,1], round((Species[,2:dim(Species)[2]]/(dim(Ti[[1]])[2]-1))*100,1))
 }
 # above loop works and creates a list of col events for each time period transition for one site
 
