@@ -529,15 +529,16 @@ save(SitesBinaryAnnual, file="SitesBinaryAnnual.RData")
 #write.csv(sptable, file="Species_PresenceAbsenceTable.csv")
 #rowSums(sptable)
 
-########### Examine the number of extinction and colonization events for each species at each site ##############
+########### EXAMINE THE OCCUPANCY, # COLONIZATION and # EXTINCTION EVENTS FOR EACH SPECIES AT EACH SITE ##############
+# We want the number of times that a species at a camera trap changes from 0 to 1; then also from 1 to 0
+# These objects give the transition between year t and t+1
+
+
 
 lapply(SitesBinaryAnnual[[4]], "rowSums") - lapply(SitesBinaryAnnual[[4]], "[", ,1)
 
 # Gives the number of camera traps at which a species is present in a year (not generalized)
 data.frame(lapply(SitesBinaryAnnual[[4]], "rowSums")[1]) - data.frame(lapply(SitesBinaryAnnual[[4]], "[", ,1)[1])
-
-# We want the number of times that a species at a camera trap changes from 0 to 1; then also from 1 to 0
-# These objects give the transition between year t and t+1
 
 
 ##################### This gives the number of col and ext events for site 4 for the first transition
@@ -555,34 +556,24 @@ data.frame(UID=T1.ID, T1col, T1ext)
 
 ####################### End code for the col and ext events for site 4 for the first transition
 
-
-T2 <- data.frame(SitesBinaryAnnual[[4]][3]) - data.frame(SitesBinaryAnnual[[4]][2])
-T3 <- data.frame(SitesBinaryAnnual[[4]][4]) - data.frame(SitesBinaryAnnual[[4]][3])
-test4 <- list(T1, T2, T3)
-
-trythis <- test1[1,]
-length(trythis[trythis==1])
-length(trythis[trythis==-1])
-
-testthis <- melt(test1)
-ddply(test1, "X2012.01.SpID", summarise, col=length(test1[test1==-1]))
-
-adply(test4, .margins=c(1,2), fun=count)
-
-# We want to know the number of times there is a -1 or 1 for each row
-
-##################### Generalize number of col and ext events for site 4 for all annual transitions
+##################### Generalize number of col and ext events for all sites and for all annual transitions; include occupancy (# CTs with species present in a primary period)  
 Ti <- list()
 Col <- list()
 Ext <- list()
 Occ <- list()
 Tsum <- list()
-Species <- data.frame(SitesBinaryAnnual[[4]][2])[,1]
+#Species <- data.frame(SitesBinaryAnnual[[4]][2])[,1]
+Species <- data.frame()
 Percent <- data.frame()
-for(i in 1:(length(SitesBinaryAnnual[[4]])-1)){
-    Ti[[i]] <- data.frame(SitesBinaryAnnual[[4]][i+1]) - data.frame(SitesBinaryAnnual[[4]][i])
+OccColExt.Raw <- list()
+OccColExt.Per <- list()
+
+for(j in 1:length(SitesBinaryAnnual)){
+    Species <- data.frame(SitesBinaryAnnual[[j]][2])[,1]
+for(i in 1:(length(SitesBinaryAnnual[[j]])-1)){
+    Ti[[i]] <- data.frame(SitesBinaryAnnual[[j]][i+1]) - data.frame(SitesBinaryAnnual[[j]][i])
     
-    Occ[[i]] <- data.frame(lapply(SitesBinaryAnnual[[4]], "rowSums")[i+1]) - data.frame(lapply(SitesBinaryAnnual[[4]], "[", ,1)[1]) # Note initial year of occupancy data is omitted
+    Occ[[i]] <- data.frame(lapply(SitesBinaryAnnual[[j]], "rowSums")[i+1]) - data.frame(lapply(SitesBinaryAnnual[[j]], "[", ,1)[1]) # Note initial year of occupancy data is omitted
     
     Col[[i]] <- Ti[[i]]
     Col[[i]][Col[[i]]==-1] <- 0
@@ -596,17 +587,25 @@ for(i in 1:(length(SitesBinaryAnnual[[4]])-1)){
     
     Species <- data.frame(Species, Occ[[i]], Col[[i]], Ext[[i]])
     Percent <- data.frame(Species=Species[,1], round((Species[,2:dim(Species)[2]]/(dim(Ti[[1]])[2]-1))*100,1))
+  }
+
+  OccColExt.Raw[[j]] <- Species
+  OccColExt.Per[[j]] <- Percent
+  #rm(temp)
+  #temp <- list()
 }
-# above loop works and creates a list of col events for each time period transition for one site
 
-round((Tsum2/30)*100, 2) # Examine percent occupancy/col/ext except note this screws up UID values
+names(OccColExt.Raw) <- Sitenames
+names(OccColExt.Per) <- Sitenames
+
+# above loop works and creates a list of occupancy, col, ext events for each time period transition for all sites
+
+save(OccColExt.Raw, file="OccColExt.Raw.RData")
+save(OccColExt.Per, file="OccColExt.Per.RData")
 
 
-    T1.ID <- data.frame(SitesBinaryAnnual[[4]][2])[,1]
 
 
-T1.ID <- data.frame(SitesBinaryAnnual[[4]][2])[,1] # reassign species ID values 
-data.frame(UID=T1.ID, T1col, T1ext)
 
 ####################### End code for the col and ext events 
 
