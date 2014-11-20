@@ -529,10 +529,47 @@ save(SitesBinaryAnnual, file="SitesBinaryAnnual.RData")
 #write.csv(sptable, file="Species_PresenceAbsenceTable.csv")
 #rowSums(sptable)
 
+########### Examine the number of extinction and colonization events for each species at each site ##############
+
+lapply(SitesBinaryAnnual[[4]], "rowSums") - lapply(SitesBinaryAnnual[[4]], "[", ,1)
+
+# Gives the number of camera traps at which a species is present in a year (not generalized)
+data.frame(lapply(SitesBinaryAnnual[[4]], "rowSums")[1]) - data.frame(lapply(SitesBinaryAnnual[[4]], "[", ,1)[1])
+
+# We want the number of times that a species at a camera trap changes from 0 to 1; then also from 1 to 0
+# These objects give the transition between year t and t+1
 
 
+##################### This gives the number of col and ext events for site 4 for the first transition
+T1 <- data.frame(SitesBinaryAnnual[[4]][2]) - data.frame(SitesBinaryAnnual[[4]][1])
+T1col <- T1
+T1col[T1col==-1] <- 0
+T1col <- rowSums(T1col)
+
+T1ext <- T1
+T1ext[T1ext==1] <- 0
+T1ext <- rowSums(T1ext)
+
+T1.ID <- data.frame(SitesBinaryAnnual[[4]][2])[,1] # reassign species ID values 
+data.frame(UID=T1.ID, T1col, T1ext)
+
+####################### End code for the col and ext events for site 4 for the first transition
 
 
+T2 <- data.frame(SitesBinaryAnnual[[4]][3]) - data.frame(SitesBinaryAnnual[[4]][2])
+T3 <- data.frame(SitesBinaryAnnual[[4]][4]) - data.frame(SitesBinaryAnnual[[4]][3])
+test4 <- list(T1, T2, T3)
+
+trythis <- test1[1,]
+length(trythis[trythis==1])
+length(trythis[trythis==-1])
+
+testthis <- melt(test1)
+ddply(test1, "X2012.01.SpID", summarise, col=length(test1[test1==-1]))
+
+adply(test4, .margins=c(1,2), fun=count)
+
+# We want to know the number of times there is a -1 or 1 for each row
 
 ################## CAMERA TRAP TEMPERATURE DATA FORMATTING ####################
 
