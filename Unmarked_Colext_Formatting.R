@@ -1066,7 +1066,7 @@ for(i in 1:length(Z[[1]])){
   test[i] <- ifelse(is.na(test[i])==TRUE, 0, test[i])
 }
 
-# Now extend to multiple species
+# Now extend to all species for one TEAM site
 test <- vector()
 hold <- data.frame(Sampling.Unit.Name=colnames(SitesBinary[[1]])[2:length(colnames(SitesBinary[[1]]))])
 hold2 <-list()
@@ -1080,9 +1080,9 @@ hold3 <- matrix()
   } 
 }
 
-names(hold2) <- rownames(SitesBinary[[1]])
+names(hold2) <- rownames(SitesBinary[[1]]) # Brings back species names, but could also name with UID index if needed later
 
-
+# Now extend to all TEAM sites
 
 
 ######################## FUNCTION TO FORMAT TRINARY (1/0/NA) CT DATA MATRICES ###############
