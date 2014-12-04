@@ -622,9 +622,12 @@ rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
    mods,ms, tmp, temp, toExport)
 }
 
-##### NEED TO BUILD IN A MECHANISM TO CHECK FOR IDENTICAL REPLICATES 
-##### TO INDICATE THERE WERE NO MODELS THAT CONVERGED FOR A SPECIES
+##### MECHANISM TO CHECK FOR IDENTICAL REPLICATES TO INDICATE THERE WERE NO MODELS THAT CONVERGED FOR A SPECIES
 
+results.all.NA <- list()
+for(i in 1:length(results.all)){
+  results.all.NA[[i]] <- ifelse(results.all[[i-1]]@Full==results.all[[i]]@Full, NA, results.all[[i-1]]@Full)
+}
 
 save.image(file="sppAll_results_v3.RData")
 names(results.all) <- nms
