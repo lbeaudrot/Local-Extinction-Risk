@@ -1052,9 +1052,35 @@ save(All_covs, file="All_covs_unscaled.RData")
 #save(NAK_covs, file="NAK_covs.RData")
 #save(RNF_covs, file="RNF_covs.RData")
 
+# Format EDI from Miguel for non-temporally varying covariate
+# Need to create a vector for each species for the site CTs based on CT communities in Z.
 
+SitesBinary[[1]][,1] # Species index values for the site. To generalize, change to SitesBinary[[i]][,1]
+SitesBinary[[1]][1,1] # Single species value to then extract elements from Z. To generalize, change to SitesBinary[[i]][j,1]
+Z[[1]][1]
 
+# the following loop produces output for a single species (#21) for all camera traps
+test <- vector()
+for(i in 1:length(Z[[1]])){
+    test[i] <- Z[[1]][[i]]["21"]
+  test[i] <- ifelse(is.na(test[i])==TRUE, 0, test[i])
+}
 
+# Now extend to multiple species
+test <- vector()
+hold <- data.frame(Sampling.Unit.Name=colnames(SitesBinary[[1]])[2:length(colnames(SitesBinary[[1]]))])
+hold2 <-list()
+hold3 <- matrix()
+
+  for(j in 1:length(SitesBinary[[1]][,1])){
+    for(i in 1:length(Z[[1]])){
+    test[i] <- Z[[1]][[i]][as.character(SitesBinary[[1]][,1])[j]]
+    test[i] <- ifelse(is.na(test[i])==TRUE, 0, test[i]) 
+    hold2[[j]] <- test
+  } 
+}
+
+names(hold2) <- rownames(SitesBinary[[1]])
 
 
 
