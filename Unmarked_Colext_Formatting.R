@@ -26,6 +26,7 @@ eventsdata <- subdata
 # Reduce dataset to mammals only
 eventsdata <- eventsdata[eventsdata$Class=="MAMMALIA",]
 
+
 ##################### CREATE INPUT DATA FOR UNMARKED ANALYSIS WITH 15 SECONDARY SAMPLING PERIODS #################
 # Create matrices with 15 secondary sampling periods for each year of data collection for each species for sites with >500 m elevation gradients
 # Check table to see sampling periods per site. Based on sampling periods:
@@ -401,7 +402,7 @@ All500m_covariate_species <- c(VB_covariate_species=VB_covariate_species,
 save(All500m_covariate_species, file="All500m_covariate_species.RData")
 
 
-########### Format presence absence matrices for
+########### Format presence absence matrices for sites
 # Reduce overall data to the 7 sites only
 Sites7dataDF <- eventsdata[eventsdata$Site.Code=="VB-"|eventsdata$Site.Code=="UDZ"|eventsdata$Site.Code=="BIF"|eventsdata$Site.Code=="PSH"|eventsdata$Site.Code=="YAN"|eventsdata$Site.Code=="NAK"|eventsdata$Site.Code=="RNF",]
 spnames <- c(names(VBMatrix2008), names(UDZMatrix2009), names(BIFMatrix2011), names(PSHMatrix2011), names(YANMatrix2011), names(NAKMatrix2011), names(RNFMatrix2011))
@@ -459,7 +460,7 @@ for(i in 1:length(Sites7data)){
 }
 
 # Remove PSH camera traps from arrays 2 and 3
-SitesBinary[[4]] <- SitesBinary[[4]][,1:30]
+SitesBinary[[4]] <- SitesBinary[[4]][,1:31]
 
 # Remove all populations of "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
 SitesBinary[[2]] <- SitesBinary[[2]][-10,] # Remove Dendrohyrax arboreus from UDZ
@@ -469,10 +470,53 @@ SitesBinary[[6]] <- SitesBinary[[6]][-22,] # Remove Tragulus javanicus from NAK
 SitesBinary[[6]] <- SitesBinary[[6]][-16,] # Remove Muntiacus muntjak from NAK
 
 names(SitesBinary) <- Sitenames
-
 save(SitesBinary, file="SitesBinary.RData")
 
-# Next Steps: Figure out why there are 4 mismatched species between what I sent JP for phylogeny and overall matrix
+# Create Presence-Absence matrices for each CT for each year
+
+temp <- list()
+SitesBinaryAnnual <- list()
+SpID <- vector()
+
+SiteYears <- length(table(Sites7data[[1]]$Sampling.Period)) + length(table(Sites7data[[2]]$Sampling.Period)) +
+             length(table(Sites7data[[3]]$Sampling.Period)) + length(table(Sites7data[[4]]$Sampling.Period)) + 
+             length(table(Sites7data[[5]]$Sampling.Period)) + length(table(Sites7data[[6]]$Sampling.Period)) + 
+             length(table(Sites7data[[7]]$Sampling.Period))  
+
+# First get inner loop to work (i.e. get it to make a separate matrix for each year at one site)
+# Then add outer loop to loop over all sites
+
+for(i in 1:length(Sites7data)){
+  for(j in 1:length(table(Sites7data[[i]]$Sampling.Period))){
+  sptable <- table(Sites7data[[i]]$bin, Sites7data[[i]]$Sampling.Unit.Name, Sites7data[[i]]$Sampling.Period)[,,j]
+  sptable <- sptable[match(spnames[[i]], rownames(sptable)),]
+  sptable <- ifelse(sptable>0,1,0)
+  sptable <- sptable[order(rownames(sptable)),]
+  SpID    <- UID$UID[match(as.factor(rownames(sptable)), UID$bin)]
+  sptable <- cbind(SpID, sptable)
+  temp[[j]] <- sptable
+  }
+  names(temp) <- names(table(Sites7data[[i]]$Sampling.Period))
+  SitesBinaryAnnual[[i]] <- temp
+  rm(temp)
+  temp <- list()
+  #outputname <- paste(Sitenames[i], "Binary", "csv", sep=".")
+  #write.csv(sptable, file=outputname)
+}
+names(SitesBinaryAnnual) <- Sitenames
+
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", ,1:31) # Remove arrays 2 and 3 at PSH
+SitesBinaryAnnual[[2]] <- lapply(SitesBinaryAnnual[[2]], "[", -10,)  # Remove Dendrohyrax arboreus from UDZ
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -35,)  # Remove Tragulus napu from PSH
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -18,)  # Remove Muntiacus muntjak from PSH
+SitesBinaryAnnual[[6]] <- lapply(SitesBinaryAnnual[[6]], "[", -22,)  # Remove Tragulus javanicus from NAK
+SitesBinaryAnnual[[6]] <- lapply(SitesBinaryAnnual[[6]], "[", -16,)  # Remove Muntiacus muntjak from NAK
+
+save(SitesBinaryAnnual, file="SitesBinaryAnnual.RData")
+
+
+
+# Figure out why there are 4 mismatched species between what I sent JP for phylogeny and overall matrix
 
 # WORKS BELOW for overall data - no longer works b/c missing spnames to match on; try using UID instead
 # Table species by camera trap
@@ -484,6 +528,86 @@ save(SitesBinary, file="SitesBinary.RData")
 
 #write.csv(sptable, file="Species_PresenceAbsenceTable.csv")
 #rowSums(sptable)
+
+########### EXAMINE THE OCCUPANCY, # COLONIZATION and # EXTINCTION EVENTS FOR EACH SPECIES AT EACH SITE ##############
+# We want the number of times that a species at a camera trap changes from 0 to 1; then also from 1 to 0
+# These objects give the transition between year t and t+1
+
+
+
+lapply(SitesBinaryAnnual[[4]], "rowSums") - lapply(SitesBinaryAnnual[[4]], "[", ,1)
+
+# Gives the number of camera traps at which a species is present in a year (not generalized)
+data.frame(lapply(SitesBinaryAnnual[[4]], "rowSums")[1]) - data.frame(lapply(SitesBinaryAnnual[[4]], "[", ,1)[1])
+
+
+##################### This gives the number of col and ext events for site 4 for the first transition
+T1 <- data.frame(SitesBinaryAnnual[[4]][2]) - data.frame(SitesBinaryAnnual[[4]][1])
+T1col <- T1
+T1col[T1col==-1] <- 0
+T1col <- rowSums(T1col)
+
+T1ext <- T1
+T1ext[T1ext==1] <- 0
+T1ext <- rowSums(T1ext)
+
+T1.ID <- data.frame(SitesBinaryAnnual[[4]][2])[,1] # reassign species ID values 
+data.frame(UID=T1.ID, T1col, T1ext)
+
+####################### End code for the col and ext events for site 4 for the first transition
+
+##################### Generalize number of col and ext events for all sites and for all annual transitions; include occupancy (# CTs with species present in a primary period)  
+Ti <- list()
+Col <- list()
+Ext <- list()
+Occ <- list()
+Tsum <- list()
+#Species <- data.frame(SitesBinaryAnnual[[4]][2])[,1]
+Species <- data.frame()
+Percent <- data.frame()
+OccColExt.Raw <- list()
+OccColExt.Per <- list()
+
+for(j in 1:length(SitesBinaryAnnual)){
+    Species <- data.frame(SitesBinaryAnnual[[j]][2])[,1]
+for(i in 1:(length(SitesBinaryAnnual[[j]])-1)){
+    Ti[[i]] <- data.frame(SitesBinaryAnnual[[j]][i+1]) - data.frame(SitesBinaryAnnual[[j]][i])
+    
+    Occ[[i]] <- data.frame(lapply(SitesBinaryAnnual[[j]], "rowSums")[i+1]) - data.frame(lapply(SitesBinaryAnnual[[j]], "[", ,1)[1]) # Note initial year of occupancy data is omitted
+    
+    Col[[i]] <- Ti[[i]]
+    Col[[i]][Col[[i]]==-1] <- 0
+    Col[[i]] <- rowSums(Col[[i]])
+
+    Ext[[i]] <- Ti[[i]]
+    Ext[[i]][Ext[[i]]==1] <- 0
+    Ext[[i]] <- rowSums(Ext[[i]])
+
+    Tsum[[i]] <- data.frame(Col[[i]], Ext[[i]])
+    
+    Species <- data.frame(Species, Occ[[i]], Col[[i]], Ext[[i]])
+    Percent <- data.frame(Species=Species[,1], round((Species[,2:dim(Species)[2]]/(dim(Ti[[1]])[2]-1))*100,1))
+  }
+
+  OccColExt.Raw[[j]] <- Species
+  OccColExt.Per[[j]] <- Percent
+  #rm(temp)
+  #temp <- list()
+}
+
+names(OccColExt.Raw) <- Sitenames
+names(OccColExt.Per) <- Sitenames
+
+# above loop works and creates a list of occupancy, col, ext events for each time period transition for all sites
+
+save(OccColExt.Raw, file="OccColExt.Raw.RData")
+save(OccColExt.Per, file="OccColExt.Per.RData")
+
+
+
+
+
+####################### End code for the col and ext events 
 
 
 
@@ -501,6 +625,12 @@ save(SitesBinary, file="SitesBinary.RData")
   #Convert F temperature values to Celcius; Change C Temperatures to numeric format from character
   temp.degreesC <- as.numeric(ifelse(temp.unit=="F", f.FtoC(as.numeric(temp.degrees)), temp.degrees))
   eventsdata <- cbind(eventsdata, temp.degreesC)
+
+# Note that CT-PSH-1-21 has problematic temperature values (Max=67 degrees) 
+# Change all temp values to NA for CT-PSH-1-21
+  eventsdata$temp.degreesC <- ifelse(eventsdata$Sampling.Unit.Name=="CT-PSH-1-21", NA, eventsdata$temp.degreesC)
+
+
 
 # Determine the annual min, max and variance of the non-calibrated temperature data for each CT without using interpolated data
   Temp.Min <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=min)
