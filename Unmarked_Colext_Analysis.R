@@ -23,8 +23,8 @@ colext.transformed=list() #add at the beginning
 
 
 ####
-for(k in 1:3){
-#for(k in 1:length(nms)){
+#for(k in 1:3){
+for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
@@ -623,6 +623,8 @@ rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
    mods,ms, tmp, temp, toExport)
 }
 
+write.csv(colext.transformed, file="colext.transformed.csv")
+
 ##### MECHANISM TO CHECK FOR IDENTICAL REPLICATES TO INDICATE THERE WERE NO MODELS THAT CONVERGED FOR A SPECIES
 
 results.all.NA <- list()
@@ -630,7 +632,7 @@ for(i in 2:length(results.all)){
   results.all.NA[[i-1]] <- ifelse(results.all[[i-1]]@Full==results.all[[i]]@Full, NA, results.all[[i-1]]@Full)
 }
 
-save.image(file="sppAll_results_v4.RData")
+save.image(file="sppAll_results_5Dec2014.RData")
 names(results.all) <- nms
 
 length(nms)
@@ -639,3 +641,4 @@ for(i in 1:length(nms)) {
   output <- results.all[[i]]@Full
 	write.csv(output, file=outputname)
 } 
+
