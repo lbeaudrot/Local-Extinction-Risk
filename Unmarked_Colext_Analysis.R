@@ -6,7 +6,7 @@ load("All_covs.RData")
 #load("All500m_covariate_species.RData")
 load("All_species7sites.RData")
 All500m_covariate_species <- All_species7sites
-
+load("BIOTIC_all.RData")
 library(unmarked)
 
 # Matrices for each population are contained in the object "All500m_covariate_species"
@@ -23,8 +23,8 @@ colext.transformed=list() #add at the beginning
 
 
 ####
-#for(k in 156:157){
-for(k in 1:length(nms)){
+for(k in 1:3){
+#for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
@@ -43,6 +43,7 @@ covs <- All_covs[names(All_covs)==site_covs]
 Elevation <- unlist(as.matrix(sapply(covs, "[", 1)))
 ForestLossCT <- unlist(as.matrix(sapply(covs, "[", 2)))
 ForestGainCT <- unlist(as.matrix(sapply(covs, "[", 3)))
+Biotic <- BIOTIC_166[[index]]
 
 # ADD BIOTIC VARIABLE HERE
 
@@ -60,7 +61,7 @@ years=as.character(1:to)
 years=matrix(years,nrow(species),to,byrow=TRUE)
 
 # ADD BIOTIC TO UMF COVARIATES
-site.covs<-data.frame(Elevation, ForestLossCT, ForestGainCT)
+site.covs<-data.frame(Elevation, ForestLossCT, ForestGainCT, Biotic)
 
 umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
 #umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(year=years,Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
@@ -625,11 +626,11 @@ rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
 ##### MECHANISM TO CHECK FOR IDENTICAL REPLICATES TO INDICATE THERE WERE NO MODELS THAT CONVERGED FOR A SPECIES
 
 results.all.NA <- list()
-for(i in 1:length(results.all)){
-  results.all.NA[[i]] <- ifelse(results.all[[i-1]]@Full==results.all[[i]]@Full, NA, results.all[[i-1]]@Full)
+for(i in 2:length(results.all)){
+  results.all.NA[[i-1]] <- ifelse(results.all[[i-1]]@Full==results.all[[i]]@Full, NA, results.all[[i-1]]@Full)
 }
 
-save.image(file="sppAll_results_v3.RData")
+save.image(file="sppAll_results_v4.RData")
 names(results.all) <- nms
 
 length(nms)
