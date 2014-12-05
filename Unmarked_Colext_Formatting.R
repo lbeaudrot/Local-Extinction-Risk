@@ -26,6 +26,11 @@ eventsdata <- subdata
 # Reduce dataset to mammals only
 eventsdata <- eventsdata[eventsdata$Class=="MAMMALIA",]
 
+# Try ordering data by new site-species column to see if downstream data will all follow alphabetical order
+SITE.SP <- paste(eventsdata$Site.Code, eventsdata$bin, sep="-")
+eventsdata <- data.frame(eventsdata, SITE.SP=SITE.SP)
+eventsdata <- eventsdata[order(eventsdata$SITE.SP),]
+
 
 ##################### CREATE INPUT DATA FOR UNMARKED ANALYSIS WITH 15 SECONDARY SAMPLING PERIODS #################
 # Create matrices with 15 secondary sampling periods for each year of data collection for each species for sites with >500 m elevation gradients
@@ -247,6 +252,15 @@ for(i in 1:length(RNFMatrix2011)){
       RNF.species[[i]] <- data.frame("2010"=RNFMatrix2010.15[[i]], "2011"=RNFMatrix2011.15[[i]], "2012"=RNFMatrix2012.15[[i]], "2013"=RNFMatrix2013.15[[i]])
     }
     names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
+
+
+# Remove all populations of "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
+
+UDZ.species <- UDZ.species[-10] # Remove Dendrohyrax arboreus from UDZ
+PSH.species <- PSH.species[-35]  # Remove Tragulus napu from PSH
+PSH.species <- PSH.species[-18]  # Remove Muntiacus muntjak from PSH
+NAK.species <- NAK.species[-22]  # Remove Tragulus javanicus from NAK
+NAK.species <- NAK.species[-16] # Remove Muntiacus muntjak from NAK
 
 All_species7sites <- c(VB_.species=VB_.species,
                           UDZ.species=UDZ.species,
@@ -1041,7 +1055,7 @@ All_covs <- list(VB__covs=VB__covs,
                  RNF_covs=RNF_covs)
 
 save(All_covs, file="All_covs.RData")
-save(All_covs, file="All_covs_unscaled.RData")
+#save(All_covs, file="All_covs_unscaled.RData")
 
 ################ SAVE OBJECTS CONTAINING SITE LEVEL COVARIATES
 #save(VB_covs, file="VB_covs.RData")
@@ -1054,7 +1068,7 @@ save(All_covs, file="All_covs_unscaled.RData")
 
 # Format EDI from Miguel for non-temporally varying covariate
 # Need to create a vector for each species for the site CTs based on CT communities in Z.
-
+load("Scaled_FPDist.RData")
 SitesBinary[[1]][,1] # Species index values for the site. To generalize, change to SitesBinary[[i]][,1]
 SitesBinary[[1]][1,1] # Single species value to then extract elements from Z. To generalize, change to SitesBinary[[i]][j,1]
 Z[[1]][1]
@@ -1082,35 +1096,33 @@ hold <-list()
 names(hold) <- rownames(SitesBinary[[1]]) # Brings back species names, but could also name with UID index if needed later
 
 # Now extend to all TEAM sites
+load("Scaled_FPDist.RData")
+BIOTIC_pop <- vector()
+BIOTIC_site <-list()
+BIOTIC_all <- list()
 
-
-test <- vector()
-hold <-list()
-hold2 <- list()
-hold3 <- list()
 for(k in 1:length(SitesBinary)){
   for(j in 1:length(SitesBinary[[k]][,1])){
     for(i in 1:length(Z[[k]])){
-    test[i] <- Z[[k]][[i]][as.character(SitesBinary[[k]][,1])[j]]
-    test[i] <- ifelse(is.na(test[i])==TRUE, 0, test[i]) 
+    BIOTIC_pop[i] <- Z[[k]][[i]][as.character(SitesBinary[[k]][,1])[j]]
+    BIOTIC_pop[i] <- ifelse(is.na(BIOTIC_pop[i])==TRUE, 0, BIOTIC_pop[i]) 
     }   
-    hold[[j]] <- test
+    BIOTIC_site[[j]] <- BIOTIC_pop
   }
-  hold2[[k]] <- hold
-    names(hold2[[k]]) <- rownames(SitesBinary[[k]])  # Brings back species names, but could also name with UID index if needed later
-   rm(hold)
-  hold <- list()
+  BIOTIC_all[[k]] <- BIOTIC_site
+    names(BIOTIC_all[[k]]) <- rownames(SitesBinary[[k]])  # Brings back species names, but could also name with UID index if needed later
+   rm(BIOTIC_site)
+  BIOTIC_site <- list()
 }
-names(hold2) <- Sitenames
+names(BIOTIC_all) <- Sitenames
 
 
+# Create object that is a single list (rather than 7 lists of lists) to use as input for unmarked for easy indexing
+BIOTIC_166 <- c(BIOTIC_all[[1]], BIOTIC_all[[2]], BIOTIC_all[[3]], BIOTIC_all[[4]], BIOTIC_all[[5]], BIOTIC_all[[6]], BIOTIC_all[[7]])
+save(BIOTIC_166, file="BIOTIC_all.RData")
 
-
-
-
-
-
-
+# Check to be sure that population level data is in the same order for y input and for BIOTIC covariate input
+cbind(names(All_species7sites), names(BIOTIC_166))
 
 ######################## FUNCTION TO FORMAT TRINARY (1/0/NA) CT DATA MATRICES ###############
 f.matrix.creatorLB<-function(data,year){
