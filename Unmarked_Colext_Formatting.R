@@ -1068,21 +1068,48 @@ for(i in 1:length(Z[[1]])){
 
 # Now extend to all species for one TEAM site
 test <- vector()
-hold <- data.frame(Sampling.Unit.Name=colnames(SitesBinary[[1]])[2:length(colnames(SitesBinary[[1]]))])
-hold2 <-list()
-hold3 <- matrix()
+hold <-list()
+#hold <- data.frame(Sampling.Unit.Name=colnames(SitesBinary[[1]])[2:length(colnames(SitesBinary[[1]]))])
 
   for(j in 1:length(SitesBinary[[1]][,1])){
     for(i in 1:length(Z[[1]])){
     test[i] <- Z[[1]][[i]][as.character(SitesBinary[[1]][,1])[j]]
     test[i] <- ifelse(is.na(test[i])==TRUE, 0, test[i]) 
-    hold2[[j]] <- test
+    hold[[j]] <- test
   } 
 }
 
-names(hold2) <- rownames(SitesBinary[[1]]) # Brings back species names, but could also name with UID index if needed later
+names(hold) <- rownames(SitesBinary[[1]]) # Brings back species names, but could also name with UID index if needed later
 
 # Now extend to all TEAM sites
+
+
+test <- vector()
+hold <-list()
+hold2 <- list()
+hold3 <- list()
+for(k in 1:length(SitesBinary)){
+  for(j in 1:length(SitesBinary[[k]][,1])){
+    for(i in 1:length(Z[[k]])){
+    test[i] <- Z[[k]][[i]][as.character(SitesBinary[[k]][,1])[j]]
+    test[i] <- ifelse(is.na(test[i])==TRUE, 0, test[i]) 
+    }   
+    hold[[j]] <- test
+  }
+  hold2[[k]] <- hold
+    names(hold2[[k]]) <- rownames(SitesBinary[[k]])  # Brings back species names, but could also name with UID index if needed later
+   rm(hold)
+  hold <- list()
+}
+names(hold2) <- Sitenames
+
+
+
+
+
+
+
+
 
 
 ######################## FUNCTION TO FORMAT TRINARY (1/0/NA) CT DATA MATRICES ###############
