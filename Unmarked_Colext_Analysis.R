@@ -1,13 +1,17 @@
 # Unmarked analysis of 32 TEAM populations with >8% detection rates at sites with >500 m elevation change
+library(unmarked)
+library(plyr)
+
 #load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All_covs_scaled.RData')
 #load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All500m_covariate_species.RData')
+
 rm(list=ls())
 load("All_covs.RData")
 #load("All500m_covariate_species.RData")
 load("All_species7sites.RData")
 All500m_covariate_species <- All_species7sites
 load("BIOTIC_all.RData")
-library(unmarked)
+
 
 # Matrices for each population are contained in the object "All500m_covariate_species"
 nms=names(All500m_covariate_species)
@@ -23,8 +27,8 @@ colext.transformed=list() #add at the beginning
 
 
 ####
-#for(k in 1:3){
-for(k in 1:length(nms)){
+for(k in 1:5){
+#for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
@@ -623,16 +627,32 @@ rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
    mods,ms, tmp, temp, toExport)
 }
 
-write.csv(colext.transformed, file="colext.transformed.csv")
+# Need to coerce the lists into dataframes before writing to a files
+names(results.table.ma) <- nms[1:length(nms)]
+results.table.ma.df <- ldply(results.table.ma, data.frame)
+
+names(results.table.aic) <- nms[1:length(nms)] # Specify subset here with [] if needed
+results.table.aic.df <- ldply(results.table.aic, data.frame)
+
+names(colext.transformed) <- nms[1:length(nms)] # Specify subset here with [] if needed
+colext.transformed.df <- ldply(colext.transformed, data.frame)
+
+write.csv(results.table.ma.df, file="results.table.ma.csv")
+write.csv(results.table.aic.df, file="results.table.aic.csv")
+write.csv(colext.transformed.df, file="colext.transformed.csv")
+
+# For 107, the Elevation ~ 1 ~ 1 ~ 1 model is missing so loop quit
+
 
 ##### MECHANISM TO CHECK FOR IDENTICAL REPLICATES TO INDICATE THERE WERE NO MODELS THAT CONVERGED FOR A SPECIES
-
-results.all.NA <- list()
+# Generate a vector that indicates which populations have duplicate values
+results.all.use <- vector()
 for(i in 2:length(results.all)){
-  results.all.NA[[i-1]] <- ifelse(results.all[[i-1]]@Full==results.all[[i]]@Full, NA, results.all[[i-1]]@Full)
+  results.all.use[i] <- ifelse(results.all[[i]]@Full==results.all[[i-1]]@Full, "convergence issue", "ok")
 }
+write.csv(results.all.use, file="ConvergenceCheck.csv")
 
-save.image(file="sppAll_results_5Dec2014.RData")
+save.image(file="sppAll_results_v4.RData")
 names(results.all) <- nms
 
 length(nms)

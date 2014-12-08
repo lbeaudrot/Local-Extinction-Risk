@@ -1108,7 +1108,7 @@ for(k in 1:length(SitesBinary)){
     BIOTIC_pop[i] <- ifelse(is.na(BIOTIC_pop[i])==TRUE, 0, BIOTIC_pop[i]) 
     }   
     BIOTIC_site[[j]] <- BIOTIC_pop
-    rm(BIOTIC_pop)
+    rm(BIOTIC_pop) # removes object and replaces is that the correct number of CT are used 
     BIOTIC_pop <- vector()
   }
   BIOTIC_all[[k]] <- BIOTIC_site
@@ -1118,14 +1118,17 @@ for(k in 1:length(SitesBinary)){
 }
 names(BIOTIC_all) <- Sitenames
 
-# ISSUE with BIOTIC_166 is that # of camera traps for TEAM sites are not correct. Goes from 60 to 61 and stays there.
-
 # Create object that is a single list (rather than 7 lists of lists) to use as input for unmarked for easy indexing
 BIOTIC_166 <- c(BIOTIC_all[[1]], BIOTIC_all[[2]], BIOTIC_all[[3]], BIOTIC_all[[4]], BIOTIC_all[[5]], BIOTIC_all[[6]], BIOTIC_all[[7]])
 save(BIOTIC_166, file="BIOTIC_all.RData")
 
 # Check to be sure that population level data is in the same order for y input and for BIOTIC covariate input
 cbind(names(All_species7sites), names(BIOTIC_166))
+
+
+# Format EDI from Miguel for temporally varying covariate
+load("Scaled_FPDist_time.RData")
+
 
 ######################## FUNCTION TO FORMAT TRINARY (1/0/NA) CT DATA MATRICES ###############
 f.matrix.creatorLB<-function(data,year){
