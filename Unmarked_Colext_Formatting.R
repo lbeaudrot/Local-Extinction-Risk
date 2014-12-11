@@ -1129,6 +1129,45 @@ cbind(names(All_species7sites), names(BIOTIC_166))
 # Format EDI from Miguel for temporally varying covariate
 load("Scaled_FPDist_time.RData")
 
+BIOTIC_pop <- vector()
+BIOTIC_year <- list()
+BIOTIC_site <-list()
+BIOTIC_all <- list()
+
+for(k in 1:length(SitesBinaryAnnual)){
+  for(m in 1:length(SitesBinaryAnnual[[k]])){ 
+    for(j in 1:length(SitesBinaryAnnual[[k]][[m]][,1])){
+      for(i in 1:length(Z[[k]][[m]])){
+        BIOTIC_pop[i] <- Z[[k]][[m]][[i]][as.character(SitesBinaryAnnual[[k]][[m]][,1])[j]]
+        BIOTIC_pop[i] <- ifelse(is.na(BIOTIC_pop[i])==TRUE, 0, BIOTIC_pop[i]) 
+        }   
+      BIOTIC_site[[j]] <- BIOTIC_pop
+      rm(BIOTIC_pop) # removes object and replaces is that the correct number of CT are used 
+      BIOTIC_pop <- list()
+      }
+    BIOTIC_year[[m]] <- BIOTIC_site
+    rm(BIOTIC_site)
+    BIOTIC_site <- list()
+    }
+  BIOTIC_all[[k]] <- BIOTIC_year
+  #names(BIOTIC_all[[k]][[m]]) <- rownames(SitesBinaryAnnual[[k]][[m]])  # Brings back species names, but could also name with UID index if needed later
+  rm(BIOTIC_year)
+  BIOTIC_year <- list()
+  }
+
+names(BIOTIC_all) <- Sitenames
+
+# Now convert BIOTIC_all output to a list of 166 dataframes (one for each population) with rows for each CT and columns for each year of data
+
+
+
+
+
+
+
+
+
+
 
 ######################## FUNCTION TO FORMAT TRINARY (1/0/NA) CT DATA MATRICES ###############
 f.matrix.creatorLB<-function(data,year){
