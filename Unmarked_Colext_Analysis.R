@@ -11,7 +11,7 @@ load("All_covs.RData")
 load("All_species7sites.RData")
 All500m_covariate_species <- All_species7sites
 load("BIOTIC_all.RData")
-
+loat("BIOTIC_ALL_YEARS.RData")
 
 # Matrices for each population are contained in the object "All500m_covariate_species"
 nms=names(All500m_covariate_species)
@@ -49,7 +49,6 @@ ForestLossCT <- unlist(as.matrix(sapply(covs, "[", 2)))
 ForestGainCT <- unlist(as.matrix(sapply(covs, "[", 3)))
 Biotic <- BIOTIC_166[[index]]
 
-# ADD BIOTIC VARIABLE HERE
 
 #yearlySiteCovs
 Tmin <- as.data.frame(sapply(covs, "[", 4))
@@ -57,7 +56,7 @@ Tmax <- as.data.frame(sapply(covs, "[", 5))
 Tvar <- as.data.frame(sapply(covs, "[", 6))
 Tsd <- as.data.frame(sapply(covs, "[", 7))
 Tmean <- as.data.frame(sapply(covs, "[", 8))
-
+BioticYearly <- BIOTIC_ALL_YEARS[[index]]
 
 
 to=dim(Tmin)[2]
@@ -67,7 +66,7 @@ years=matrix(years,nrow(species),to,byrow=TRUE)
 # ADD BIOTIC TO UMF COVARIATES
 site.covs<-data.frame(Elevation, ForestLossCT, ForestGainCT, Biotic)
 
-umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
+umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean, BioticYearly=BioticYearly), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
 #umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(year=years,Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
 
 mods=list()
@@ -565,6 +564,104 @@ try((fm35.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tvar+Bi
 if(exists("fm35.2")){mods=c(mods,fm35.2)}
 
 
+### NEW FROM ATLANTA - Add temporally varying Biotic models ####
+
+#BioticYearly##########################################################################
+try((fm36=colext(psiformula=~Elevation,gammaformula=~BioticYearly,epsilonformula=~BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm36")){mods=c(mods,fm36)}
+
+try((fm36.1=colext(psiformula=~Elevation,gammaformula=~BioticYearly,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm36.1")){mods=c(mods,fm36.1)}
+
+try((fm36.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm36.2")){mods=c(mods,fm36.2)}
+
+
+#Tmax * BioticYearly##########################################################################
+try((fm37=colext(psiformula=~Elevation,gammaformula=~Tmax*BioticYearly,epsilonformula=~Tmax*BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm37")){mods=c(mods,fm37)}
+
+try((fm37.1=colext(psiformula=~Elevation,gammaformula=~Tmax*BioticYearly,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm37.1")){mods=c(mods,fm37.1)}
+
+try((fm37.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmax*BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm37.2")){mods=c(mods,fm37.2)}
+
+#Tmax + BioticYearly##########################################################################
+try((fm38=colext(psiformula=~Elevation,gammaformula=~Tmax+BioticYearly,epsilonformula=~Tmax+BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm38")){mods=c(mods,fm38)}
+
+try((fm38.1=colext(psiformula=~Elevation,gammaformula=~Tmax+BioticYearly,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm38.1")){mods=c(mods,fm38.1)}
+
+try((fm38.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmax+BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm38.2")){mods=c(mods,fm38.2)}
+
+
+#Tmin * BioticYearly##########################################################################
+try((fm39=colext(psiformula=~Elevation,gammaformula=~Tmin*BioticYearly,epsilonformula=~Tmin*BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm39")){mods=c(mods,fm39)}
+
+try((fm39.1=colext(psiformula=~Elevation,gammaformula=~Tmin*BioticYearly,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm39.1")){mods=c(mods,fm39.1)}
+
+try((fm39.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmin*BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm39.2")){mods=c(mods,fm39.2)}
+
+#Tmin + BioticYearly##########################################################################
+try((fm40=colext(psiformula=~Elevation,gammaformula=~Tmin+BioticYearly,epsilonformula=~Tmin+BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm40")){mods=c(mods,fm40)}
+
+try((fm40.1=colext(psiformula=~Elevation,gammaformula=~Tmin+BioticYearly,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm40.1")){mods=c(mods,fm40.1)}
+
+try((fm40.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmin+BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm40.2")){mods=c(mods,fm40.2)}
+
+
+
+#Tvar * BioticYearly##########################################################################
+try((fm41=colext(psiformula=~Elevation,gammaformula=~Tvar*BioticYearly,epsilonformula=~Tvar*BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm41")){mods=c(mods,fm41)}
+
+try((fm41.1=colext(psiformula=~Elevation,gammaformula=~Tvar*BioticYearly,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm41.1")){mods=c(mods,fm41.1)}
+
+try((fm41.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tvar*BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm41.2")){mods=c(mods,fm41.2)}
+
+
+#Tvar + BioticYearly##########################################################################
+try((fm42=colext(psiformula=~Elevation,gammaformula=~Tvar+BioticYearly,epsilonformula=~Tvar+BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm42")){mods=c(mods,fm42)}
+
+try((fm42.1=colext(psiformula=~Elevation,gammaformula=~Tvar+BioticYearly,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm42.1")){mods=c(mods,fm42.1)}
+
+try((fm42.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tvar+BioticYearly,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm42.2")){mods=c(mods,fm42.2)}
+
 
 
 
@@ -624,6 +721,13 @@ rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
    fm28,fm28.1,fm28.2,fm29,fm29.1,fm29.2,fm30,fm30.1,fm30.2,
    fm31,fm31.1,fm31.2,fm32,fm32.1,fm32.2,fm33,fm33.1,fm33.2,
    fm34,fm34.1,fm34.2,fm35,fm35.1,fm35.2,
+   fm36,fm36.1,fm36.2,
+   fm37,fm37.1,fm37.2,
+   fm38,fm38.1,fm38.2,
+   fm39,fm39.1,fm39.2,
+   fm40,fm40.1,fm40.2,
+   fm41,fm41.1,fm41.2,
+   fm42,fm42.1,fm42.2,
    mods,ms, tmp, temp, toExport)
 }
 
