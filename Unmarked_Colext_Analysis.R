@@ -11,7 +11,7 @@ load("All_covs.RData")
 load("All_species7sites.RData")
 All500m_covariate_species <- All_species7sites
 load("BIOTIC_all.RData")
-loat("BIOTIC_ALL_YEARS.RData")
+load("BIOTIC_ALL_YEARS.RData")
 
 # Matrices for each population are contained in the object "All500m_covariate_species"
 nms=names(All500m_covariate_species)
