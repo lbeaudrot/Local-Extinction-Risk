@@ -1158,9 +1158,24 @@ for(k in 1:length(SitesBinaryAnnual)){
 names(BIOTIC_all) <- Sitenames
 
 # Now convert BIOTIC_all output to a list of 166 dataframes (one for each population) with rows for each CT and columns for each year of data
+test <- melt(BIOTIC_all[[1]]) #L1 is nyears; L2 is species; L3 is CT
+test <- test[61:dim(test)[1],]
+test2 <- cast(test, L3 ~ L1 ~ L2)
+test3 <- alply(test2,3)
+test4 <- llply(test3, data.frame)
 
+SiteList <- list()
+for(i in 2:length(SitesBinaryAnnual)){
+  test <- melt(BIOTIC_all[[i]]) #L1 is nyears; L2 is species; L3 is CT
+  test2 <- cast(test, L3 ~ L1 ~ L2)
+  test3 <- alply(test2,3)
+  test4 <- llply(test3, data.frame)
+  SiteList[[i]] <- test4
+}
 
+BIOTIC_ALL_YEARS <- c(test4, SiteList[[2]], SiteList[[3]], SiteList[[4]], SiteList[[5]], SiteList[[6]], SiteList[[7]])
 
+save(BIOTIC_ALL_YEARS, file="BIOTIC_ALL_YEARS.RData")
 
 
 
