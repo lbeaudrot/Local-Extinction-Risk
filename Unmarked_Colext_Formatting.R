@@ -1158,11 +1158,11 @@ for(k in 1:length(SitesBinaryAnnual)){
 names(BIOTIC_all) <- Sitenames
 
 # Now convert BIOTIC_all output to a list of 166 dataframes (one for each population) with rows for each CT and columns for each year of data
-test <- melt(BIOTIC_all[[1]]) #L1 is nyears; L2 is species; L3 is CT
-test <- test[61:dim(test)[1],]
-test2 <- cast(test, L3 ~ L1 ~ L2)
-test3 <- alply(test2,3)
-test4 <- llply(test3, data.frame)
+VBannual <- melt(BIOTIC_all[[1]]) #L1 is nyears; L2 is species; L3 is CT
+VBannual <- VBannual[61:dim(VBannual)[1],]
+VBannual_cast <- cast(VBannual, L3 ~ L1 ~ L2)
+VBannual_array <- alply(VBannual_cast,3)
+VBannual_BIOTIC <- llply(VBannual_array, data.frame)
 
 SiteList <- list()
 for(i in 2:length(SitesBinaryAnnual)){
@@ -1173,13 +1173,35 @@ for(i in 2:length(SitesBinaryAnnual)){
   SiteList[[i]] <- test4
 }
 
-BIOTIC_ALL_YEARS <- c(test4, SiteList[[2]], SiteList[[3]], SiteList[[4]], SiteList[[5]], SiteList[[6]], SiteList[[7]])
+# Remove 5th year from NAK to match available CT temperature data
+SiteList[[6]] <- lapply(SiteList[[6]], "[", ,1:4)
+
+BIOTIC_ALL_YEARS <- c(VBannual_BIOTIC, SiteList[[2]], SiteList[[3]], SiteList[[4]], SiteList[[5]], SiteList[[6]], SiteList[[7]])
 
 save(BIOTIC_ALL_YEARS, file="BIOTIC_ALL_YEARS.RData")
 
+# Subset input data to exclude binomial cases (i.e rare populations) based on Cases$Full
+# Note that this reduces the # of populations from 166 to 62 (35 constant; 27 simple)
+Cases <- read.csv("Cases.csv")
+Full <- paste(Cases$site, "species", Cases$site.sp, sep=".")
+Cases <- cbind(Cases, Full)
 
+Cases <- Cases[match(names(All_species7sites), Cases$Full),]
+# NA value species are Helarctos malaynus at NAK and Tapirus terrestris at VB
 
+# Subset the following objects based on Cases: All_species7sites, BIOTIC_166, BIOTIC_ALL_YEARS
+ 
+ExcludeBinomial <- Cases[Cases$Case!="binomial",]
+ExcludeBinomial <- na.omit(ExcludeBinomial)
+IncludeIndex <- match(ExcludeBinomial$Full, names(All_species7sites))
 
+Species7sites_Include <- All_species7sites[IncludeIndex]
+BIOTIC_Include <- BIOTIC_166[IncludeIndex]
+BIOTIC_ALL_YEARS_Include <- BIOTIC_ALL_YEARS[IncludeIndex]
+
+save(Species7sites_Include, file="Species7sites_Include.RData")
+save(BIOTIC_Include, file="BIOTIC_Include.RData")
+save(BIOTIC_ALL_YEARS_Include, file="BIOTIC_ALL_YEARS_Include.RData")
 
 
 
