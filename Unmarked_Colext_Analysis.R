@@ -17,10 +17,10 @@ load("BIOTIC_ALL_YEARS.RData") # For 166 populations
 load("BIOTIC_Include.RData") # For 62 populations (excludes binomial cases)
 load("BIOTIC_ALL_YEARS_Include.RData") # For 62 populations (excludes binomial cases)
 
-#All500m_covariate_species <- All_species7sites
-All500m_covariate_species <- Species7sites_Include
-BIOTIC_166 <- BIOTIC_Include
-BIOTIC_ALL_YEARS <- BIOTIC_ALL_YEARS_Include
+All500m_covariate_species <- All_species7sites
+#All500m_covariate_species <- Species7sites_Include
+#BIOTIC_166 <- BIOTIC_Include
+#BIOTIC_ALL_YEARS <- BIOTIC_ALL_YEARS_Include
 
 # Matrices for each population are contained in the object "All500m_covariate_species"
 nms=names(All500m_covariate_species)
@@ -33,11 +33,13 @@ results.table.ma=list() #add at the begining
 results.table.aic=list() #add at the begining
 colext.transformed=list() #add at the beginning
 
-
+isEmpty <- function(x) {
+    return(length(x)==0)
+}
 
 ####
-#for(k in 1:5){
-for(k in 108:length(nms)){
+for(k in 106:108){
+#for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
@@ -697,26 +699,46 @@ mods.all[[k]]=mods
 
 toExport<-as(ms,"data.frame") #add after ms object
 
-if(toExport$delta[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1"]==0 || toExport$delta[toExport$formula=="~1 ~ 1 ~ 1 ~ 1"]==0){  
+null.elev.aic=toExport$delta[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1"]
+null.aic=toExport$delta[toExport$formula=="~1 ~ 1 ~ 1 ~ 1"]
 
-results.table.ma[[k]]=rbind(toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",],toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",])	
+#if null.elev didn't converge
+if(isEmpty(null.elev.aic)==TRUE){
+  null.elev=NA	
+}else{
+null.elev=toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",]		
+}
 
-temp=as.data.frame(cbind(toExport$formula,toExport$delta,toExport$AICwt))
+#if null didn't converge
+if(isEmpty(null.aic)==TRUE){
+	null.elev=NA	
+}else{
+null=toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",]
+}
+
+
+if((null.elev.aic==0 || isEmpty(null.elev.aic)==TRUE) || (null.aic==0) ||isEmpty(null.aic)==TRUE){	
+	
+results.table.ma[[k]]=rbind(null,null.elev)	
+
+temp=data.frame(toExport$formula,toExport$delta,toExport$AICwt)
 names(temp)=c("formula","delta","AICwt")
 results.table.aic[[k]]=rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])}else{
 
-results.table.ma[[k]]=rbind(toExport[1,],toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",],toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",])
+results.table.ma[[k]]=rbind(toExport[1,],null,null.elev)
 
-temp=as.data.frame(cbind(toExport$formula,toExport$delta,toExport$AICwt))
+temp=data.frame(toExport$formula,toExport$delta,toExport$AICwt)
 names(temp)=c("formula","delta","AICwt")
 results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])
+}
 
-test=seq(3,length(toExport)-17,by=2)
+test=seq(4,length(toExport)-17,by=2)
 tmp=toExport[1,test]
 
-colext.transformed[[k]]=tmp
+colext.transformed[[k]]=exp(tmp)
 
-}
+
+
 #add tmp, temp and toExport to the rm object 
 rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
    fm4,fm4.1,fm4.2,fm5,fm5.1,fm5.2,fm6,fm6.1,fm6.2,fm7,fm7.1,
