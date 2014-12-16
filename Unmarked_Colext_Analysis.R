@@ -38,7 +38,7 @@ isEmpty <- function(x) {
 }
 
 ####
-for(k in 106:108){
+for(k in 106:106){
 #for(k in 1:length(nms)){
 print(k)
 
@@ -724,19 +724,21 @@ results.table.ma[[k]]=rbind(null,null.elev)
 temp=data.frame(toExport$formula,toExport$delta,toExport$AICwt)
 names(temp)=c("formula","delta","AICwt")
 results.table.aic[[k]]=rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])}else{
-
+  
 results.table.ma[[k]]=rbind(toExport[1,],null,null.elev)
+results.table.ma[[k]] <- cbind(nms[k], results.table.ma[[k]])
 
 temp=data.frame(toExport$formula,toExport$delta,toExport$AICwt)
 names(temp)=c("formula","delta","AICwt")
 results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])
+results.table.aic[[k]] <- cbind(nms[k], results.table.aic[[k]])
 }
 
 test=seq(4,length(toExport)-17,by=2)
 tmp=toExport[1,test]
 
 colext.transformed[[k]]=exp(tmp)
-
+colext.transformed[[k]] <- cbind(nms[k], colext.transformed[[k]])
 
 
 #add tmp, temp and toExport to the rm object 
@@ -763,13 +765,13 @@ rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
 }
 
 # Need to coerce the lists into dataframes before writing to a files
-names(results.table.ma) <- nms[1:length(nms)]
+#names(results.table.ma) <- nms[1:length(nms)]
 results.table.ma.df <- ldply(results.table.ma, data.frame)
 
-names(results.table.aic) <- nms[1:length(nms)] # Specify subset here with [] if needed
+#names(results.table.aic) <- nms[1:length(nms)] # Specify subset here with [] if needed
 results.table.aic.df <- ldply(results.table.aic, data.frame)
 
-names(colext.transformed) <- nms[1:length(nms)] # Specify subset here with [] if needed
+#names(colext.transformed) <- nms[1:length(nms)] # Specify subset here with [] if needed
 colext.transformed.df <- ldply(colext.transformed, data.frame)
 
 write.csv(results.table.ma.df, file="results.table.ma.csv")
