@@ -9,11 +9,11 @@ library(stringr)
 # Load matrix creator function at bottom of this script "f.matrix.creatorLB"
 # Load TEAM data, fix data, and add site code; no need to separate events because matrix creator functions turns all detections into trinary matrix
 #ctdata <- f.teamdb.query("camera trap")
-#load("ct_data2014-10-31.gzip")
-#alldata <- cam_trap_data
-#alldata<-f.fix.data2(alldata)
-#Site.Code <- substr(alldata$Sampling.Unit.Name,4,6)
-#alldata <- cbind(alldata, Site.Code)
+load("ct_data2014-10-31.gzip")
+alldata <- cam_trap_data
+alldata<-f.fix.data2(alldata)
+Site.Code <- substr(alldata$Sampling.Unit.Name,4,6)
+alldata <- cbind(alldata, Site.Code)
 
 
 splist<-read.csv("master_species_list_updated_7April2014.csv",h=T) #master list
@@ -1068,7 +1068,7 @@ save(All_covs, file="All_covs.RData")
 
 # Format EDI from Miguel for non-temporally varying covariate
 # Need to create a vector for each species for the site CTs based on CT communities in Z.
-load("Scaled_FPDist.RData")
+load("Scaled_FPDist_0.9a.RData")
 SitesBinary[[1]][,1] # Species index values for the site. To generalize, change to SitesBinary[[i]][,1]
 SitesBinary[[1]][1,1] # Single species value to then extract elements from Z. To generalize, change to SitesBinary[[i]][j,1]
 Z[[1]][1]
@@ -1096,7 +1096,7 @@ hold <-list()
 names(hold) <- rownames(SitesBinary[[1]]) # Brings back species names, but could also name with UID index if needed later
 
 # Now extend to all TEAM sites
-load("Scaled_FPDist.RData")
+load("Scaled_FPDist_0.9a.RData")
 BIOTIC_pop <- vector()
 BIOTIC_site <-list()
 BIOTIC_all <- list()
@@ -1127,7 +1127,7 @@ cbind(names(All_species7sites), names(BIOTIC_166))
 
 
 # Format EDI from Miguel for temporally varying covariate
-load("Scaled_FPDist_time.RData")
+load("Scaled_FPDist_time_0.9a.RData")
 
 BIOTIC_pop <- vector()
 BIOTIC_year <- list()
