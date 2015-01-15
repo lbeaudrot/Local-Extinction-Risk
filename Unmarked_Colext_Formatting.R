@@ -1066,6 +1066,31 @@ save(All_covs, file="All_covs.RData")
 #save(NAK_covs, file="NAK_covs.RData")
 #save(RNF_covs, file="RNF_covs.RData")
 
+
+
+# Format Abiotic PCA variable(s) as alternative model input 
+
+test <- RNF_covs[-3]
+test <- test[-2]
+test <- test[-1]
+
+# Need to find a way to melt the data and then cast into the desired dataframe
+# Go from list with dataframes of one variable for all years
+# To list with dataframes of all variables for one year
+test2 <- melt(test)
+test3 <- cast(test2, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
+test4 <- alply(test3, .margin=3)
+# Then add Elevation to each element of the list and run PCA
+
+
+RNF.Elev
+test5 <- llply(test4, .fun=cbind, Elevation=RNF.Elev)
+
+test6 <- llply(test5, .fun=t)
+test7 <- llply(test6, prcomp)
+test8 <- llply(test7, summary)
+
+
 # Format EDI from Miguel for non-temporally varying covariate
 # Need to create a vector for each species for the site CTs based on CT communities in Z.
 load("Scaled_FPDist_0.9a.RData")
