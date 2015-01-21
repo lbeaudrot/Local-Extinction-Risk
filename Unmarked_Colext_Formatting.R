@@ -4,6 +4,8 @@
 library(lubridate)
 library(reshape)
 library(stringr)
+library(plyr)
+library(fields)
 
 # Load Jorge's file "camera trap analysis functions.R"
 # Load matrix creator function at bottom of this script "f.matrix.creatorLB"
@@ -1069,26 +1071,179 @@ save(All_covs, file="All_covs.RData")
 
 
 # Format Abiotic PCA variable(s) as alternative model input 
+VB_pca_input <- VB__covs[-3]
+VB_pca_input <- VB_pca_input[-2]
+VB_pca_input <- VB_pca_input[-1]
+VB_pca_data.melt <- melt(VB_pca_input)
+VB_pca_data.cast <- cast(VB_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
+VB_pca_data <- alply(VB_pca_data.cast, .margin=3)
+#colnames(VB.Elev) <- c("Elev")
+#VB_pca_data <- llply(VB_pca_data, .fun=cbind, Elevation=VB.Elev)
+VB_pca_data <- llply(VB_pca_data, .fun=t)
+VB__pca <- llply(VB_pca_data, prcomp)
+VB_pca_summary <- llply(VB__pca, summary)
+VB_pca_summary
+# Plot each year
+set.panel(2,length(VB_pca_summary)) 
+llply(VB__pca, plot, type="lines")
+llply(VB__pca, biplot)
+VB__pca <- llply(VB__pca, "[", 2)
+VB__pca <- llply(VB__pca, data.frame)
+VB__pca1 <- llply(VB__pca, "[", 1) 
+VB__pca1 <- data.frame(VB__pca1)
 
-test <- RNF_covs[-3]
-test <- test[-2]
-test <- test[-1]
+
+
+UDZ_pca_input <- UDZ_covs[-3]
+UDZ_pca_input <- UDZ_pca_input[-2]
+UDZ_pca_input <- UDZ_pca_input[-1]
+UDZ_pca_data.melt <- melt(UDZ_pca_input)
+UDZ_pca_data.cast <- cast(UDZ_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
+UDZ_pca_data <- alply(UDZ_pca_data.cast, .margin=3)
+#colnames(UDZ.Elev) <- c("Elev")
+#UDZ_pca_data <- llply(UDZ_pca_data, .fun=cbind, Elevation=UDZ.Elev)
+UDZ_pca_data <- llply(UDZ_pca_data, .fun=t)
+UDZ_pca <- llply(UDZ_pca_data, prcomp)
+UDZ_pca_summary <- llply(UDZ_pca, summary)
+UDZ_pca_summary
+# Plot each year
+set.panel(2,length(UDZ_pca_summary)) 
+llply(UDZ_pca, plot, type="lines")
+llply(UDZ_pca, biplot)
+UDZ_pca <- llply(UDZ_pca, "[", 2)
+UDZ_pca <- llply(UDZ_pca, data.frame)
+UDZ_pca1 <- llply(UDZ_pca, "[", 1) 
+UDZ_pca1 <- data.frame(UDZ_pca1)
+
+
+BIF_pca_input <- BIF_covs[-3]
+BIF_pca_input <- BIF_pca_input[-2]
+BIF_pca_input <- BIF_pca_input[-1]
+BIF_pca_data.melt <- melt(BIF_pca_input)
+BIF_pca_data.cast <- cast(BIF_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
+BIF_pca_data <- alply(BIF_pca_data.cast, .margin=3)
+#colnames(BIF.Elev) <- c("Elev")
+#BIF_pca_data <- llply(BIF_pca_data, .fun=cbind, Elevation=BIF.Elev)
+BIF_pca_data <- llply(BIF_pca_data, .fun=t)
+BIF_pca <- llply(BIF_pca_data, prcomp)
+BIF_pca_summary <- llply(BIF_pca, summary)
+BIF_pca_summary
+# Plot each year
+set.panel(2,length(BIF_pca_summary)) 
+llply(BIF_pca, plot, type="lines")
+llply(BIF_pca, biplot)
+BIF_pca <- llply(BIF_pca, "[", 2)
+BIF_pca <- llply(BIF_pca, data.frame)
+BIF_pca1 <- llply(BIF_pca, "[", 1) 
+BIF_pca1 <- data.frame(BIF_pca1)
+
+PSH_pca_input <- PSH_covs[-3]
+PSH_pca_input <- PSH_pca_input[-2]
+PSH_pca_input <- PSH_pca_input[-1]
+PSH_pca_data.melt <- melt(PSH_pca_input)
+PSH_pca_data.cast <- cast(PSH_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
+PSH_pca_data <- alply(PSH_pca_data.cast, .margin=3)
+#colnames(PSH.Elev) <- c("Elev")
+#PSH_pca_data <- llply(PSH_pca_data, .fun=cbind, Elevation=PSH.Elev[1:30]) ### NB that CT-PSH-1-21 is missing and Year 4 Temp data are sparse ####
+PSH_pca_data <- llply(PSH_pca_data, .fun=t)
+PSH_pca <- llply(PSH_pca_data, prcomp)
+PSH_pca_summary <- llply(PSH_pca, summary)
+PSH_pca_summary
+# Plot each year
+set.panel(2,length(PSH_pca_summary)) 
+llply(PSH_pca, plot, type="lines")
+llply(PSH_pca, biplot)
+PSH_pca <- llply(PSH_pca, "[", 2)
+PSH_pca <- llply(PSH_pca, data.frame)
+PSH_pca1 <- llply(PSH_pca, "[", 1) 
+PSH_pca1 <- data.frame(PSH_pca1)
+
+YAN_pca_input <- YAN_covs[-3]
+YAN_pca_input <- YAN_pca_input[-2]
+YAN_pca_input <- YAN_pca_input[-1]
+YAN_pca_data.melt <- melt(YAN_pca_input)
+YAN_pca_data.cast <- cast(YAN_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
+YAN_pca_data <- alply(YAN_pca_data.cast, .margin=3)
+#colnames(YAN.Elev) <- c("Elev")
+#YAN_pca_data <- llply(YAN_pca_data, .fun=cbind, Elevation=YAN.Elev)
+YAN_pca_data <- llply(YAN_pca_data, .fun=t)
+YAN_pca <- llply(YAN_pca_data, prcomp)
+YAN_pca_summary <- llply(YAN_pca, summary)
+YAN_pca_summary
+# Plot each year
+set.panel(2,length(YAN_pca_summary)) 
+llply(YAN_pca, plot, type="lines")
+llply(YAN_pca, biplot)
+YAN_pca <- llply(YAN_pca, "[", 2)
+YAN_pca <- llply(YAN_pca, data.frame)
+YAN_pca1 <- llply(YAN_pca, "[", 1) 
+YAN_pca1 <- data.frame(YAN_pca1)
+
+data.frame(YAN_pca[[1]][2])[,1:2]
+
+
+
+NAK_pca_input <- NAK_covs[-3]
+NAK_pca_input <- NAK_pca_input[-2]
+NAK_pca_input <- NAK_pca_input[-1]
+NAK_pca_data.melt <- melt(NAK_pca_input)
+NAK_pca_data.cast <- cast(NAK_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
+NAK_pca_data <- alply(NAK_pca_data.cast, .margin=3)
+#colnames(NAK.Elev) <- c("Elev")
+#NAK_pca_data <- llply(NAK_pca_data, .fun=cbind, Elevation=NAK.Elev)
+NAK_pca_data <- llply(NAK_pca_data, .fun=t)
+NAK_pca <- llply(NAK_pca_data, prcomp)
+NAK_pca_summary <- llply(NAK_pca, summary)
+NAK_pca_summary
+# Plot each year
+set.panel(2,length(NAK_pca_summary)) 
+llply(NAK_pca, plot, type="lines")
+llply(NAK_pca, biplot)
+NAK_pca <- llply(NAK_pca, "[", 2)
+NAK_pca <- llply(NAK_pca, data.frame)
+NAK_pca1 <- llply(NAK_pca, "[", 1) 
+NAK_pca1 <- data.frame(NAK_pca1)
+
+RNF_pca_input <- RNF_covs[-3]
+RNF_pca_input <- RNF_pca_input[-2]
+RNF_pca_input <- RNF_pca_input[-1]
 
 # Need to find a way to melt the data and then cast into the desired dataframe
 # Go from list with dataframes of one variable for all years
 # To list with dataframes of all variables for one year
-test2 <- melt(test)
-test3 <- cast(test2, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
-test4 <- alply(test3, .margin=3)
+RNF_pca_data.melt <- melt(RNF_pca_input)
+RNF_pca_data.cast <- cast(RNF_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
+RNF_pca_data <- alply(RNF_pca_data.cast, .margin=3)
 # Then add Elevation to each element of the list and run PCA
+#colnames(RNF.Elev) <- c("Elev")
+#RNF_pca_data <- llply(RNF_pca_data, .fun=cbind, Elevation=RNF.Elev)
+# Transpose each year of data then perform PCA and examine summary
+RNF_pca_data <- llply(RNF_pca_data, .fun=t)
+RNF_pca <- llply(RNF_pca_data, prcomp)
+RNF_pca_summary <- llply(RNF_pca, summary)
+RNF_pca_summary
+# Plot each year
+set.panel(2,length(RNF_pca_summary)) # can generalize to set.panel(2, length(test8))
+llply(RNF_pca, plot, type="lines")
+llply(RNF_pca, biplot)
+RNF_pca <- llply(RNF_pca, "[", 2)
+RNF_pca <- llply(RNF_pca, data.frame)
+RNF_pca1 <- llply(RNF_pca, "[", 1) 
+RNF_pca1 <- data.frame(RNF_pca1)
 
 
-RNF.Elev
-test5 <- llply(test4, .fun=cbind, Elevation=RNF.Elev)
 
-test6 <- llply(test5, .fun=t)
-test7 <- llply(test6, prcomp)
-test8 <- llply(test7, summary)
+
+
+PCA1_covs <- list(VB__pca1=VB__pca1,
+                 UDZ_pca1=UDZ_pca1, 
+                 BIF_pca1=BIF_pca1,
+                 PSH_pca1=PSH_pca1,
+                 YAN_pca1=YAN_pca1,
+                 NAK_pca1=NAK_pca1,
+                 RNF_pca1=RNF_pca1)
+
+save(PCA_covs1, file="PCA1_covs.RData")
 
 
 # Format EDI from Miguel for non-temporally varying covariate
