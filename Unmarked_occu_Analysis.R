@@ -44,8 +44,8 @@ CondNum <- function(model){
 
 
 ####
-#for(k in 16:16){
-for(k in 1:length(nms)){
+for(k in 52:62){
+#for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
@@ -85,13 +85,13 @@ BioticYearly <- BIOTIC_ALL_YEARS[[index]]
 species <- species[,1:15]
 
 # Subset appropriate year of temperature data
-Tmin <- Tmin[ ,3]
-Tmax <- Tmax[ ,3]
-Tvar <- Tvar[ ,3]
-Tsd <- Tsd[ ,3]
-Tmean <- Tmean[ ,3]
-BioticYearly <- BioticYearly[ ,3]
-PCA1 <- unlist(as.matrix(sapply(pca_covs, "[", 3)))
+Tmin <- Tmin[ ,1]
+Tmax <- Tmax[ ,1]
+Tvar <- Tvar[ ,1]
+Tsd <- Tsd[ ,1]
+Tmean <- Tmean[ ,1]
+BioticYearly <- BioticYearly[ ,1]
+PCA1 <- unlist(as.matrix(sapply(pca_covs, "[", 1)))
 
 # ADD BIOTIC TO UMF COVARIATES
 site.covs<-data.frame(Elevation, ForestLossCT, ForestGainCT, Biotic, BioticYearly, Tmin, Tmax, Tvar, Tsd, Tmean, PCA1)
@@ -106,147 +106,190 @@ try((fm0=occu(~ 1 ~ 1,
               data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm0")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm0)}
+  if(CondNum(fm0)<5000){
+    if(CondNum(fm0)>0){mods=c(mods,fm0)}
+}
 }
 
 #Elevation##################################################################################
 try((fm2=occu(~ 1 ~ Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm2")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm2)}
+  if(CondNum(fm2)<5000){
+    if(CondNum(fm2)>0){mods=c(mods,fm2)}
+}
 }
 
 #PCA1##################################################################################
 try((fm3=occu(~ 1 ~ PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm3")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm3)}
+  if(CondNum(fm3)<5000){
+    if(CondNum(fm3)>0){mods=c(mods,fm3)}
+}
 }
 
 #Biotic##################################################################################
 try((fm4=occu(~ 1 ~ Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
    
 if(exists("fm4")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm4)}
+  if(CondNum(fm4)<5000){
+    if(CondNum(fm4)>0){mods=c(mods,fm4)}
+}
 }
 
 #BioticYearly##################################################################################
 try((fm5=occu(~ 1 ~ BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm5")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm5)}
+  if(CondNum(fm5)<5000){
+    if(CondNum(fm5)>0){mods=c(mods,fm5)}
+}
 }
 
 #PCA1 + Elevation ##################################################################################
 try((fm5.1=occu(~ 1 ~ PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm5.1")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm5.1)}
+  if(CondNum(fm5.1)<5000){
+    if(CondNum(fm5.1)>0){mods=c(mods,fm5.1)}
+}
 }
 
 #PCA1 * Elevation ##################################################################################
 try((fm6=occu(~ 1 ~ PCA1 * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm6")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm6)}
+  if(CondNum(fm6)<5000){
+    if(CondNum(fm6)>0){mods=c(mods,fm6)}
+}
 }
 
 #Biotic + Elevation##################################################################################
 try((fm6.1=occu(~ 1 ~ Biotic + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm6.1")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm6.1)}
+  if(CondNum(fm6.1)<5000){
+    if(CondNum(fm6.1)>0){mods=c(mods,fm6.1)}
+}
 }
 
 #Biotic * Elevation##################################################################################
 try((fm7=occu(~ 1 ~ Biotic * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm7)}
+  if(CondNum(fm7)<5000){
+    if(CondNum(fm7)>0){mods=c(mods,fm7)}
 }
+}
+
 #BioticYearly + Elevation##################################################################################
 
 try((fm7.1=occu(~ 1 ~ BioticYearly + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7.1")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm7.1)}
+  if(CondNum(fm7.1)<5000){
+    if(CondNum(fm7.1)>0){mods=c(mods,fm7.1)}
+}
 }
 
 #BioticYearly * Elevation############################################################################
 try((fm8=occu(~ 1 ~ BioticYearly * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm8")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm8)}
+  if(CondNum(fm8)<5000){
+    if(CondNum(fm8)>0){mods=c(mods,fm8)}
+}
 }
 
 #Biotic + PCA1##########################################################################
 try((fm9=occu(~ 1 ~ Biotic + PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm9")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm9)}
+  if(CondNum(fm9)<5000){
+    if(CondNum(fm9)>0){mods=c(mods,fm9)}
+}
 }
 
 #Biotic * PCA1############################################################################
 try((fm10=occu(~ 1 ~ Biotic * PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm10")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm10)}
+  if(CondNum(fm10)<5000){
+    if(CondNum(fm10)>0){mods=c(mods,fm10)}
+}
 }
 
 #BioticYearly + PCA1##########################################################################
 try((fm11=occu(~ 1 ~ BioticYearly + PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm11")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm11)}
+  if(CondNum(fm11)<5000){
+    if(CondNum(fm11)>0){mods=c(mods,fm11)}
+}
 }
 
 #BioticYearly * PCA1############################################################################
 try((fm12=occu(~ 1 ~ BioticYearly * PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm12")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm12)}
+  if(CondNum(fm12)<5000){
+    if(CondNum(fm12)>0){mods=c(mods,fm12)}
+}
 }
 
 #Biotic + PCA1 + Elevation##########################################################################
 try((fm13=occu(~ 1 ~ Biotic + PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm13")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm13)}
+  if(CondNum(fm13)<5000){
+    if(CondNum(fm13)>0){mods=c(mods,fm13)}
+}
 }
 
 #BioticYearly + PCA1 + Elevation############################################################################
 try((fm14=occu(~ 1 ~ BioticYearly + PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm14")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm14)}
+  if(CondNum(fm14)<5000){
+    if(CondNum(fm14)>0){mods=c(mods,fm14)}
+}
 }
 
 #Biotic * PCA1 + Elevation##########################################################################
 try((fm15=occu(~ 1 ~ Biotic * PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm15")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm15)}
+  if(CondNum(fm15)<5000){
+    if(CondNum(fm15)>0){mods=c(mods,fm15)}
+}
 }
 
 #Biotic + PCA1 * Elevation############################################################################
 try((fm16=occu(~ 1 ~ Biotic + PCA1 * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm16")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm16)}
+  if(CondNum(fm16)<5000){
+    if(CondNum(fm16)>0){mods=c(mods,fm16)}
+}
 }
 
 #BioticAnnual * PCA1 + Elevation##########################################################################
 try((fm17=occu(~ 1 ~ BioticAnnual * PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm17")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm17)}
+  if(CondNum(fm17)<5000){
+    if(CondNum(fm17)>0){mods=c(mods,fm17)}
+}
 }
 
 #BioticAnnual + PCA1 * Elevation############################################################################
 try((fm18=occu(~ 1 ~ BioticAnnual + PCA1 * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm18")){
-  if(CondNum(fm0)<5000){mods=c(mods,fm18)}
+  if(CondNum(fm18)<5000){
+    if(CondNum(fm18)>0){mods=c(mods,fm18)}
+}
 }
 
 
@@ -295,7 +338,7 @@ null.aic=toExport$delta[toExport$formula=="~1 ~ 1"]
 
 #if null didn't converge
 if(isEmpty(null.aic)==TRUE){
-	null.elev=NA	
+	null=NA	
 }else{
 null=toExport[toExport$formula=="~1 ~ 1",]
 }
@@ -322,7 +365,7 @@ results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1",])
 results.table.aic[[k]] <- cbind(nms[k], results.table.aic[[k]])
 }
 
-test=seq(3,length(toExport)-17,by=2)
+test=seq(3,length(toExport)-2,by=2)
 tmp=toExport[1,test]
 
 occu.transformed[[k]]=exp(tmp)
@@ -349,7 +392,7 @@ rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
    fm40,fm40.1,fm40.2,
    fm41,fm41.1,fm41.2,
    fm42,fm42.1,fm42.2,
-   mods,ms, tmp, temp, toExport)
+   mods,ms, tmp, temp, toExport, test)
 }
 
 # Need to coerce the lists into dataframes before writing to a files
