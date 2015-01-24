@@ -7,6 +7,7 @@ library(plyr)
 
 rm(list=ls())
 load("All_covs.RData")
+load("PCA1_covs.RData")
 load("All500m_covariate_species.RData") # 32 populations (less with birds excluded)
 load("All_species7sites.RData") # 166 populations
 load("Species7sites_Include.RData") # 62 populations (excludes binomial cases)
@@ -37,8 +38,13 @@ isEmpty <- function(x) {
     return(length(x)==0)
 }
 
+CondNum <- function(model){
+  max(eigen(hessian(model))$values)/min(eigen(hessian(model))$values)
+}
+
+
 ####
-#for(k in 1:1){
+#for(k in 16:16){
 for(k in 1:length(nms)){
 print(k)
 
@@ -60,6 +66,10 @@ ForestLossCT <- unlist(as.matrix(sapply(covs, "[", 2)))
 ForestGainCT <- unlist(as.matrix(sapply(covs, "[", 3)))
 Biotic <- BIOTIC_166[[index]]
 
+pca_site <- paste(site, "pca1", sep="_")
+pca_covs <- PCA1_covs[names(PCA1_covs)==pca_site]
+#pca1 <- pca_covs[names(pca_covs)==pca_site]
+
 
 #yearlySiteCovs # Subset appropriate year
 Tmin <- as.data.frame(sapply(covs, "[", 4))
@@ -70,19 +80,21 @@ Tmean <- as.data.frame(sapply(covs, "[", 8))
 BioticYearly <- BIOTIC_ALL_YEARS[[index]]
 
 
+
 # Subset appropriate year of species data
 species <- species[,1:15]
 
 # Subset appropriate year of temperature data
-Tmin <- Tmin[ ,1]
-Tmax <- Tmax[ ,1]
-Tvar <- Tvar[ ,1]
-Tsd <- Tsd[ ,1]
-Tmean <- Tmean[ ,1]
-BioticYearly <- BioticYearly[ ,1]
+Tmin <- Tmin[ ,3]
+Tmax <- Tmax[ ,3]
+Tvar <- Tvar[ ,3]
+Tsd <- Tsd[ ,3]
+Tmean <- Tmean[ ,3]
+BioticYearly <- BioticYearly[ ,3]
+PCA1 <- unlist(as.matrix(sapply(pca_covs, "[", 3)))
 
 # ADD BIOTIC TO UMF COVARIATES
-site.covs<-data.frame(Elevation, ForestLossCT, ForestGainCT, Biotic, BioticYearly, Tmin, Tmax, Tvar, Tsd, Tmean)
+site.covs<-data.frame(Elevation, ForestLossCT, ForestGainCT, Biotic, BioticYearly, Tmin, Tmax, Tvar, Tsd, Tmean, PCA1)
 
 umf<-unmarkedFrameOccu(y=species, siteCovs=site.covs, obsCovs=NULL)
 #umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(year=years,Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
@@ -90,283 +102,152 @@ umf<-unmarkedFrameOccu(y=species, siteCovs=site.covs, obsCovs=NULL)
 mods=list()
 
 #Null##################################################################################
-try((fm0=occu(~ 1 ~ 1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm0=occu(~ 1 ~ 1, 
+              data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-if(exists("fm0")){mods=c(mods,fm0)}
+if(exists("fm0")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm0)}
+}
 
-#NULL + ELEVATION for initial occupancy
-try((fm0.1=occu(~ 1 ~ Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+#Elevation##################################################################################
+try((fm2=occu(~ 1 ~ Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-if(exists("fm0.1")){mods=c(mods,fm0.1)}
+if(exists("fm2")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm2)}
+}
 
+#PCA1##################################################################################
+try((fm3=occu(~ 1 ~ PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#Tmin##################################################################################
-try((fm2=occu(~ 1 ~ Tmin, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+if(exists("fm3")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm3)}
+}
 
-if(exists("fm2")){mods=c(mods,fm2)}
-
-
-#Tmax##################################################################################
-try((fm3=occu(~ 1 ~ Tmax, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm3")){mods=c(mods,fm3)}
-
-
-#Tvar##################################################################################
-   try((fm4=occu(~ 1 ~ Tvar, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+#Biotic##################################################################################
+try((fm4=occu(~ 1 ~ Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
    
-   if(exists("fm4")){mods=c(mods,fm4)}
-   
+if(exists("fm4")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm4)}
+}
 
-#ForestLossCT##################################################################################
-try((fm5=occu(~ 1 ~ Elevation + ForestLossCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+#BioticYearly##################################################################################
+try((fm5=occu(~ 1 ~ BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-if(exists("fm5")){mods=c(mods,fm5)}
+if(exists("fm5")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm5)}
+}
 
+#PCA1 + Elevation ##################################################################################
+try((fm5.1=occu(~ 1 ~ PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#ForestGainCT##################################################################################
-try((fm6=occu(~ 1 ~ Elevation + ForestGainCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+if(exists("fm5.1")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm5.1)}
+}
 
-if(exists("fm6")){mods=c(mods,fm6)}
+#PCA1 * Elevation ##################################################################################
+try((fm6=occu(~ 1 ~ PCA1 * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
+if(exists("fm6")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm6)}
+}
 
-#Tmean*Tsd##################################################################################
-try((fm7=occu(~ 1 ~ Tmean * Tsd, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+#Biotic + Elevation##################################################################################
+try((fm6.1=occu(~ 1 ~ Biotic + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-if(exists("fm7")){mods=c(mods,fm7)}
+if(exists("fm6.1")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm6.1)}
+}
 
-#Tmean+Tsd##################################################################################
+#Biotic * Elevation##################################################################################
+try((fm7=occu(~ 1 ~ Biotic * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-try((fm7.1=occu(~ 1 ~ Tmean + Tsd, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+if(exists("fm7")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm7)}
+}
+#BioticYearly + Elevation##################################################################################
 
-if(exists("fm7.1")){mods=c(mods,fm7.1)}
+try((fm7.1=occu(~ 1 ~ BioticYearly + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
+if(exists("fm7.1")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm7.1)}
+}
 
-#Tmin+ForestLossCT############################################################################
-try((fm8=occu(~ 1 ~ Tmin + ForestLossCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+#BioticYearly * Elevation############################################################################
+try((fm8=occu(~ 1 ~ BioticYearly * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-if(exists("fm8")){mods=c(mods,fm8)}
+if(exists("fm8")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm8)}
+}
 
+#Biotic + PCA1##########################################################################
+try((fm9=occu(~ 1 ~ Biotic + PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#Tmin * ForestLossCT##########################################################################
-try((fm9=occu(~ 1 ~ Tmin * ForestLossCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+if(exists("fm9")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm9)}
+}
 
-if(exists("fm9")){mods=c(mods,fm9)}
+#Biotic * PCA1############################################################################
+try((fm10=occu(~ 1 ~ Biotic * PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
+if(exists("fm10")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm10)}
+}
 
-#Tmin+ForestGainCT############################################################################
-try((fm10=occu(~ 1 ~ Tmin + ForestGainCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+#BioticYearly + PCA1##########################################################################
+try((fm11=occu(~ 1 ~ BioticYearly + PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-if(exists("fm10")){mods=c(mods,fm10)}
+if(exists("fm11")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm11)}
+}
 
+#BioticYearly * PCA1############################################################################
+try((fm12=occu(~ 1 ~ BioticYearly * PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#Tmin * ForestGainCT##########################################################################
-try((fm11=occu(~ 1 ~ Tmin * ForestGainCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+if(exists("fm12")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm12)}
+}
 
-if(exists("fm11")){mods=c(mods,fm11)}
+#Biotic + PCA1 + Elevation##########################################################################
+try((fm13=occu(~ 1 ~ Biotic + PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
+if(exists("fm13")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm13)}
+}
 
-#Tvar+ForestGainCT############################################################################
-try((fm12=occu(~ 1 ~ Tvar + ForestGainCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+#BioticYearly + PCA1 + Elevation############################################################################
+try((fm14=occu(~ 1 ~ BioticYearly + PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-if(exists("fm12")){mods=c(mods,fm12)}
+if(exists("fm14")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm14)}
+}
 
+#Biotic * PCA1 + Elevation##########################################################################
+try((fm15=occu(~ 1 ~ Biotic * PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#Tvar * ForestGainCT##########################################################################
-try((fm13=occu(~ 1 ~ Tvar * ForestGainCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+if(exists("fm15")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm15)}
+}
 
-if(exists("fm13")){mods=c(mods,fm13)}
+#Biotic + PCA1 * Elevation############################################################################
+try((fm16=occu(~ 1 ~ Biotic + PCA1 * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
+if(exists("fm16")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm16)}
+}
 
-#Tvar+ForestLossCT############################################################################
-try((fm14=occu(~ 1 ~ Tvar + ForestLossCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+#BioticAnnual * PCA1 + Elevation##########################################################################
+try((fm17=occu(~ 1 ~ BioticAnnual * PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-if(exists("fm14")){mods=c(mods,fm14)}
+if(exists("fm17")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm17)}
+}
 
+#BioticAnnual + PCA1 * Elevation############################################################################
+try((fm18=occu(~ 1 ~ BioticAnnual + PCA1 * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#Tvar * ForestLossCT##########################################################################
-try((fm15=occu(~ 1 ~ Tvar * ForestLossCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm15")){mods=c(mods,fm15)}
-
-
-#Tmax+ForestGainCT############################################################################
-try((fm16=occu(~ 1 ~ Tmax + ForestGainCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm16")){mods=c(mods,fm16)}
-
-
-#Tmax * ForestGainCT##########################################################################
-try((fm17=occu(~ 1 ~ Tmax * ForestGainCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm17")){mods=c(mods,fm17)}
-
-
-#Tmax+ForestLossCT############################################################################
-try((fm18=occu(~ 1 ~ Tmax + ForestLossCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm18")){mods=c(mods,fm18)}
-
-
-#Tmax * ForestLossCT##########################################################################
-try((fm19=occu(~ 1 ~ Tmax * ForestLossCT, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm19")){mods=c(mods,fm19)}
-
-
-### NEW FROM LB ####
-
-#Tmax * Elevation##########################################################################
-#try((fm20=occu(~ 1 ~ Tmax * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm20")){mods=c(mods,fm20)}
-
-
-#Tmax + Elevation##########################################################################
-#try((fm24=occu(~ 1 ~ Tmax + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm24")){mods=c(mods,fm24)}
-
-
-#Tmin * Elevation##########################################################################
-#try((fm21=occu(~ 1 ~ Tmin * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm21")){mods=c(mods,fm21)}
-
-
-#Tmin + Elevation##########################################################################
-#try((fm25=occu(~ 1 ~ Tmin + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm25")){mods=c(mods,fm25)}
-
-
-#Tvar * Elevation##########################################################################
-#try((fm22=occu(~ 1 ~ Tvar * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm22")){mods=c(mods,fm22)}
-
-
-#Tvar + Elevation##########################################################################
-#try((fm26=occu(~ 1 ~ Tvar + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm26")){mods=c(mods,fm26)}
-
-
-#ForestLossCT * Elevation##########################################################################
-try((fm23=occu(~ 1 ~ ForestLossCT * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm23")){mods=c(mods,fm23)}
-
-
-#ForestLossCT + Elevation##########################################################################
-try((fm27=occu(~ 1 ~ ForestLossCT + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm27")){mods=c(mods,fm27)}
-
-
-
-### NEW FROM MONTREAL - Add Biotic models ####
-
-#Biotic##########################################################################
-try((fm28=occu(~ 1 ~ Elevation + Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm28")){mods=c(mods,fm28)}
-
-
-#Biotic##########################################################################
-try((fm28.1=occu(~ 1 ~ Elevation * Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm28.1")){mods=c(mods,fm28.1)}
-
-
-#Tmax * Biotic##########################################################################
-try((fm29=occu(~ 1 ~ Tmax * Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm29")){mods=c(mods,fm29)}
-
-
-#Tmax + Biotic##########################################################################
-try((fm30=occu(~ 1 ~ Tmax + Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm30")){mods=c(mods,fm30)}
-
-
-#Tmin * Biotic##########################################################################
-try((fm31=occu(~ 1 ~ Tmin * Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm31")){mods=c(mods,fm31)}
-
-
-#Tmin + Biotic##########################################################################
-try((fm32=occu(~ 1 ~ Tmin + Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm32")){mods=c(mods,fm32)}
-
-
-#Tvar * Biotic##########################################################################
-try((fm34=occu(~ 1 ~ Tvar * Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm34")){mods=c(mods,fm34)}
-
-
-#Tvar + Biotic##########################################################################
-try((fm35=occu(~ 1 ~ Tvar + Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm35")){mods=c(mods,fm35)}
-
-
-
-
-
-
-### NEW FROM ATLANTA - Add BioticYearly models ####
-
-#BioticYearly##########################################################################
-try((fm36=occu(~ 1 ~ Elevation + BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm36")){mods=c(mods,fm36)}
-
-
-#BioticYearly##########################################################################
-try((fm36.1=occu(~ 1 ~ Elevation * BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm36.1")){mods=c(mods,fm36.1)}
-
-
-#Tmax * BioticYearly##########################################################################
-try((fm37=occu(~ 1 ~ Tmax * BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm37")){mods=c(mods,fm37)}
-
-
-#Tmax + BioticYearly##########################################################################
-try((fm38=occu(~ 1 ~ Tmax + BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm38")){mods=c(mods,fm38)}
-
-
-#Tmin * BioticYearly##########################################################################
-try((fm39=occu(~ 1 ~ Tmin * BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm39")){mods=c(mods,fm39)}
-
-
-#Tmin + BioticYearly##########################################################################
-try((fm40=occu(~ 1 ~ Tmin + BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm40")){mods=c(mods,fm40)}
-
-
-#Tvar * BioticYearly##########################################################################
-try((fm41=occu(~ 1 ~ Tvar * BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm41")){mods=c(mods,fm41)}
-
-
-#Tvar + BioticYearly##########################################################################
-try((fm42=occu(~ 1 ~ Tvar + BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-if(exists("fm42")){mods=c(mods,fm42)}
+if(exists("fm18")){
+  if(CondNum(fm0)<5000){mods=c(mods,fm18)}
+}
 
 
 
@@ -375,6 +256,21 @@ if(exists("fm42")){mods=c(mods,fm42)}
 ######################################
 #Model Selection
 ######################################
+
+#if no models converged
+
+if(isEmpty(mods)==TRUE){
+  results.all[[k]]=NA  
+  results.table.ma[[k]]=NA
+  names(results.table.ma)[k] <- nms[k]
+  results.table.aic[[k]]=NA
+  names(results.table.aic)[k] <- nms[k]
+  occu.transformed[[k]]=NA
+  names(occu.transformed)[k] <- nms[k]
+}else{
+  models=fitList(fits=mods)
+  (ms <- modSel(models))
+  results.all[[k]]=ms    
 
 models=fitList(fits=mods)
 
@@ -387,15 +283,15 @@ mods.all[[k]]=mods
 
 toExport<-as(ms,"data.frame") #add after ms object
 
-null.elev.aic=toExport$delta[toExport$formula=="~1 ~ Elevation"]
+#null.elev.aic=toExport$delta[toExport$formula=="~1 ~ Elevation"]
 null.aic=toExport$delta[toExport$formula=="~1 ~ 1"]
 
 #if null.elev didn't converge
-if(isEmpty(null.elev.aic)==TRUE){
-  null.elev=NA  
-}else{
-null.elev=toExport[toExport$formula=="~1 ~ Elevation",]		
-}
+#if(isEmpty(null.elev.aic)==TRUE){
+#  null.elev=NA  
+#}else{
+#null.elev=toExport[toExport$formula=="~1 ~ Elevation",]		
+#}
 
 #if null didn't converge
 if(isEmpty(null.aic)==TRUE){
@@ -405,20 +301,24 @@ null=toExport[toExport$formula=="~1 ~ 1",]
 }
 
 
-if((null.elev.aic==0 || isEmpty(null.elev.aic)==TRUE) || (null.aic==0) ||isEmpty(null.aic)==TRUE){	
-	
-results.table.ma[[k]]=rbind(null,null.elev)	
+#if((null.elev.aic==0 || isEmpty(null.elev.aic)==TRUE) || (null.aic==0) ||isEmpty(null.aic)==TRUE){	
+	if(((null.aic==0) ||isEmpty(null.aic)==TRUE)){  
+
+#results.table.ma[[k]]=rbind(null,null.elev)  
+results.table.ma[[k]]=null	
 
 temp=data.frame(toExport$formula,toExport$delta,toExport$AICwt)
 names(temp)=c("formula","delta","AICwt")
-results.table.aic[[k]]=rbind(temp[temp$formula=="~1 ~ 1",],temp[temp$formula=="~ 1 ~ Elevation",])}else{
-  
-results.table.ma[[k]]=rbind(toExport[1,],null,null.elev)
+#results.table.aic[[k]]=rbind(temp[temp$formula=="~1 ~ 1",],temp[temp$formula=="~ 1 ~ Elevation",])}else{
+results.table.aic[[k]]=rbind(temp[temp$formula=="~1 ~ 1",])}else{
+#results.table.ma[[k]]=rbind(toExport[1,],null,null.elev)
+results.table.ma[[k]]=rbind(toExport[1,],null)
 results.table.ma[[k]] <- cbind(nms[k], results.table.ma[[k]])
 
 temp=data.frame(toExport$formula,toExport$delta,toExport$AICwt)
 names(temp)=c("formula","delta","AICwt")
-results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1",],temp[temp$formula=="~ 1 ~ Elevation",])
+#results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1",],temp[temp$formula=="~ 1 ~ Elevation",])
+results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1",])
 results.table.aic[[k]] <- cbind(nms[k], results.table.aic[[k]])
 }
 
@@ -427,7 +327,7 @@ tmp=toExport[1,test]
 
 occu.transformed[[k]]=exp(tmp)
 occu.transformed[[k]] <- cbind(nms[k], occu.transformed[[k]])
-
+}
 
 #add tmp, temp and toExport to the rm object 
 rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
@@ -464,7 +364,11 @@ write.csv(occu.transformed.df, file="occu.transformed.csv")
 length(nms)
 for(i in 1:length(nms)) {
   outputname <- paste(nms[i], "occuAIC", "csv", sep=".")
-  output <- results.all[[i]]@Full
+  if(is.na(results.all[[i]])==TRUE){
+    output <- NA
+  }else{
+    output <- results.all[[i]]@Full
+  } 
   write.csv(output, file=outputname)
 } 
 
