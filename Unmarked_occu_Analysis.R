@@ -44,8 +44,8 @@ CondNum <- function(model){
 
 
 ####
-for(k in 52:62){
-#for(k in 1:length(nms)){
+#for(k in 50:54){
+for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
@@ -85,13 +85,13 @@ BioticYearly <- BIOTIC_ALL_YEARS[[index]]
 species <- species[,1:15]
 
 # Subset appropriate year of temperature data
-Tmin <- Tmin[ ,1]
-Tmax <- Tmax[ ,1]
-Tvar <- Tvar[ ,1]
-Tsd <- Tsd[ ,1]
-Tmean <- Tmean[ ,1]
-BioticYearly <- BioticYearly[ ,1]
-PCA1 <- unlist(as.matrix(sapply(pca_covs, "[", 1)))
+Tmin <- Tmin[ ,2]
+Tmax <- Tmax[ ,2]
+Tvar <- Tvar[ ,2]
+Tsd <- Tsd[ ,2]
+Tmean <- Tmean[ ,2]
+BioticYearly <- BioticYearly[ ,2]
+PCA1 <- unlist(as.matrix(sapply(pca_covs, "[", 2)))
 
 # ADD BIOTIC TO UMF COVARIATES
 site.covs<-data.frame(Elevation, ForestLossCT, ForestGainCT, Biotic, BioticYearly, Tmin, Tmax, Tvar, Tsd, Tmean, PCA1)
@@ -366,7 +366,7 @@ results.table.aic[[k]] <- cbind(nms[k], results.table.aic[[k]])
 }
 
 test=seq(3,length(toExport)-2,by=2)
-tmp=toExport[1,test]
+tmp=as.numeric(toExport[1,test])
 
 occu.transformed[[k]]=exp(tmp)
 occu.transformed[[k]] <- cbind(nms[k], occu.transformed[[k]])
