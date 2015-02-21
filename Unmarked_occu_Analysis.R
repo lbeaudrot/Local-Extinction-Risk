@@ -1,8 +1,8 @@
-# Unmarked analysis of 32 TEAM populations with >8% detection rates at sites with >500 m elevation change
+# Unmarked analysis of 33 TEAM populations with >8% detection rates at sites with >500 m elevation change
 library(unmarked)
 library(plyr)
 
-#load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All_covs_scaled.RData')
+#load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/33spp/All_covs_scaled.RData')
 #load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All500m_covariate_species.RData')
 
 rm(list=ls())
@@ -85,19 +85,19 @@ BioticYearly <- BIOTIC_ALL_YEARS[[index]]
 species <- species[,1:15]
 
 # Subset appropriate year of temperature data
-Tmin <- Tmin[ ,2]
-Tmax <- Tmax[ ,2]
-Tvar <- Tvar[ ,2]
-Tsd <- Tsd[ ,2]
-Tmean <- Tmean[ ,2]
-BioticYearly <- BioticYearly[ ,2]
-PCA1 <- unlist(as.matrix(sapply(pca_covs, "[", 2)))
+Tmin <- Tmin[ ,1]
+Tmax <- Tmax[ ,1]
+Tvar <- Tvar[ ,1]
+Tsd <- Tsd[ ,1]
+Tmean <- Tmean[ ,1]
+BioticYearly <- BioticYearly[ ,1]
+PCA1 <- unlist(as.matrix(sapply(pca_covs, "[", 1)))
 
 # ADD BIOTIC TO UMF COVARIATES
 site.covs<-data.frame(Elevation, ForestLossCT, ForestGainCT, Biotic, BioticYearly, Tmin, Tmax, Tvar, Tsd, Tmean, PCA1)
 
 umf<-unmarkedFrameOccu(y=species, siteCovs=site.covs, obsCovs=NULL)
-#umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(year=years,Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
+#umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(year=years,Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean), siteCovs=site.covs, numPrimary=dim(Tmin)[3])
 
 mods=list()
 
@@ -106,7 +106,7 @@ try((fm0=occu(~ 1 ~ 1,
               data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm0")){
-  if(CondNum(fm0)<5000){
+  if(CondNum(fm0)<2000){
     if(CondNum(fm0)>0){mods=c(mods,fm0)}
 }
 }
@@ -115,7 +115,7 @@ if(exists("fm0")){
 try((fm2=occu(~ 1 ~ Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm2")){
-  if(CondNum(fm2)<5000){
+  if(CondNum(fm2)<2000){
     if(CondNum(fm2)>0){mods=c(mods,fm2)}
 }
 }
@@ -124,7 +124,7 @@ if(exists("fm2")){
 try((fm3=occu(~ 1 ~ PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm3")){
-  if(CondNum(fm3)<5000){
+  if(CondNum(fm3)<2000){
     if(CondNum(fm3)>0){mods=c(mods,fm3)}
 }
 }
@@ -133,7 +133,7 @@ if(exists("fm3")){
 try((fm4=occu(~ 1 ~ Biotic, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
    
 if(exists("fm4")){
-  if(CondNum(fm4)<5000){
+  if(CondNum(fm4)<2000){
     if(CondNum(fm4)>0){mods=c(mods,fm4)}
 }
 }
@@ -142,7 +142,7 @@ if(exists("fm4")){
 try((fm5=occu(~ 1 ~ BioticYearly, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm5")){
-  if(CondNum(fm5)<5000){
+  if(CondNum(fm5)<2000){
     if(CondNum(fm5)>0){mods=c(mods,fm5)}
 }
 }
@@ -151,7 +151,7 @@ if(exists("fm5")){
 try((fm5.1=occu(~ 1 ~ PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm5.1")){
-  if(CondNum(fm5.1)<5000){
+  if(CondNum(fm5.1)<2000){
     if(CondNum(fm5.1)>0){mods=c(mods,fm5.1)}
 }
 }
@@ -160,7 +160,7 @@ if(exists("fm5.1")){
 try((fm6=occu(~ 1 ~ PCA1 * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm6")){
-  if(CondNum(fm6)<5000){
+  if(CondNum(fm6)<2000){
     if(CondNum(fm6)>0){mods=c(mods,fm6)}
 }
 }
@@ -169,7 +169,7 @@ if(exists("fm6")){
 try((fm6.1=occu(~ 1 ~ Biotic + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm6.1")){
-  if(CondNum(fm6.1)<5000){
+  if(CondNum(fm6.1)<2000){
     if(CondNum(fm6.1)>0){mods=c(mods,fm6.1)}
 }
 }
@@ -178,7 +178,7 @@ if(exists("fm6.1")){
 try((fm7=occu(~ 1 ~ Biotic * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7")){
-  if(CondNum(fm7)<5000){
+  if(CondNum(fm7)<2000){
     if(CondNum(fm7)>0){mods=c(mods,fm7)}
 }
 }
@@ -188,7 +188,7 @@ if(exists("fm7")){
 try((fm7.1=occu(~ 1 ~ BioticYearly + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm7.1")){
-  if(CondNum(fm7.1)<5000){
+  if(CondNum(fm7.1)<2000){
     if(CondNum(fm7.1)>0){mods=c(mods,fm7.1)}
 }
 }
@@ -197,7 +197,7 @@ if(exists("fm7.1")){
 try((fm8=occu(~ 1 ~ BioticYearly * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm8")){
-  if(CondNum(fm8)<5000){
+  if(CondNum(fm8)<2000){
     if(CondNum(fm8)>0){mods=c(mods,fm8)}
 }
 }
@@ -206,7 +206,7 @@ if(exists("fm8")){
 try((fm9=occu(~ 1 ~ Biotic + PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm9")){
-  if(CondNum(fm9)<5000){
+  if(CondNum(fm9)<2000){
     if(CondNum(fm9)>0){mods=c(mods,fm9)}
 }
 }
@@ -215,7 +215,7 @@ if(exists("fm9")){
 try((fm10=occu(~ 1 ~ Biotic * PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm10")){
-  if(CondNum(fm10)<5000){
+  if(CondNum(fm10)<2000){
     if(CondNum(fm10)>0){mods=c(mods,fm10)}
 }
 }
@@ -224,7 +224,7 @@ if(exists("fm10")){
 try((fm11=occu(~ 1 ~ BioticYearly + PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm11")){
-  if(CondNum(fm11)<5000){
+  if(CondNum(fm11)<2000){
     if(CondNum(fm11)>0){mods=c(mods,fm11)}
 }
 }
@@ -233,7 +233,7 @@ if(exists("fm11")){
 try((fm12=occu(~ 1 ~ BioticYearly * PCA1, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm12")){
-  if(CondNum(fm12)<5000){
+  if(CondNum(fm12)<2000){
     if(CondNum(fm12)>0){mods=c(mods,fm12)}
 }
 }
@@ -242,7 +242,7 @@ if(exists("fm12")){
 try((fm13=occu(~ 1 ~ Biotic + PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm13")){
-  if(CondNum(fm13)<5000){
+  if(CondNum(fm13)<2000){
     if(CondNum(fm13)>0){mods=c(mods,fm13)}
 }
 }
@@ -251,7 +251,7 @@ if(exists("fm13")){
 try((fm14=occu(~ 1 ~ BioticYearly + PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm14")){
-  if(CondNum(fm14)<5000){
+  if(CondNum(fm14)<2000){
     if(CondNum(fm14)>0){mods=c(mods,fm14)}
 }
 }
@@ -260,7 +260,7 @@ if(exists("fm14")){
 try((fm15=occu(~ 1 ~ Biotic * PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm15")){
-  if(CondNum(fm15)<5000){
+  if(CondNum(fm15)<2000){
     if(CondNum(fm15)>0){mods=c(mods,fm15)}
 }
 }
@@ -269,7 +269,7 @@ if(exists("fm15")){
 try((fm16=occu(~ 1 ~ Biotic + PCA1 * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm16")){
-  if(CondNum(fm16)<5000){
+  if(CondNum(fm16)<2000){
     if(CondNum(fm16)>0){mods=c(mods,fm16)}
 }
 }
@@ -278,7 +278,7 @@ if(exists("fm16")){
 try((fm17=occu(~ 1 ~ BioticAnnual * PCA1 + Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm17")){
-  if(CondNum(fm17)<5000){
+  if(CondNum(fm17)<2000){
     if(CondNum(fm17)>0){mods=c(mods,fm17)}
 }
 }
@@ -287,7 +287,7 @@ if(exists("fm17")){
 try((fm18=occu(~ 1 ~ BioticAnnual + PCA1 * Elevation, data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
 if(exists("fm18")){
-  if(CondNum(fm18)<5000){
+  if(CondNum(fm18)<2000){
     if(CondNum(fm18)>0){mods=c(mods,fm18)}
 }
 }

@@ -644,9 +644,9 @@ save(OccColExt.Per, file="OccColExt.Per.RData")
 
 # Note that CT-PSH-1-21 has problematic temperature values (Max=67 degrees) 
 # Change all temp values to NA for CT-PSH-1-21
-  eventsdata$temp.degreesC <- ifelse(eventsdata$Sampling.Unit.Name=="CT-PSH-1-21", NA, eventsdata$temp.degreesC)
-
-
+#  eventsdata$temp.degreesC <- ifelse(eventsdata$Sampling.Unit.Name=="CT-PSH-1-21", NA, eventsdata$temp.degreesC)
+# Note that by changing "CT-PSH-1-21" values to NA, the camera trap is omitted from aggregated values, which is problematic downstream.
+# Try changing value downstream instead of ahead of aggregation.
 
 # Determine the annual min, max and variance of the non-calibrated temperature data for each CT without using interpolated data
   Temp.Min <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=min)
@@ -662,7 +662,22 @@ save(OccColExt.Per, file="OccColExt.Per.RData")
   CT.Year <- as.integer(substr(Temp.SD$Sampling.Period,1,4))
   CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var, Temp.Mean$Temp.Mean, Temp.SD$Temp.SD, Year=CT.Year)
   names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var", "Temp.Mean", "Temp.SD", "Year")
-  
+
+# Note that CT-PSH-1-21 has problematic temperature values (Max=67 degrees) 
+# Change all temp values to NA for CT-PSH-1-21
+CT.Temp$Temp.Min <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp$Temp.Min)
+CT.Temp$Temp.Max <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp$Temp.Max)
+CT.Temp$Temp.Var <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp$Temp.Var)
+CT.Temp$Temp.Mean <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp$Temp.Mean)
+CT.Temp$Temp.SD <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp$Temp.SD)
+
+
+
+
+
+
+
+
 ########### NB: THE FOLLOW TWO FILES FOR ELEV AND FOREST LOSS WILL NEED TO BE UPDATED WITH NEW FILES FROM ALEX ################
 # Bring in new elevation data from Alex Zvoleff as of 10/21/2014
   load("ct_pts_elev.RData")
@@ -1243,12 +1258,12 @@ PCA1_covs <- list(VB__pca1=VB__pca1,
                  NAK_pca1=NAK_pca1,
                  RNF_pca1=RNF_pca1)
 
-save(PCA_covs1, file="PCA1_covs.RData")
+save(PCA1_covs, file="PCA1_covs.RData")
 
 
 # Format EDI from Miguel for non-temporally varying covariate
 # Need to create a vector for each species for the site CTs based on CT communities in Z.
-load("Scaled_FPDist_0.9a.RData")
+load("Scaled_FPDist_0.5a.RData")
 SitesBinary[[1]][,1] # Species index values for the site. To generalize, change to SitesBinary[[i]][,1]
 SitesBinary[[1]][1,1] # Single species value to then extract elements from Z. To generalize, change to SitesBinary[[i]][j,1]
 Z[[1]][1]
@@ -1276,7 +1291,7 @@ hold <-list()
 names(hold) <- rownames(SitesBinary[[1]]) # Brings back species names, but could also name with UID index if needed later
 
 # Now extend to all TEAM sites
-load("Scaled_FPDist_0.9a.RData")
+load("Scaled_FPDist_0.5a.RData")
 BIOTIC_pop <- vector()
 BIOTIC_site <-list()
 BIOTIC_all <- list()
@@ -1307,7 +1322,7 @@ cbind(names(All_species7sites), names(BIOTIC_166))
 
 
 # Format EDI from Miguel for temporally varying covariate
-load("Scaled_FPDist_time_0.9a.RData")
+load("Scaled_FPDist_time_0.5a.RData")
 
 BIOTIC_pop <- vector()
 BIOTIC_year <- list()

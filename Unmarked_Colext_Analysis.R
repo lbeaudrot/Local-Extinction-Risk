@@ -17,10 +17,10 @@ load("BIOTIC_ALL_YEARS.RData") # For 166 populations
 load("BIOTIC_Include.RData") # For 62 populations (excludes binomial cases)
 load("BIOTIC_ALL_YEARS_Include.RData") # For 62 populations (excludes binomial cases)
 
-All500m_covariate_species <- All_species7sites
-#All500m_covariate_species <- Species7sites_Include
-#BIOTIC_166 <- BIOTIC_Include
-#BIOTIC_ALL_YEARS <- BIOTIC_ALL_YEARS_Include
+#All500m_covariate_species <- All_species7sites
+All500m_covariate_species <- Species7sites_Include
+BIOTIC_166 <- BIOTIC_Include
+BIOTIC_ALL_YEARS <- BIOTIC_ALL_YEARS_Include
 
 # Matrices for each population are contained in the object "All500m_covariate_species"
 nms=names(All500m_covariate_species)
@@ -38,8 +38,8 @@ isEmpty <- function(x) {
 }
 
 ####
-for(k in 106:106){
-#for(k in 1:length(nms)){
+#for(k in 2:2){
+for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
@@ -479,100 +479,100 @@ if(exists("fm27.2")){mods=c(mods,fm27.2)}
 ### NEW FROM MONTREAL - Add Biotic models ####
 
 #Biotic##########################################################################
-#try((fm28=colext(psiformula=~Elevation,gammaformula=~Biotic,epsilonformula=~Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm28=colext(psiformula=~Elevation,gammaformula=~Biotic,epsilonformula=~Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm28")){mods=c(mods,fm28)}
+if(exists("fm28")){mods=c(mods,fm28)}
 
-#try((fm28.1=colext(psiformula=~Elevation,gammaformula=~Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm28.1=colext(psiformula=~Elevation,gammaformula=~Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm28.1")){mods=c(mods,fm28.1)}
+if(exists("fm28.1")){mods=c(mods,fm28.1)}
 
-#try((fm28.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm28.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm28.2")){mods=c(mods,fm28.2)}
+if(exists("fm28.2")){mods=c(mods,fm28.2)}
 
 
 #Tmax * Biotic##########################################################################
-#try((fm29=colext(psiformula=~Elevation,gammaformula=~Tmax*Biotic,epsilonformula=~Tmax*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm29=colext(psiformula=~Elevation,gammaformula=~Tmax*Biotic,epsilonformula=~Tmax*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm29")){mods=c(mods,fm29)}
+if(exists("fm29")){mods=c(mods,fm29)}
 
-#try((fm29.1=colext(psiformula=~Elevation,gammaformula=~Tmax*Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm29.1=colext(psiformula=~Elevation,gammaformula=~Tmax*Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm29.1")){mods=c(mods,fm29.1)}
+if(exists("fm29.1")){mods=c(mods,fm29.1)}
 
-#try((fm29.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmax*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm29.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmax*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm29.2")){mods=c(mods,fm29.2)}
+if(exists("fm29.2")){mods=c(mods,fm29.2)}
 
 #Tmax + Biotic##########################################################################
-#try((fm30=colext(psiformula=~Elevation,gammaformula=~Tmax+Biotic,epsilonformula=~Tmax+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm30=colext(psiformula=~Elevation,gammaformula=~Tmax+Biotic,epsilonformula=~Tmax+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm30")){mods=c(mods,fm30)}
+if(exists("fm30")){mods=c(mods,fm30)}
 
-#try((fm30.1=colext(psiformula=~Elevation,gammaformula=~Tmax+Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm30.1=colext(psiformula=~Elevation,gammaformula=~Tmax+Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm30.1")){mods=c(mods,fm30.1)}
+if(exists("fm30.1")){mods=c(mods,fm30.1)}
 
-#try((fm30.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmax+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm30.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmax+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm30.2")){mods=c(mods,fm30.2)}
+if(exists("fm30.2")){mods=c(mods,fm30.2)}
 
 
 #Tmin * Biotic##########################################################################
-#try((fm31=colext(psiformula=~Elevation,gammaformula=~Tmin*Biotic,epsilonformula=~Tmin*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm31=colext(psiformula=~Elevation,gammaformula=~Tmin*Biotic,epsilonformula=~Tmin*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm31")){mods=c(mods,fm31)}
+if(exists("fm31")){mods=c(mods,fm31)}
 
-#try((fm31.1=colext(psiformula=~Elevation,gammaformula=~Tmin*Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm31.1=colext(psiformula=~Elevation,gammaformula=~Tmin*Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm31.1")){mods=c(mods,fm31.1)}
+if(exists("fm31.1")){mods=c(mods,fm31.1)}
 
-#try((fm31.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmin*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm31.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmin*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm31.2")){mods=c(mods,fm31.2)}
+if(exists("fm31.2")){mods=c(mods,fm31.2)}
 
 #Tmin + Biotic##########################################################################
-#try((fm32=colext(psiformula=~Elevation,gammaformula=~Tmin+Biotic,epsilonformula=~Tmin+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm32=colext(psiformula=~Elevation,gammaformula=~Tmin+Biotic,epsilonformula=~Tmin+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm32")){mods=c(mods,fm32)}
+if(exists("fm32")){mods=c(mods,fm32)}
 
-#try((fm32.1=colext(psiformula=~Elevation,gammaformula=~Tmin+Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm32.1=colext(psiformula=~Elevation,gammaformula=~Tmin+Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm32.1")){mods=c(mods,fm32.1)}
+if(exists("fm32.1")){mods=c(mods,fm32.1)}
 
-#try((fm32.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmin+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm32.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tmin+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm32.2")){mods=c(mods,fm32.2)}
+if(exists("fm32.2")){mods=c(mods,fm32.2)}
 
 
 
 #Tvar * Biotic##########################################################################
-#try((fm34=colext(psiformula=~Elevation,gammaformula=~Tvar*Biotic,epsilonformula=~Tvar*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm34=colext(psiformula=~Elevation,gammaformula=~Tvar*Biotic,epsilonformula=~Tvar*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm34")){mods=c(mods,fm34)}
+if(exists("fm34")){mods=c(mods,fm34)}
 
-#try((fm34.1=colext(psiformula=~Elevation,gammaformula=~Tvar*Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm34.1=colext(psiformula=~Elevation,gammaformula=~Tvar*Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm34.1")){mods=c(mods,fm34.1)}
+if(exists("fm34.1")){mods=c(mods,fm34.1)}
 
-#try((fm34.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tvar*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm34.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tvar*Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm34.2")){mods=c(mods,fm34.2)}
+if(exists("fm34.2")){mods=c(mods,fm34.2)}
 
 
 #Tvar + Biotic##########################################################################
-#try((fm35=colext(psiformula=~Elevation,gammaformula=~Tvar+Biotic,epsilonformula=~Tvar+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm35=colext(psiformula=~Elevation,gammaformula=~Tvar+Biotic,epsilonformula=~Tvar+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm35")){mods=c(mods,fm35)}
+if(exists("fm35")){mods=c(mods,fm35)}
 
-#try((fm35.1=colext(psiformula=~Elevation,gammaformula=~Tvar+Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm35.1=colext(psiformula=~Elevation,gammaformula=~Tvar+Biotic,epsilonformula=~1,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm35.1")){mods=c(mods,fm35.1)}
+if(exists("fm35.1")){mods=c(mods,fm35.1)}
 
-#try((fm35.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tvar+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm35.2=colext(psiformula=~Elevation,gammaformula=~1,epsilonformula=~Tvar+Biotic,pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm35.2")){mods=c(mods,fm35.2)}
+if(exists("fm35.2")){mods=c(mods,fm35.2)}
 
 
 ### NEW FROM ATLANTA - Add temporally varying Biotic models ####
@@ -734,7 +734,7 @@ results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp
 results.table.aic[[k]] <- cbind(nms[k], results.table.aic[[k]])
 }
 
-test=seq(4,length(toExport)-17,by=2)
+test=seq(3,length(toExport)-17,by=2)
 tmp=toExport[1,test]
 
 colext.transformed[[k]]=exp(tmp)
@@ -765,21 +765,20 @@ rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
 }
 
 # Need to coerce the lists into dataframes before writing to a files
-#names(results.table.ma) <- nms[1:length(nms)]
 results.table.ma.df <- ldply(results.table.ma, data.frame)
-
-#names(results.table.aic) <- nms[1:length(nms)] # Specify subset here with [] if needed
 results.table.aic.df <- ldply(results.table.aic, data.frame)
-
-#names(colext.transformed) <- nms[1:length(nms)] # Specify subset here with [] if needed
 colext.transformed.df <- ldply(colext.transformed, data.frame)
 
 write.csv(results.table.ma.df, file="results.table.ma.csv")
 write.csv(results.table.aic.df, file="results.table.aic.csv")
 write.csv(colext.transformed.df, file="colext.transformed.csv")
 
-# For 107, the Elevation ~ 1 ~ 1 ~ 1 model is missing so loop quit
-
+length(nms)
+for(i in 1:length(nms)) {
+  outputname <- paste(nms[i], "colextAIC", "csv", sep=".")
+  output <- results.all[[i]]@Full
+  write.csv(output, file=outputname)
+} 
 
 ##### MECHANISM TO CHECK FOR IDENTICAL REPLICATES TO INDICATE THERE WERE NO MODELS THAT CONVERGED FOR A SPECIES
 # Generate a vector that indicates which populations have duplicate values
@@ -792,10 +791,5 @@ write.csv(results.all.use, file="ConvergenceCheck.csv")
 save.image(file="sppAll_results_v4.RData")
 names(results.all) <- nms
 
-length(nms)
-for(i in 1:length(nms)) {
-  outputname <- paste(nms[i], "colextAIC", "csv", sep=".")
-  output <- results.all[[i]]@Full
-	write.csv(output, file=outputname)
-} 
+
 
