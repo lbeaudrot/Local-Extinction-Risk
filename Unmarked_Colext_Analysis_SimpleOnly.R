@@ -46,7 +46,7 @@ CondNum <- function(model){
 # produces identical condition number to function "extractCN" from the AICcmodavg package
 
 ####
-#for(k in 57:62){
+#for(k in 57:58){
 for(k in 1:length(nms)){
 print(k)
 
@@ -104,42 +104,42 @@ if(exists("fm0")) {
 } 
 }
 
-# ELEVATION only ##################################################################################
-#try((fm2=colext(psiformula=~1,
-#                gammaformula=~Elevation,
-#                epsilonformula=~Elevation,
-#                pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+# Tmin only ##################################################################################
+try((fm2=colext(psiformula=~1,
+                gammaformula=~Tmin,
+                epsilonformula=~Tmin,
+                pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm2")) {
-#  if(CondNum(fm2)<2000){
-#    if(CondNum(fm2)>0){mods=c(mods,fm2)}
-#} 
-#}
+if(exists("fm2")) {
+  if(CondNum(fm2)<2000){
+    if(CondNum(fm2)>0){mods=c(mods,fm2)}
+} 
+}
 
-#try((fm2.1=colext(psiformula=~1,
-#                  gammaformula=~Elevation,
-#                  epsilonformula=~1,
-#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm2.1=colext(psiformula=~1,
+                  gammaformula=~Tmin,
+                  epsilonformula=~1,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm2.1")) {
-#  if(CondNum(fm2.1)<2000){
-#    if(CondNum(fm2.1)>0){mods=c(mods,fm2.1)}
-#} 
-#}
+if(exists("fm2.1")) {
+  if(CondNum(fm2.1)<2000){
+    if(CondNum(fm2.1)>0){mods=c(mods,fm2.1)}
+} 
+}
 
-#try((fm2.2=colext(psiformula=~1,
-#                  gammaformula=~1,
-#                  epsilonformula=~Elevation,
-#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm2.2=colext(psiformula=~1,
+                  gammaformula=~1,
+                  epsilonformula=~Tmin,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm2.2")) {
-#  if(CondNum(fm2.2)<2000){
-#    if(CondNum(fm2.2)>0){mods=c(mods,fm2.2)}
-#} 
-#}
+if(exists("fm2.2")) {
+  if(CondNum(fm2.2)<2000){
+    if(CondNum(fm2.2)>0){mods=c(mods,fm2.2)}
+} 
+}
 
 
-# Temperature only ##################################################################################
+# Tmean + Tsd only ##################################################################################
 try((fm3=colext(psiformula=~1,
                 gammaformula=~Tmean + Tsd,
                 epsilonformula=~Tmean + Tsd,
@@ -241,75 +241,75 @@ if(exists("fm5.2")) {
 } 
 }
 
-# PCA1 + Elevation ##################################################################################
-#try((fm6=colext(psiformula=~1,
-#                  gammaformula=~PCA1 + Elevation,
-#                  epsilonformula=~PCA1 + Elevation,
-#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+# Tmax ##################################################################################
+try((fm6=colext(psiformula=~1,
+                  gammaformula=~Tmax,
+                  epsilonformula=~Tmax,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm6")) {
-#  if(CondNum(fm6)<2000){
-#    if(CondNum(fm6)>0){mods=c(mods,fm6)}
-#} 
-#}
+if(exists("fm6")) {
+  if(CondNum(fm6)<2000){
+    if(CondNum(fm6)>0){mods=c(mods,fm6)}
+} 
+}
 
-#try((fm6.1=colext(psiformula=~1,
-#                  gammaformula=~PCA1 + Elevation,
-#                  epsilonformula=~1,
-#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm6.1=colext(psiformula=~1,
+                  gammaformula=~Tmax,
+                  epsilonformula=~1,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm6.1")) {
-# if(CondNum(fm6.1)<2000){
-#    if(CondNum(fm6.1)>0){mods=c(mods,fm6.1)} 
-#}
-#}
+if(exists("fm6.1")) {
+ if(CondNum(fm6.1)<2000){
+    if(CondNum(fm6.1)>0){mods=c(mods,fm6.1)} 
+}
+}
 
 
-#try((fm6.2=colext(psiformula=~1,
-#                  gammaformula=~1,
-#                  epsilonformula=~PCA1 + Elevation,
-#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm6.2=colext(psiformula=~1,
+                  gammaformula=~1,
+                  epsilonformula=~Tmax,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm6.2")) {
-#  if(CondNum(fm6.2)<2000){
-#    if(CondNum(fm6.2)>0){mods=c(mods,fm6.2)}
-#} 
-#}
+if(exists("fm6.2")) {
+  if(CondNum(fm6.2)<2000){
+    if(CondNum(fm6.2)>0){mods=c(mods,fm6.2)}
+} 
+}
 
-# PCA1 * Elevation #############################################################################
+# Tvar #############################################################################
 
-#try((fm7=colext(psiformula=~1,
-#                  gammaformula=~PCA1 * Elevation,
-#                  epsilonformula=~PCA1 * Elevation,
-#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm7=colext(psiformula=~1,
+                  gammaformula=~Tvar,
+                  epsilonformula=~Tvar,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm7")) {
-#  if(CondNum(fm7)<2000){
-#    if(CondNum(fm7)>0){mods=c(mods,fm7)}
-#} 
-#}
+if(exists("fm7")) {
+  if(CondNum(fm7)<2000){
+    if(CondNum(fm7)>0){mods=c(mods,fm7)}
+} 
+}
 
-#try((fm7.1=colext(psiformula=~1,
-#                  gammaformula=~PCA1 * Elevation,
-#                  epsilonformula=~1,
-#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm7.1=colext(psiformula=~1,
+                  gammaformula=~Tvar,
+                  epsilonformula=~1,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm7.1")) {
-#  if(CondNum(fm7.1)<2000){
-#    if(CondNum(fm7.1)>0){mods=c(mods,fm7.1)}
-#} 
-#}
+if(exists("fm7.1")) {
+  if(CondNum(fm7.1)<2000){
+    if(CondNum(fm7.1)>0){mods=c(mods,fm7.1)}
+} 
+}
 
-#try((fm7.2=colext(psiformula=~1,
-#                  gammaformula=~1,
-#                  epsilonformula=~PCA1 * Elevation,
-#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm7.2=colext(psiformula=~1,
+                  gammaformula=~1,
+                  epsilonformula=~Tvar,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm7.2")) {
-#  if(CondNum(fm7.2)<2000){
-#    if(CondNum(fm7.2)>0){mods=c(mods,fm7.2)}
-#} 
-#}
+if(exists("fm7.2")) {
+  if(CondNum(fm7.2)<2000){
+    if(CondNum(fm7.2)>0){mods=c(mods,fm7.2)}
+} 
+}
 
 
 # Tmean + Tsd + BioticYearly ##################################################################################
@@ -454,362 +454,435 @@ if(exists("fm11.2")) {
 
 
 
-# Biotic + Elevation ##########################################################################
-#try((fm28=colext(psiformula=~1,
-#                 gammaformula=~Biotic + Elevation,
-#                 epsilonformula=~Biotic + Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm28")) {
-#  if(CondNum(fm28)<2000){
-#    if(CondNum(fm28)>0){mods=c(mods,fm28)}
-#} 
-#}
-
-#try((fm28.1=colext(psiformula=~1,
-#                   gammaformula=~Biotic + Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm28.1")) {
-#  if(CondNum(fm28.1)<2000){
-#    if(CondNum(fm28.1)>0){mods=c(mods,fm28.1)}
-#} 
-#}
-
-#try((fm28.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~Biotic + Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm28.2")) {
-#  if(CondNum(fm28.2)<2000){
-#    if(CondNum(fm28.2)>0){mods=c(mods,fm28.2)}
-#} 
-#}
-
-
-#Biotic * Elevation##########################################################################
-#try((fm30=colext(psiformula=~1,
-#                 gammaformula=~Biotic * Elevation,
-#                 epsilonformula=~Biotic * Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm30")) {
-#  if(CondNum(fm30)<2000){
-#    if(CondNum(fm30)>0){mods=c(mods,fm30)}
-#} 
-#}
-
-#try((fm30.1=colext(psiformula=~1,
-#                   gammaformula=~Biotic * Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm30.1")) {
-#  if(CondNum(fm30.1)<2000){
-#    if(CondNum(fm30.1)>0){mods=c(mods,fm30.1)}
-#} 
-#}
-
-#try((fm30.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~Biotic * Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm30.2")) {
-#  if(CondNum(fm30.2)<2000){
-#    if(CondNum(fm30.2)>0){mods=c(mods,fm30.2)}
-#} 
-#}
-
-
-
-# BioticYearly + Elevation ##########################################################################
-#try((fm32=colext(psiformula=~1,
-#                 gammaformula=~BioticYearly + Elevation,
-#                 epsilonformula=~BioticYearly + Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm32")) {
-#  if(CondNum(fm32)<2000){
-#    if(CondNum(fm32)>0){mods=c(mods,fm32)}
-#} 
-#}
-
-#try((fm32.1=colext(psiformula=~1,
-#                   gammaformula=~BioticYearly + Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm32.1")) {
-#  if(CondNum(fm32.1)<2000){
-#    if(CondNum(fm32.1)>0){mods=c(mods,fm32.1)}
-#} 
-#}
-
-#try((fm32.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~BioticYearly + Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm32.2")) {
-#  if(CondNum(fm32.2)<2000){
-#    if(CondNum(fm32.2)>0){mods=c(mods,fm32.2)}
-#} 
-#}
-
-
-
-# BioticYearly * Elevation ##########################################################################
-#try((fm35=colext(psiformula=~1,
-#                 gammaformula=~BioticYearly * Elevation,
-#                 epsilonformula=~BioticYearly * Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm35")) {
-#  if(CondNum(fm35)<2000){
-#    if(CondNum(fm35)>0){mods=c(mods,fm35)}
-#} 
-#}
-
-#try((fm35.1=colext(psiformula=~1,
-#                   gammaformula=~BioticYearly * Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm35.1")){
-#  if(CondNum(fm35.1)<2000){
-#    if(CondNum(fm35.1)>0){mods=c(mods,fm35.1)}
-#} 
-#}
-
-#try((fm35.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~BioticYearly * Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm35.2")) {
-#  if(CondNum(fm35.2)<2000){
-#    if(CondNum(fm35.2)>0){mods=c(mods,fm35.2)}
-#} 
-#}
-
-
-# PCA1 + Biotic + Elevation ##########################################################################
-#try((fm36=colext(psiformula=~1,
-#                 gammaformula=~PCA1 + Biotic + Elevation,
-#                 epsilonformula=~PCA1 + Biotic + Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm36")) {
-#  if(CondNum(fm36)<2000){
-#    if(CondNum(fm36)>0){mods=c(mods,fm36)}
-#} 
-#}
-
-#try((fm36.1=colext(psiformula=~1,
-#                   gammaformula=~PCA1 + Biotic + Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm36.1")){
-#  if(CondNum(fm36.1)<2000){
-#    if(CondNum(fm36.1)>0){mods=c(mods,fm36.1)}
-#} 
-#}
-
-#try((fm36.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~PCA1 + Biotic + Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm36.2")) {
-#  if(CondNum(fm36.2)<2000){
-#    if(CondNum(fm36.2)>0){mods=c(mods,fm36.2)}
-#} 
-#}
-
-
-# PCA1 + BioticYearly + Elevation ##########################################################################
-#try((fm38=colext(psiformula=~1,
-#                 gammaformula=~PCA1 + BioticYearly + Elevation,
-#                 epsilonformula=~PCA1 + BioticYearly + Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm38")) {
-#  if(CondNum(fm38)<2000){
-#    if(CondNum(fm38)>0){mods=c(mods,fm38)}
-#} 
-#}
-
-#try((fm38.1=colext(psiformula=~1,
-#                   gammaformula=~PCA1 + BioticYearly + Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm38.1")) {
-#  if(CondNum(fm38.1)<2000){
-#    if(CondNum(fm38.1)>0){mods=c(mods,fm38.1)}
-#} 
-#}
-
-#try((fm38.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~PCA1 + BioticYearly + Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm38.2")) {
-#  if(CondNum(fm38.2)<2000){
-#    if(CondNum(fm38.2)>0){mods=c(mods,fm38.2)}
-#} 
-#}
-
-
-# PCA1 * BioticYearly + Elevation ##########################################################################
-#try((fm37=colext(psiformula=~1,
-#                 gammaformula=~PCA1 * BioticYearly + Elevation,
-#                 epsilonformula=~PCA1 * BioticYearly + Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm37")) {
-#  if(CondNum(fm37)<2000){
-#    if(CondNum(fm37)>0){mods=c(mods,fm37)}
-#} 
-#}
-
-#try((fm37.1=colext(psiformula=~1,
-#                   gammaformula=~PCA1 * BioticYearly + Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm37.1")) {
-#  if(CondNum(fm37.1)<2000){
-#    if(CondNum(fm37.1)>0){mods=c(mods,fm37.1)}
-#} 
-#}
-
-#try((fm37.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~PCA1 * BioticYearly + Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm37.2")) {
-#  if(CondNum(fm37.2)<2000){
-#    if(CondNum(fm37.2)>0){mods=c(mods,fm37.2)}
-#} 
-#}
-
-
-
-#PCA1 + BioticYearly * Elevation ##########################################################################
-#try((fm39=colext(psiformula=~1,
-#                 gammaformula=~PCA1 + BioticYearly * Elevation,
-#                 epsilonformula=~PCA1 + BioticYearly * Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm39")) {
-#  if(CondNum(fm39)<2000){
-#    if(CondNum(fm39)>0){mods=c(mods,fm39)}
-#} 
-#}
-
-#try((fm39.1=colext(psiformula=~1,
-#                   gammaformula=~PCA1 + BioticYearly * Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm39.1")) {
-#  if(CondNum(fm39.1)<2000){
-#    if(CondNum(fm39.1)>0){mods=c(mods,fm39.1)}
-#} 
-#}
-
-#try((fm39.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~PCA1 + BioticYearly * Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm39.2")) {
-#  if(CondNum(fm39.2)<2000){
-#    if(CondNum(fm39.2)>0){mods=c(mods,fm39.2)}
-#} 
-#}
-
-
-
-
-# PCA1 * Biotic + Elevation ##########################################################################
-#try((fm40=colext(psiformula=~1,
-#                 gammaformula=~PCA1 * Biotic + Elevation,
-#                 epsilonformula=~PCA1 * Biotic + Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm40")) {
-#  if(CondNum(fm40)<2000){
-#    if(CondNum(fm40)>0){mods=c(mods,fm40)}
-#} 
-#}
-
-#try((fm40.1=colext(psiformula=~1,
-#                   gammaformula=~PCA1 * Biotic + Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm40.1")) {
-#  if(CondNum(fm40.1)<2000){
-#    if(CondNum(fm40.1)>0){mods=c(mods,fm40.1)}
-#} 
-#}
-
-#try((fm40.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~PCA1 * Biotic + Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm40.2")) {
-#  if(CondNum(fm40.2)<2000){
-#    if(CondNum(fm40.2)>0){mods=c(mods,fm40.2)}
-#} 
-#}
-
-
-
-
-#PCA1 + Biotic * Elevation ##########################################################################
-#try((fm42=colext(psiformula=~1,
-#                 gammaformula=~PCA1 + Biotic * Elevation,
-#                 epsilonformula=~PCA1 + Biotic * Elevation,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm42")) {
-#  if(CondNum(fm42)<2000){
-#    if(CondNum(fm42)>0){mods=c(mods,fm42)}
-#} 
-#}
-
-#try((fm42.1=colext(psiformula=~1,
-#                   gammaformula=~PCA1 + Biotic * Elevation,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm42.1")) {
-#  if(CondNum(fm42.1)<2000){
-#    if(CondNum(fm42.1)>0){mods=c(mods,fm42.1)}
-#} 
-#}
-
-#try((fm42.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~PCA1 + Biotic * Elevation,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-
-#if(exists("fm42.2")) {
-#  if(CondNum(fm42.2)<2000){
-#    if(CondNum(fm42.2)>0){mods=c(mods,fm42.2)}
-#} 
-#}
-
+# Biotic + Tmin ##########################################################################
+try((fm28=colext(psiformula=~1,
+                 gammaformula=~Biotic + Tmin,
+                 epsilonformula=~Biotic + Tmin,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm28")) {
+  if(CondNum(fm28)<2000){
+    if(CondNum(fm28)>0){mods=c(mods,fm28)}
+} 
+}
+
+try((fm28.1=colext(psiformula=~1,
+                   gammaformula=~Biotic + Tmin,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm28.1")) {
+  if(CondNum(fm28.1)<2000){
+    if(CondNum(fm28.1)>0){mods=c(mods,fm28.1)}
+} 
+}
+
+try((fm28.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Biotic + Tmin,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm28.2")) {
+  if(CondNum(fm28.2)<2000){
+    if(CondNum(fm28.2)>0){mods=c(mods,fm28.2)}
+} 
+}
+
+
+#Biotic * Tmin##########################################################################
+try((fm30=colext(psiformula=~1,
+                 gammaformula=~Biotic * Tmin,
+                 epsilonformula=~Biotic * Tmin,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm30")) {
+  if(CondNum(fm30)<2000){
+    if(CondNum(fm30)>0){mods=c(mods,fm30)}
+} 
+}
+
+try((fm30.1=colext(psiformula=~1,
+                   gammaformula=~Biotic * Tmin,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm30.1")) {
+  if(CondNum(fm30.1)<2000){
+    if(CondNum(fm30.1)>0){mods=c(mods,fm30.1)}
+} 
+}
+
+try((fm30.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Biotic * Tmin,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm30.2")) {
+  if(CondNum(fm30.2)<2000){
+    if(CondNum(fm30.2)>0){mods=c(mods,fm30.2)}
+} 
+}
+
+
+
+# BioticYearly + Tmin ##########################################################################
+try((fm32=colext(psiformula=~1,
+                 gammaformula=~BioticYearly + Tmin,
+                 epsilonformula=~BioticYearly + Tmin,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm32")) {
+  if(CondNum(fm32)<2000){
+    if(CondNum(fm32)>0){mods=c(mods,fm32)}
+} 
+}
+
+try((fm32.1=colext(psiformula=~1,
+                   gammaformula=~BioticYearly + Tmin,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm32.1")) {
+  if(CondNum(fm32.1)<2000){
+    if(CondNum(fm32.1)>0){mods=c(mods,fm32.1)}
+} 
+}
+
+try((fm32.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~BioticYearly + Tmin,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm32.2")) {
+  if(CondNum(fm32.2)<2000){
+    if(CondNum(fm32.2)>0){mods=c(mods,fm32.2)}
+} 
+}
+
+
+
+# BioticYearly * Tmin ##########################################################################
+try((fm35=colext(psiformula=~1,
+                 gammaformula=~BioticYearly * Tmin,
+                 epsilonformula=~BioticYearly * Tmin,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm35")) {
+  if(CondNum(fm35)<2000){
+    if(CondNum(fm35)>0){mods=c(mods,fm35)}
+} 
+}
+
+try((fm35.1=colext(psiformula=~1,
+                   gammaformula=~BioticYearly * Tmin,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm35.1")){
+  if(CondNum(fm35.1)<2000){
+    if(CondNum(fm35.1)>0){mods=c(mods,fm35.1)}
+} 
+}
+
+try((fm35.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~BioticYearly * Tmin,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm35.2")) {
+  if(CondNum(fm35.2)<2000){
+    if(CondNum(fm35.2)>0){mods=c(mods,fm35.2)}
+} 
+}
+
+
+# Tmax + Biotic ##########################################################################
+try((fm36=colext(psiformula=~1,
+                 gammaformula=~Tmax + Biotic,
+                 epsilonformula=~Tmax + Biotic,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm36")) {
+  if(CondNum(fm36)<2000){
+    if(CondNum(fm36)>0){mods=c(mods,fm36)}
+} 
+}
+
+try((fm36.1=colext(psiformula=~1,
+                   gammaformula=~Tmax + Biotic,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm36.1")){
+  if(CondNum(fm36.1)<2000){
+    if(CondNum(fm36.1)>0){mods=c(mods,fm36.1)}
+} 
+}
+
+try((fm36.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tmax + Biotic,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm36.2")) {
+  if(CondNum(fm36.2)<2000){
+    if(CondNum(fm36.2)>0){mods=c(mods,fm36.2)}
+} 
+}
+
+
+# Tmax + BioticYearly ##########################################################################
+try((fm38=colext(psiformula=~1,
+                 gammaformula=~Tmax + BioticYearly,
+                 epsilonformula=~Tmax + BioticYearly,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm38")) {
+  if(CondNum(fm38)<2000){
+    if(CondNum(fm38)>0){mods=c(mods,fm38)}
+} 
+}
+
+try((fm38.1=colext(psiformula=~1,
+                   gammaformula=~Tmax + BioticYearly,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm38.1")) {
+  if(CondNum(fm38.1)<2000){
+    if(CondNum(fm38.1)>0){mods=c(mods,fm38.1)}
+} 
+}
+
+try((fm38.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tmax + BioticYearly,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm38.2")) {
+  if(CondNum(fm38.2)<2000){
+    if(CondNum(fm38.2)>0){mods=c(mods,fm38.2)}
+} 
+}
+
+
+# Tmax * BioticYearly ##########################################################################
+try((fm37=colext(psiformula=~1,
+                 gammaformula=~Tmax * BioticYearly,
+                 epsilonformula=~Tmax * BioticYearly,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm37")) {
+  if(CondNum(fm37)<2000){
+    if(CondNum(fm37)>0){mods=c(mods,fm37)}
+} 
+}
+
+try((fm37.1=colext(psiformula=~1,
+                   gammaformula=~Tmax * BioticYearly,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm37.1")) {
+  if(CondNum(fm37.1)<2000){
+    if(CondNum(fm37.1)>0){mods=c(mods,fm37.1)}
+} 
+}
+
+try((fm37.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tmax * BioticYearly,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm37.2")) {
+  if(CondNum(fm37.2)<2000){
+    if(CondNum(fm37.2)>0){mods=c(mods,fm37.2)}
+} 
+}
+
+
+
+#Tmax * Biotic ##########################################################################
+try((fm39=colext(psiformula=~1,
+                 gammaformula=~Tmax * Biotic,
+                 epsilonformula=~Tmax * Biotic,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm39")) {
+  if(CondNum(fm39)<2000){
+    if(CondNum(fm39)>0){mods=c(mods,fm39)}
+} 
+}
+
+try((fm39.1=colext(psiformula=~1,
+                   gammaformula=~Tmax * Biotic,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm39.1")) {
+  if(CondNum(fm39.1)<2000){
+    if(CondNum(fm39.1)>0){mods=c(mods,fm39.1)}
+} 
+}
+
+try((fm39.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tmax * Biotic,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm39.2")) {
+  if(CondNum(fm39.2)<2000){
+    if(CondNum(fm39.2)>0){mods=c(mods,fm39.2)}
+} 
+}
+
+
+
+
+# Tvar * Biotic ##########################################################################
+try((fm40=colext(psiformula=~1,
+                 gammaformula=~Tvar * Biotic,
+                 epsilonformula=~Tvar * Biotic,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm40")) {
+  if(CondNum(fm40)<2000){
+    if(CondNum(fm40)>0){mods=c(mods,fm40)}
+} 
+}
+
+try((fm40.1=colext(psiformula=~1,
+                   gammaformula=~Tvar * Biotic,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm40.1")) {
+  if(CondNum(fm40.1)<2000){
+    if(CondNum(fm40.1)>0){mods=c(mods,fm40.1)}
+} 
+}
+
+try((fm40.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tvar * Biotic,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm40.2")) {
+  if(CondNum(fm40.2)<2000){
+    if(CondNum(fm40.2)>0){mods=c(mods,fm40.2)}
+} 
+}
+
+
+
+
+#Tvar + Biotic ##########################################################################
+try((fm42=colext(psiformula=~1,
+                 gammaformula=~Tvar + Biotic,
+                 epsilonformula=~Tvar + Biotic,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm42")) {
+  if(CondNum(fm42)<2000){
+    if(CondNum(fm42)>0){mods=c(mods,fm42)}
+} 
+}
+
+try((fm42.1=colext(psiformula=~1,
+                   gammaformula=~Tvar + Biotic,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm42.1")) {
+  if(CondNum(fm42.1)<2000){
+    if(CondNum(fm42.1)>0){mods=c(mods,fm42.1)}
+} 
+}
+
+try((fm42.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tvar + Biotic,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm42.2")) {
+  if(CondNum(fm42.2)<2000){
+    if(CondNum(fm42.2)>0){mods=c(mods,fm42.2)}
+} 
+}
+
+
+
+
+# Tvar * BioticYearly ##########################################################################
+try((fm33=colext(psiformula=~1,
+                 gammaformula=~Tvar * BioticYearly,
+                 epsilonformula=~Tvar * BioticYearly,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm33")) {
+  if(CondNum(fm33)<2000){
+    if(CondNum(fm33)>0){mods=c(mods,fm33)}
+} 
+}
+
+try((fm33.1=colext(psiformula=~1,
+                   gammaformula=~Tvar * BioticYearly,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm33.1")) {
+  if(CondNum(fm33.1)<2000){
+    if(CondNum(fm33.1)>0){mods=c(mods,fm33.1)}
+} 
+}
+
+try((fm33.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tvar * BioticYearly,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm33.2")) {
+  if(CondNum(fm33.2)<2000){
+    if(CondNum(fm33.2)>0){mods=c(mods,fm33.2)}
+} 
+}
+
+
+
+
+#Tvar + BioticYearly ##########################################################################
+try((fm34=colext(psiformula=~1,
+                 gammaformula=~Tvar + BioticYearly,
+                 epsilonformula=~Tvar + BioticYearly,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm34")) {
+  if(CondNum(fm34)<2000){
+    if(CondNum(fm34)>0){mods=c(mods,fm34)}
+} 
+}
+
+try((fm34.1=colext(psiformula=~1,
+                   gammaformula=~Tvar + BioticYearly,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm34.1")) {
+  if(CondNum(fm34.1)<2000){
+    if(CondNum(fm34.1)>0){mods=c(mods,fm34.1)}
+} 
+}
+
+try((fm34.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tvar + BioticYearly,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+
+if(exists("fm34.2")) {
+  if(CondNum(fm34.2)<2000){
+    if(CondNum(fm34.2)>0){mods=c(mods,fm34.2)}
+} 
+}
 
 
 
