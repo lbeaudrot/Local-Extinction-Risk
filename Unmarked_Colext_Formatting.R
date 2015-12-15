@@ -532,8 +532,10 @@ SitesBinary[[4]] <- SitesBinary[[4]][,1:31]
 
 # Remove all populations of "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
 SitesBinary[[2]] <- SitesBinary[[2]][-10,] # Remove Dendrohyrax arboreus from UDZ
-SitesBinary[[4]] <- SitesBinary[[4]][-35,] # Remove Tragulus napu from PSH
-SitesBinary[[4]] <- SitesBinary[[4]][-18,] # Remove Muntiacus muntjak from PSH
+#SitesBinary[[4]] <- SitesBinary[[4]][-35,] # Remove Tragulus napu from PSH
+SitesBinary[[4]] <- SitesBinary[[4]][-32,] # Remove Tragulus napu from PSH
+#SitesBinary[[4]] <- SitesBinary[[4]][-18,] # Remove Muntiacus muntjak from PSH
+SitesBinary[[4]] <- SitesBinary[[4]][-16,] # Remove Muntiacus muntjak from PSH
 SitesBinary[[6]] <- SitesBinary[[6]][-22,] # Remove Tragulus javanicus from NAK
 SitesBinary[[6]] <- SitesBinary[[6]][-16,] # Remove Muntiacus muntjak from NAK
 
@@ -575,8 +577,8 @@ names(SitesBinaryAnnual) <- Sitenames
 
 SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", ,1:31) # Remove arrays 2 and 3 at PSH
 SitesBinaryAnnual[[2]] <- lapply(SitesBinaryAnnual[[2]], "[", -10,)  # Remove Dendrohyrax arboreus from UDZ
-SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -35,)  # Remove Tragulus napu from PSH
-SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -18,)  # Remove Muntiacus muntjak from PSH
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -32,)  # Remove Tragulus napu from PSH
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -16,)  # Remove Muntiacus muntjak from PSH
 SitesBinaryAnnual[[6]] <- lapply(SitesBinaryAnnual[[6]], "[", -22,)  # Remove Tragulus javanicus from NAK
 SitesBinaryAnnual[[6]] <- lapply(SitesBinaryAnnual[[6]], "[", -16,)  # Remove Muntiacus muntjak from NAK
 

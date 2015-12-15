@@ -1,10 +1,8 @@
-# Unmarked analysis of 32 TEAM populations with >8% detection rates at sites with >500 m elevation change
+# Unmarked analysis of 62 TEAM populations with >5 detections/year at sites with >500 m elevation change
 library(unmarked)
 library(plyr)
 library(AICcmodavg)
 
-#load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All_covs_scaled.RData')
-#load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All500m_covariate_species.RData')
 
 rm(list=ls())
 load("All_covs.RData")
