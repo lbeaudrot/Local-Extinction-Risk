@@ -14,9 +14,11 @@ source("camera trap analysis functions.R")
 # Load matrix creator function at bottom of this script "f.matrix.creatorLB"
 source("matrix creator LB.R")
 # Load TEAM data, fix data, and add site code; no need to separate events because matrix creator functions turns all detections into trinary matrix
+source("team_db_query.R")
 #ctdata <- f.teamdb.query("camera trap")
 #load("ct_data2014-10-31.gzip")
-load("ct_data2015-07-30.gzip")
+#load("ct_data2015-07-30.gzip")
+load("ct_data2015-12-15.gzip")
 
 alldata <- cam_trap_data
 alldata<-f.fix.data2(alldata)
@@ -84,7 +86,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   BIFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2010.01")
   BIFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2011.01")
   BIFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2012.01")
-  BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2014.01") #Added 7/30/2015
+  BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2013.01") #Added 7/30/2015
 
 
 
@@ -92,6 +94,8 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   PSHMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2012.01")
   PSHMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2013.01")
   PSHMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2014.01")
+  PSHMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2015.01") #Added on 12/15/2015
+
 
 
 
@@ -106,6 +110,8 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
   NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
   NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2013.01") #Changed from 2014.01 to 2013.01 on 7/30/2015
+  NAKMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01") #Added on 12/15/2015
+
 
 
 
@@ -113,6 +119,9 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   RNFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2011.01")
   RNFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2012.01")
   RNFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2013.01")
+  RNFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2014.01") #Added 7/30/2015
+
+
 
 # Create empty objects to fill with matrices collapsed to 15 secondary sampling periods
   VBMatrix2008.15 <- list()
@@ -147,6 +156,8 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   PSHMatrix2012.15 <- list()
   PSHMatrix2013.15 <- list()
   PSHMatrix2014.15 <- list()
+  PSHMatrix2015.15 <- list()
+
 
 
 
@@ -162,6 +173,8 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   NAKMatrix2012.15 <- list()
   NAKMatrix2013.15 <- list()
   NAKMatrix2014.15 <- list()
+  NAKMatrix2015.15 <- list()
+
 
 
 
@@ -169,6 +182,8 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   RNFMatrix2011.15 <- list()
   RNFMatrix2012.15 <- list()
   RNFMatrix2013.15 <- list()
+  RNFMatrix2014.15 <- list()
+
 
 # Shrink data matrices to 15 secondary sampling periods
 for(i in 1:length(VBMatrix2008)){
@@ -210,6 +225,8 @@ for(i in 1:length(PSHMatrix2012)){
   PSHMatrix2012.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2012[[i]])
   PSHMatrix2013.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2013[[i]])
   PSHMatrix2014.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2014[[i]])
+  PSHMatrix2015.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2015[[i]])
+
 
 
 }
@@ -229,6 +246,8 @@ for(i in 1:length(NAKMatrix2010)){
   NAKMatrix2012.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2012[[i]])
   NAKMatrix2013.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2013[[i]])
   NAKMatrix2014.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2014[[i]])
+  NAKMatrix2015.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2015[[i]])
+
 
 
 }
@@ -238,6 +257,9 @@ for(i in 1:length(RNFMatrix2011)){
   RNFMatrix2011.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2011[[i]])
   RNFMatrix2012.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2012[[i]])
   RNFMatrix2013.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2013[[i]])
+  RNFMatrix2014.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2014[[i]])
+
+
 }
 
 # Extract all species for each site
@@ -271,7 +293,7 @@ for(i in 1:length(RNFMatrix2011)){
     PSH.species <- list()
     for(i in 1:length(PSHMatrix2011)){
       PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]], 
-                                     "2014"=PSHMatrix2014.15[[i]])[1:30,]
+                                     "2014"=PSHMatrix2014.15[[i]], "2015"=PSHMatrix2015.15[[i]])[1:30,]
     }
     names(PSH.species) <- paste("PSH", names(PSHMatrix2011), sep=".")
 
@@ -287,7 +309,7 @@ for(i in 1:length(RNFMatrix2011)){
     NAK.species <- list()
     for(i in 1:length(NAKMatrix2011)){
       NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], 
-                                     "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]])
+                                     "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]], "2015"=NAKMatrix2015.15[[i]])
     }
     names(NAK.species) <- paste("NAK", names(NAKMatrix2011), sep=".")
 
@@ -295,7 +317,7 @@ for(i in 1:length(RNFMatrix2011)){
     RNF.species <- list()
     for(i in 1:length(RNFMatrix2011)){
       RNF.species[[i]] <- data.frame("2010"=RNFMatrix2010.15[[i]], "2011"=RNFMatrix2011.15[[i]], "2012"=RNFMatrix2012.15[[i]], 
-                                     "2013"=RNFMatrix2013.15[[i]])
+                                     "2013"=RNFMatrix2013.15[[i]], "2014"=RNFMatrix2014.15[[i]])
     }
     names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
 
@@ -1389,7 +1411,7 @@ for(k in 1:length(SitesBinaryAnnual)){
       for(i in 1:length(Z[[k]][[m]])){
         BIOTIC_pop[i] <- Z[[k]][[m]][[i]][as.character(SitesBinaryAnnual[[k]][[m]][,1])[j]]
         BIOTIC_pop[i] <- ifelse(is.na(BIOTIC_pop[i])==TRUE, 0, BIOTIC_pop[i]) 
-        }   
+        } 
       BIOTIC_site[[j]] <- BIOTIC_pop
       rm(BIOTIC_pop) # removes object and replaces is that the correct number of CT are used 
       BIOTIC_pop <- list()

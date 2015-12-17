@@ -44,7 +44,7 @@ CondNum <- function(model){
 # produces identical condition number to function "extractCN" from the AICcmodavg package
 
 ####
-#for(k in 57:58){
+#for(k in 49:50){
 for(k in 1:length(nms)){
 print(k)
 
@@ -488,38 +488,38 @@ if(exists("fm28.2")) {
 
 
 #Biotic * Tmin##########################################################################
-#try((fm30=colext(psiformula=~1,
-#                 gammaformula=~Biotic * Tmin,
-#                 epsilonformula=~Biotic * Tmin,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm30=colext(psiformula=~1,
+                 gammaformula=~Biotic * Tmin,
+                 epsilonformula=~Biotic * Tmin,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm30")) {
-#  if(CondNum(fm30)<2000){
-#    if(CondNum(fm30)>0){mods=c(mods,fm30)}
-#} 
-#}
+if(exists("fm30")) {
+  if(CondNum(fm30)<2000){
+    if(CondNum(fm30)>0){mods=c(mods,fm30)}
+} 
+}
 
-#try((fm30.1=colext(psiformula=~1,
-#                   gammaformula=~Biotic * Tmin,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm30.1=colext(psiformula=~1,
+                   gammaformula=~Biotic * Tmin,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm30.1")) {
-#  if(CondNum(fm30.1)<2000){
-#    if(CondNum(fm30.1)>0){mods=c(mods,fm30.1)}
-#} 
-#}
+if(exists("fm30.1")) {
+  if(CondNum(fm30.1)<2000){
+    if(CondNum(fm30.1)>0){mods=c(mods,fm30.1)}
+} 
+}
 
-#try((fm30.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~Biotic * Tmin,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm30.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Biotic * Tmin,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm30.2")) {
-#  if(CondNum(fm30.2)<2000){
-#    if(CondNum(fm30.2)>0){mods=c(mods,fm30.2)}
-#} 
-#}
+if(exists("fm30.2")) {
+  if(CondNum(fm30.2)<2000){
+    if(CondNum(fm30.2)>0){mods=c(mods,fm30.2)}
+} 
+}
 
 
 
@@ -701,75 +701,75 @@ if(exists("fm36.2")) {
 
 
 #Tmax * Biotic ##########################################################################
-#try((fm39=colext(psiformula=~1,
-#                 gammaformula=~Tmax * Biotic,
-#                 epsilonformula=~Tmax * Biotic,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm39=colext(psiformula=~1,
+                 gammaformula=~Tmax * Biotic,
+                 epsilonformula=~Tmax * Biotic,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm39")) {
-#  if(CondNum(fm39)<2000){
-#    if(CondNum(fm39)>0){mods=c(mods,fm39)}
-#} 
-#}
+if(exists("fm39")) {
+  if(CondNum(fm39)<2000){
+    if(CondNum(fm39)>0){mods=c(mods,fm39)}
+} 
+}
 
-#try((fm39.1=colext(psiformula=~1,
-#                   gammaformula=~Tmax * Biotic,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm39.1=colext(psiformula=~1,
+                   gammaformula=~Tmax * Biotic,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm39.1")) {
-#  if(CondNum(fm39.1)<2000){
-#    if(CondNum(fm39.1)>0){mods=c(mods,fm39.1)}
-#} 
-#}
+if(exists("fm39.1")) {
+  if(CondNum(fm39.1)<2000){
+    if(CondNum(fm39.1)>0){mods=c(mods,fm39.1)}
+} 
+}
 
-#try((fm39.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~Tmax * Biotic,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm39.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tmax * Biotic,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm39.2")) {
-#  if(CondNum(fm39.2)<2000){
-#    if(CondNum(fm39.2)>0){mods=c(mods,fm39.2)}
-#} 
-#}
+if(exists("fm39.2")) {
+  if(CondNum(fm39.2)<2000){
+    if(CondNum(fm39.2)>0){mods=c(mods,fm39.2)}
+} 
+}
 
 
 
 
 # Tvar * Biotic ##########################################################################
-#try((fm40=colext(psiformula=~1,
-#                 gammaformula=~Tvar * Biotic,
-#                 epsilonformula=~Tvar * Biotic,
-#                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm40=colext(psiformula=~1,
+                 gammaformula=~Tvar * Biotic,
+                 epsilonformula=~Tvar * Biotic,
+                 pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm40")) {
-#  if(CondNum(fm40)<2000){
-#    if(CondNum(fm40)>0){mods=c(mods,fm40)}
-#} 
-#}
+if(exists("fm40")) {
+  if(CondNum(fm40)<2000){
+    if(CondNum(fm40)>0){mods=c(mods,fm40)}
+} 
+}
 
-#try((fm40.1=colext(psiformula=~1,
-#                   gammaformula=~Tvar * Biotic,
-#                   epsilonformula=~1,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm40.1=colext(psiformula=~1,
+                   gammaformula=~Tvar * Biotic,
+                   epsilonformula=~1,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm40.1")) {
-#  if(CondNum(fm40.1)<2000){
-#    if(CondNum(fm40.1)>0){mods=c(mods,fm40.1)}
-#} 
-#}
+if(exists("fm40.1")) {
+  if(CondNum(fm40.1)<2000){
+    if(CondNum(fm40.1)>0){mods=c(mods,fm40.1)}
+} 
+}
 
-#try((fm40.2=colext(psiformula=~1,
-#                   gammaformula=~1,
-#                   epsilonformula=~Tvar * Biotic,
-#                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+try((fm40.2=colext(psiformula=~1,
+                   gammaformula=~1,
+                   epsilonformula=~Tvar * Biotic,
+                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
 
-#if(exists("fm40.2")) {
-#  if(CondNum(fm40.2)<2000){
-#    if(CondNum(fm40.2)>0){mods=c(mods,fm40.2)}
-#} 
-#}
+if(exists("fm40.2")) {
+  if(CondNum(fm40.2)<2000){
+    if(CondNum(fm40.2)>0){mods=c(mods,fm40.2)}
+} 
+}
 
 
 
