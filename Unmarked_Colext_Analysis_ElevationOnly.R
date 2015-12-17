@@ -3,7 +3,6 @@ library(unmarked)
 library(plyr)
 library(AICcmodavg)
 
-
 rm(list=ls())
 load("All_covs.RData")
 load("PCA1_covs.RData")
