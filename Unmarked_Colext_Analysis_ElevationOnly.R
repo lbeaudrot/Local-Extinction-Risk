@@ -43,8 +43,8 @@ CondNum <- function(model){
 # produces identical condition number to function "extractCN" from the AICcmodavg package
 
 ####
-#for(k in 57:62){
-for(k in 1:length(nms)){
+for(k in 45:45){
+#for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)

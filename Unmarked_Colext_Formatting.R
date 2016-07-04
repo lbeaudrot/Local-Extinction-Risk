@@ -1093,16 +1093,9 @@ CT.Temp$Temp.SD <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp
                 Tsd=NAK.SD,
                 Tmean=NAK.Mean)
 
-  CT.Temp.RNF <- melt(Alltemp500[Alltemp500$Site.Code=="RNF",])
-  ELEV_FL.RNF <- melt(ELEV_FL[ELEV_FL$Site.Code=="RNF",])
-    RNF.Elev <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,2]
-    RNF.FL120 <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,3]
-    RNF.FG120 <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,4] 
-    RNF.Tmin <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-    RNF.Tmax <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-    RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-    RNF.SD <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
-    RNF.Mean <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+ 
+
+
 
 
       RNF.Elev <- scale(RNF.Elev)
