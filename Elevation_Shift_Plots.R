@@ -1,7 +1,11 @@
-# Plot partial relationships instead of the point estimate
+# Plot partial relationships from colext models for 9 populations with significant range shifts
 # Show colonization probability as a function of elevation with confidence intervals
 
-# Interested in estimates for 9 populations with significant range shifts
+#### DIRECTIONS #######
+# To create plot for each species within the overall plot matrix: 
+#   1) Run "Unmarked Colext Analysis Elevation Only.R" for nms[k] in the loop specified below for species i
+#   2) Run subset of plotting code below for species i
+#   3) Repeat until all species have been modeled and plotted
 
 #### Colonization (fm2.1)
 # Pan troglodytes (BIF) nms[27]
@@ -25,126 +29,140 @@
 # Cephalophus nigrifrons (BIF) nms[22]
     # BIF.Cep <- fm2.2
 
-#E.ext <- predict(fm2.2, type="ext", newdata=ndm, appendData=TRUE)
 
+############### BEGIN PLOTTING #######################
+library(fields)
 set.panel(3,3)
 par(mar=c(3,4,1,0))
 
 # Pan troglodytes (BIF) nms[27] Colonization
     # BIF.Pan <- fm2.1
-nwd <- data.frame(BIF.Elev)
-pan <- predict(BIF.Pan, type="col", newdata=nwd, appendData=TRUE)
-plot(BIF.Elev, pan$Predicted, pch=19, las=1, ylab="Colonization", 
-     xlab="", bty="n", xlim=c(1400,2400), ylim=c(0, 1))
-points(BIF.Elev, pan$Predicted + 1.96*pan$SE, pch=19, col="gray55", cex=1.1)
-points(BIF.Elev, ifelse(pan$Predicted - 1.96*pan$SE<0, 0, pan$Predicted - 1.96*pan$SE), pch=19, col="gray55", cex=1.1)
-points(BIF.Elev, pan$Predicted, pch=19, cex=0.7)
+pan.nwd <- data.frame(seq(min(BIF.Elev),max(BIF.Elev),length=60))
+pan <- predict(BIF.Pan, type="col", newdata=pan.nwd, appendData=TRUE)
+pan.sort <- data.frame(BIF.Elev, pan$Predicted)
+pan.sort <- pan.sort[do.call(order, pan.sort),]
+plot(pan.sort$BIF.Elev, pan.sort$pan.Predicted, pch=19, las=1, ylab="Colonization", 
+     xlab="", bty="n", xlim=c(1400,2400), ylim=c(0, 1), cex=0.8, type="line", lwd=2)
+polygon(c(sort(BIF.Elev),rev(sort(BIF.Elev))),c(sort(pan$Predicted + 1.96*pan$SE),
+                          rev(sort(ifelse(pan$Predicted - 1.96*pan$SE<0, 0, pan$Predicted - 1.96*pan$SE)))), 
+        col=rgb(0,100,255,75,maxColorValue=255))
 mtext("Pan troglodytes (BIF)", side=3, line=0, cex=0.7)
-#text(1700,0.4, "Pan troglodytes (BIF)", adj=0)
 
 
 # Tragulus kanchil (NAK) nms[54]
     # NAK.Tra <- fm2.1
-nwd <- data.frame(NAK.Elev)
-tra <- predict(NAK.Tra, type="col", newdata=nwd, appendData=TRUE)
-plot(NAK.Elev, tra$Predicted, pch=19, las=1, ylab="Colonization",
-     xlab="", bty="n", xlim=c(300,1200), ylim=c(0, 1))
-points(NAK.Elev, tra$Predicted + 1.96*tra$SE, pch=19, col="gray55", cex=1.1)
-points(NAK.Elev, ifelse(tra$Predicted - 1.96*tra$SE<0, 0, tra$Predicted - 1.96*tra$SE), pch=19, col="gray55", cex=1.1)
-points(NAK.Elev, tra$Predicted, pch=19, cex=0.7)
+tra.nwd <- data.frame(seq(min(NAK.Elev),max(NAK.Elev),length=60))
+tra <- predict(NAK.Tra, type="col", newdata=data.frame(tra.nwd), appendData=TRUE)
+tra.sort <- data.frame(NAK.Elev, tra$Predicted)
+tra.sort <- tra.sort[do.call(order, tra.sort),]
+plot(tra.sort$NAK.Elev, tra.sort$tra.Predicted, pch=19, las=1, ylab="Colonization",
+     xlab="", bty="n", xlim=c(300,1200), ylim=c(0, 1), cex=0.8, type="line", lwd=2)
+polygon(c(rev(sort(NAK.Elev)),sort(NAK.Elev)),c(sort(tra$Predicted + 1.96*tra$SE)
+                          ,rev(sort(ifelse(tra$Predicted - 1.96*tra$SE<0, 0, tra$Predicted - 1.96*tra$SE)))), 
+        col=rgb(0,100,255,75,maxColorValue=255))
 mtext("Tragulus kanchil (NAK)", side=3, line=0, cex=0.7)
 
 # Cephalophus nigrifrons (BIF) nms[22] Extinction
      # BIF.Cep <- fm2.2
-nwd <- data.frame(BIF.Elev)
-cep <- predict(BIF.Cep, type="ext", newdata=nwd, appendData=TRUE)
-plot(BIF.Elev, cep$Predicted, pch=19, las=1, ylab="Extinction", 
-     xlab="", bty="n", xlim=c(1400, 2400), ylim=c(0, 1))
-points(BIF.Elev, ifelse(cep$Predicted + 1.96*cep$SE>1, 1, cep$Predicted + 1.96*cep$SE), pch=19, col="gray55", cex=1.1)
-points(BIF.Elev, ifelse(cep$Predicted - 1.96*cep$SE<0, 0, cep$Predicted - 1.96*cep$SE), pch=19, col="gray55", cex=1.1)
-points(BIF.Elev, cep$Predicted, pch=19, cex=0.7)
+cep.nwd <- data.frame(seq(min(BIF.Elev),max(BIF.Elev),length=60))
+cep <- predict(BIF.Cep, type="ext", newdata=cep.nwd, appendData=TRUE)
+cep.sort <- data.frame(BIF.Elev, cep$Predicted)
+cep.sort <- cep.sort[do.call(order, cep.sort),]
+plot(cep.sort$BIF.Elev, cep.sort$cep.Predicted, pch=19, las=1, ylab="Extinction", 
+     xlab="", bty="n", xlim=c(1400, 2400), ylim=c(0, 1), cex=0.8, type="line", lwd=2)
+polygon(c(rev(sort(BIF.Elev)),sort(BIF.Elev)),c(sort(ifelse(cep$Predicted + 1.96*cep$SE>1, 1, cep$Predicted + 1.96*cep$SE))
+                          ,rev(sort(ifelse(cep$Predicted - 1.96*cep$SE<0, 0, cep$Predicted - 1.96*cep$SE)))), 
+        col=rgb(225,95,0,125,maxColorValue=255))
 mtext("Cephalophus nigrifrons (BIF)", side=3, line=0, cex=0.7)
-#text(1700,0.4, "Cephalophus nigrifrons (BIF)", adj=0)
 #mtext(expression(hat(epsilon)), side=2, srt=180)
 
 # Eira barbara (YAN)  nms[43]
     # YAN.Eir <- fm2.1
-nwd <- data.frame(YAN.Elev)
-eir <- predict(YAN.Eir, type="col", newdata=nwd, appendData=TRUE)
-plot(YAN.Elev, eir$Predicted, pch=19, las=1, ylab="Colonization", 
-     xlab="", bty="n", xlim=c(300,1200), ylim=c(0, 1))
-points(YAN.Elev, ifelse(eir$Predicted + 1.96*eir$SE>1, 1, eir$Predicted + 1.96*eir$SE), pch=19, col="gray55", cex=1.1)
-points(YAN.Elev, ifelse(eir$Predicted - 1.96*eir$SE<0, 0, eir$Predicted - 1.96*eir$SE), pch=19, col="gray55", cex=1.1)
-points(YAN.Elev, eir$Predicted, pch=19, cex=0.7)
+eir.nwd <- data.frame(seq(min(YAN.Elev),max(YAN.Elev),length=60))
+eir <- predict(YAN.Eir, type="col", newdata=eir.nwd, appendData=TRUE)
+eir.sort <- data.frame(YAN.Elev, eir$Predicted)
+eir.sort <- eir.sort[do.call(order, eir.sort),]
+plot(eir.sort$YAN.Elev, eir.sort$eir.Predicted, pch=19, las=1, ylab="Colonization", 
+     xlab="", bty="n", xlim=c(300,1200), ylim=c(0, 1), cex=0.8, type="line", lwd=2)
+polygon(c(sort(YAN.Elev),rev(sort(YAN.Elev))),c(sort(ifelse(eir$Predicted + 1.96*eir$SE>1, 1, eir$Predicted + 1.96*eir$SE))
+                          ,rev(sort(ifelse(eir$Predicted - 1.96*eir$SE<0, 0, eir$Predicted - 1.96*eir$SE)))), 
+        col=rgb(0,100,255,75,maxColorValue=255))
 mtext("Eira barbara (YAN)", side=3, line=0, cex=0.7)
 
 # Mazama americana (YAN) nms[45]
     # YAN.Maz <- fm2.1
-nwd <- data.frame(YAN.Elev)
-maz <- predict(YAN.Maz, type="col", newdata=nwd, appendData=TRUE)
-plot(YAN.Elev, maz$Predicted, pch=19, las=1, ylab="Colonization", 
-     xlab="", bty="n", xlim=c(300,1200), ylim=c(0, 1))
-points(YAN.Elev, ifelse(maz$Predicted + 1.96*maz$SE>1, 1, maz$Predicted + 1.96*maz$SE), pch=19, col="gray55", cex=1.1)
-points(YAN.Elev, ifelse(maz$Predicted - 1.96*maz$SE<0, 0, maz$Predicted - 1.96*maz$SE), pch=19, col="gray55", cex=1.1)
-points(YAN.Elev, maz$Predicted, pch=19, cex=0.7)
+maz.nwd <- data.frame(YAN.Elev)
+maz <- predict(YAN.Maz, type="col", newdata=maz.nwd, appendData=TRUE)
+maz.sort <- data.frame(YAN.Elev, maz$Predicted)
+maz.sort <- maz.sort[do.call(order, maz.sort),]
+plot(maz.sort$YAN.Elev, maz.sort$maz.Predicted, pch=19, las=1, ylab="Colonization", 
+     xlab="", bty="n", xlim=c(300,1200), ylim=c(0, 1), cex=0.8, type="line", lwd=2)
+polygon(c(rev(sort(YAN.Elev)),(sort(YAN.Elev))),c(sort(ifelse(maz$Predicted + 1.96*maz$SE>1, 1, maz$Predicted + 1.96*maz$SE))
+                          ,rev(sort(ifelse(maz$Predicted - 1.96*maz$SE<0, 0, maz$Predicted - 1.96*maz$SE)))), 
+        col=rgb(0,100,255,75,maxColorValue=255))
 mtext("Mazama americana (YAN)", side=3, line=0, cex=0.7)
 #mtext(expression(hat(gamma)), side=2, srt=180)
 
 
 # Cricetomys gambianus (UDZ) nms[13]
     # UDZ.Cri <- fm2.2
-nwd <- data.frame(UDZ.Elev)
-cri <- predict(UDZ.Cri, type="ext", newdata=nwd, appendData=TRUE)
-plot(UDZ.Elev, cri$Predicted, pch=19, las=1, ylab="Extinction", 
-     xlab="", bty="n", xlim=c(400, 1800), ylim=c(0, 1))
-points(UDZ.Elev, ifelse(cri$Predicted + 1.96*cri$SE>1, 1, cri$Predicted + 1.96*cri$SE), pch=19, col="gray55", cex=1.1)
-points(UDZ.Elev, ifelse(cri$Predicted - 1.96*cri$SE<0, 0, cri$Predicted - 1.96*cri$SE), pch=19, col="gray55", cex=1.1)
-points(UDZ.Elev, cri$Predicted, pch=19, cex=0.7)
+cri.nwd <- data.frame(UDZ.Elev)
+cri <- predict(UDZ.Cri, type="ext", newdata=cri.nwd, appendData=TRUE)
+cri.sort <- data.frame(UDZ.Elev, cri$Predicted)
+cri.sort <- cri.sort[do.call(order, cri.sort),]
+plot(cri.sort$UDZ.Elev, cri.sort$cri.Predicted, pch=19, las=1, ylab="Extinction", 
+     xlab="", bty="n", xlim=c(400, 1800), ylim=c(0, 1), cex=0.8, type="line", lwd=2)
+polygon(c(rev(sort(UDZ.Elev)),(sort(UDZ.Elev))),c(sort(ifelse(cri$Predicted + 1.96*cri$SE>1, 1, cri$Predicted + 1.96*cri$SE))
+                          ,rev(sort(ifelse(cri$Predicted - 1.96*cri$SE<0, 0, cri$Predicted - 1.96*cri$SE)))), 
+        col=rgb(225,95,0,125,maxColorValue=255))
 mtext("Cricetomys gambianus (UDZ)", side=3, line=0, cex=0.7)
-
-
-
-# Pecari tajacu (VB_) nms[6]
-    # VB.Pec <- fm2.2
-nwd <- data.frame(VB.Elev)
-pec <- predict(VB.Pec, type="ext", newdata=nwd, appendData=TRUE)
-plot(VB.Elev, pec$Predicted, pch=19, las=1, ylab="Extinction", 
-     xlab="", bty="n", xlim=c(0, 2600), ylim=c(0, 1))
-points(VB.Elev, ifelse(pec$Predicted + 1.96*pec$SE>1, 1, pec$Predicted + 1.96*pec$SE), pch=19, col="gray55", cex=1.1)
-points(VB.Elev, ifelse(pec$Predicted - 1.96*pec$SE<0, 0, pec$Predicted - 1.96*pec$SE), pch=19, col="gray55", cex=1.1)
-points(VB.Elev, pec$Predicted, pch=19, cex=0.7)
-mtext("Pecari tajacu (VB)", side=3, line=0, cex=0.7)
-
-
-# Dasypus novemcinctus (VB_) nms[3]
-    # VB.Das <- fm2.2
-nwd <- data.frame(VB.Elev)
-das <- predict(VB.Das, type="ext", newdata=nwd, appendData=TRUE)
-plot(VB.Elev, das$Predicted, pch=19, las=1, ylab="Extinction", 
-     xlab="", bty="n", xlim=c(0, 2600), ylim=c(0, 1))
-points(VB.Elev, ifelse(das$Predicted + 1.96*das$SE>1, 1, das$Predicted + 1.96*das$SE), pch=19, col="gray55", cex=1.1)
-points(VB.Elev, ifelse(das$Predicted - 1.96*das$SE<0, 0, das$Predicted - 1.96*das$SE), pch=19, col="gray55", cex=1.1)
-points(VB.Elev, das$Predicted, pch=19, cex=0.7)
-mtext("Dasypus novemcinctus (VB)", side=3, line=0, cex=0.7)
 
 
 # Potamochoerus larvatus (UDZ) nms[19]
     # UDZ.Pot <- fm2.2
-nwd <- data.frame(UDZ.Elev)
-pot <- predict(UDZ.Pot, type="ext", newdata=nwd, appendData=TRUE)
-plot(UDZ.Elev, pot$Predicted, pch=19, las=1, ylab="Extinction", 
-     xlab="", bty="n", xlim=c(400, 1800), ylim=c(0, 1))
-points(UDZ.Elev, ifelse(pot$Predicted + 1.96*pot$SE>1, 1, pot$Predicted + 1.96*pot$SE), pch=19, col="gray55", cex=1.1)
-points(UDZ.Elev, ifelse(pot$Predicted - 1.96*pot$SE<0, 0, pot$Predicted - 1.96*pot$SE), pch=19, col="gray55", cex=1.1)
-points(UDZ.Elev, pot$Predicted, pch=19, cex=0.7)
+pot.nwd <- data.frame(UDZ.Elev)
+pot <- predict(UDZ.Pot, type="ext", newdata=pot.nwd, appendData=TRUE)
+pot.sort <- data.frame(UDZ.Elev, pot$Predicted)
+pot.sort <- pot.sort[do.call(order, pot.sort),]
+plot(pot.sort$UDZ.Elev, pot.sort$pot.Predicted, pch=19, las=1, ylab="Extinction", 
+     xlab="", bty="n", xlim=c(400, 1800), ylim=c(0, 1), cex=0.8, type="line", lwd=2)
+polygon(c((sort(UDZ.Elev)),rev(sort(UDZ.Elev))),c(sort(ifelse(pot$Predicted + 1.96*pot$SE>1, 1, pot$Predicted + 1.96*pot$SE))
+                          ,rev(sort(ifelse(pot$Predicted - 1.96*pot$SE<0, 0, pot$Predicted - 1.96*pot$SE)))), 
+        col=rgb(225,95,0,125,maxColorValue=255))
 mtext("Potamochoerus larvatus (UDZ)", side=3, line=0, cex=0.7)
 
+# Dasypus novemcinctus (VB_) nms[3]
+    # VB.Das <- fm2.2
+das.nwd <- data.frame(VB.Elev)
+das <- predict(VB.Das, type="ext", newdata=das.nwd, appendData=TRUE)
+das.sort <- data.frame(VB.Elev, das$Predicted)
+das.sort <- das.sort[do.call(order, das.sort),]
+plot(das.sort$VB.Elev, das.sort$das.Predicted, pch=19, las=1, ylab="Extinction", 
+     xlab="", bty="n", xlim=c(0, 2600), ylim=c(0, 1), cex=0.8, type="line", lwd=2)
+polygon(c((sort(VB.Elev)),rev(sort(VB.Elev))),c(sort(ifelse(das$Predicted + 1.96*das$SE>1, 1, das$Predicted + 1.96*das$SE))
+                          ,rev(sort(ifelse(das$Predicted - 1.96*das$SE<0, 0, das$Predicted - 1.96*das$SE)))), 
+        col=rgb(225,95,0,125,maxColorValue=255))
+mtext("Dasypus novemcinctus (VB)", side=3, line=0, cex=0.7)
 
 
+# Pecari tajacu (VB_) nms[6]
+    # VB.Pec <- fm2.2
+pec.nwd <- data.frame(VB.Elev)
+pec <- predict(VB.Pec, type="ext", newdata=pec.nwd, appendData=TRUE)
+pec.sort <- data.frame(VB.Elev, pec$Predicted)
+pec.sort <- pec.sort[do.call(order, pec.sort),]
+plot(pec.sort$VB.Elev, pec.sort$pec.Predicted, pch=19, las=1, ylab="Extinction", 
+     xlab="", bty="n", xlim=c(0, 2600), ylim=c(0, 1), cex=0.8, type="line", lwd=2)
+polygon(c((sort(VB.Elev)),rev(sort(VB.Elev))),c(sort(ifelse(pec$Predicted + 1.96*pec$SE>1, 1, pec$Predicted + 1.96*pec$SE))
+                          ,rev(sort(ifelse(pec$Predicted - 1.96*pec$SE<0, 0, pec$Predicted - 1.96*pec$SE)))), 
+        col=rgb(225,95,0,125,maxColorValue=255))
+mtext("Pecari tajacu (VB)", side=3, line=0, cex=0.7)
+
+# Outer margin text
 mtext("Elevation (m)", side=1, line=0, outer=TRUE)
 mtext("Estimated Probability", side=2, line=1, outer=TRUE)
 
-
+############## END PLOTTING #########################
 
 
 
