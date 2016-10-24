@@ -1,39 +1,16 @@
-# Unmarked analysis of 32 TEAM populations with >8% detection rates at sites with >500 m elevation change
+######### R Code for Dynamic Occupancy Modeling #########
+######### Model Set 1: Elevation                #########
+######### Beaudrot, Acevedo, Lessard et al.     #########
+
+rm(list=ls())
 library(unmarked)
 library(plyr)
 library(AICcmodavg)
 
-#load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All_covs_scaled.RData')
-#load('/Volumes/SCIENCEWORK/Working_folder/UPR_Prof/Collaborations/TEAM/32spp/All500m_covariate_species.RData')
 
-rm(list=ls())
-load("All_covs.RData")
-load("PCA1_covs.RData")
-load("All500m_covariate_species.RData") # 32 populations (less with birds excluded)
-load("All_species7sites.RData") # 166 populations
-load("Species7sites_Include.RData") # 62 populations (excludes binomial cases)
-
-load("BIOTIC_all.RData") # For 166 populations
-#load("BIOTIC_ALL_YEARS.RData") # For 166 populations
-
-load("BIOTIC_Include.RData") # For 62 populations (excludes binomial cases)
-load("BIOTIC_ALL_YEARS_Include.RData") # For 62 populations (excludes binomial cases)
-
-#All500m_covariate_species <- All_species7sites
-All500m_covariate_species <- Species7sites_Include
-BIOTIC_166 <- BIOTIC_Include
-#BIOTIC_ALL_YEARS <- BIOTIC_ALL_YEARS_Include
-
-# Matrices for each population are contained in the object "All500m_covariate_species"
-nms=names(All500m_covariate_species)
-
-results.all=list()
-mods.all=list()
-
-# add 3 new objects from Miguel's script here 
-results.table.ma=list() #add at the begining
-results.table.aic=list() #add at the begining
-colext.transformed=list() #add at the beginning
+######################################
+# Define helper functions
+######################################
 
 isEmpty <- function(x) {
     return(length(x)==0)
@@ -41,58 +18,67 @@ isEmpty <- function(x) {
 
 
 CondNum <- function(model){
-  max(eigen(hessian(model))$values)/min(eigen(hessian(model))$values)
+    max(eigen(hessian(model))$values)/min(eigen(hessian(model))$values)
 }
-# produces identical condition number to function "extractCN" from the AICcmodavg package
 
-####
-#for(k in 57:62){
+
+######################################
+# Load formatted data
+######################################
+
+load("Species7sites_Include.RData")
+load("All_covs.RData")
+
+Species_data <- Species7sites_Include
+
+nms=names(Species_data)
+
+# Empty objects for loop
+results.all=list()
+mods.all=list()
+results.table.ma=list()
+results.table.aic=list()
+colext.transformed=list()
+
+
+
+############################################################################
+################ Begin loop to run all models and extract results ##########
+############################################################################
+
+
 for(k in 1:length(nms)){
 print(k)
 
-# DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
-index <- k
-sp.name <- names(All500m_covariate_species)[index]
-sp.name
-species <- All500m_covariate_species[[index]]
-site <- substr(names(All500m_covariate_species)[[index]],1,3)
-site
+# Define species for analysis and site using index value for list of all species
+sp.name <- names(Species_data)[k]
+species <- Species_data[[k]]
+site <- substr(names(Species_data)[[k]],1,3)
 
-# Define covariate object based on site
-
-#siteCovs
+# Define site covariates
 site_covs <- paste(site, "covs", sep="_")
 covs <- All_covs[names(All_covs)==site_covs]
 Elevation <- unlist(as.matrix(sapply(covs, "[", 1)))
-ForestLossCT <- unlist(as.matrix(sapply(covs, "[", 2)))
-ForestGainCT <- unlist(as.matrix(sapply(covs, "[", 3)))
-Biotic <- BIOTIC_166[[index]]
-pca_site <- paste(site, "pca1", sep="_")
-pca_covs <- PCA1_covs[names(PCA1_covs)==pca_site]
+site.covs<-data.frame(Elevation)
 
-#yearlySiteCovs
-Tmin <- as.data.frame(sapply(covs, "[", 4))
-Tmax <- as.data.frame(sapply(covs, "[", 5))
-Tvar <- as.data.frame(sapply(covs, "[", 6))
-Tsd <- as.data.frame(sapply(covs, "[", 7))
-Tmean <- as.data.frame(sapply(covs, "[", 8))
-#BioticYearly <- BIOTIC_ALL_YEARS[[index]]
-PCA1 <- data.frame(pca_covs)
+# Define number of primary periods
+yrs <- as.data.frame(sapply(covs, "[", 4))
+to=dim(yrs)[2]
 
+# Create object with data formatted for unmarked
+umf<-unmarkedMultFrame(y=species, siteCovs=site.covs, numPrimary=dim(yrs)[2])
 
-to=dim(Tmin)[2]
-years=as.character(1:to)
-years=matrix(years,nrow(species),to,byrow=TRUE)
-
-# ADD BIOTIC TO UMF COVARIATES
-site.covs<-data.frame(Elevation, ForestLossCT, ForestGainCT, Biotic)
-
-umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean, PCA1=PCA1), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
-#umf<-unmarkedMultFrame(y=species, yearlySiteCovs=list(year=years,Tmin=Tmin,Tmax=Tmax,Tvar=Tvar,Tsd=Tsd,Tmean=Tmean), siteCovs=site.covs, numPrimary=dim(Tmin)[2])
-
+# Create list to hold model set for model selection
 mods=list()
 
-# Null ##################################################################################
+
+######################################
+# Define & Run Models
+######################################
+
+# A model is only included in the model set (i.e., mods) if convergence occurs and the condition number is < 2000 (i.e., CondNum < 2000).
+
+# Null model (no covariates) ###################################################################
 try((fm0=colext(psiformula=~1,
                 gammaformula=~1,
                 epsilonformula=~1,
@@ -104,7 +90,7 @@ if(exists("fm0")) {
 } 
 }
 
-# Elevation only ##################################################################################
+# Elevation as a covariate of colonization and extinction ######################################
 try((fm2=colext(psiformula=~1,
                 gammaformula=~Elevation,
                 epsilonformula=~Elevation,
@@ -116,6 +102,7 @@ if(exists("fm2")) {
 } 
 }
 
+# Elevation as a covariate of colonization only ################################################
 try((fm2.1=colext(psiformula=~1,
                   gammaformula=~Elevation,
                   epsilonformula=~1,
@@ -127,6 +114,7 @@ if(exists("fm2.1")) {
 } 
 }
 
+# Elevation as a covariate of extinction only ##################################################
 try((fm2.2=colext(psiformula=~1,
                   gammaformula=~1,
                   epsilonformula=~Elevation,
@@ -141,12 +129,11 @@ if(exists("fm2.2")) {
 
 
 ######################################
-#Model Selection
+# Run Model Selection
 ######################################
 
-#ifelse(isEmpty(mods)==TRUE, NA, mods)
 
-#if no models converged
+# If zero models for a species converged:
 
 if(isEmpty(mods)==TRUE){
   results.all[[k]]=NA  
@@ -162,79 +149,73 @@ if(isEmpty(mods)==TRUE){
   results.all[[k]]=ms    
 
 
-####
+# For species with models that converged, run model selection:
 
 models=fitList(fits=mods)
 
 (ms <- modSel(models))
 
-results.all[[k]]=ms
-mods.all[[k]]=mods
+results.all[[k]] <- ms
+mods.all[[k]] <- mods
 
 
 
-#### add to Export to the end (including the bracket)
+######################################
+# Extract Results
+######################################
 
-toExport<-as(ms,"data.frame") #add after ms object
+toExport <- as(ms,"data.frame")
 
-#null.elev.aic=toExport$delta[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1"]
-null.aic=toExport$delta[toExport$formula=="~1 ~ 1 ~ 1 ~ 1"]
-
-#if null.elev didn't converge
-#if(isEmpty(null.elev.aic)==TRUE){
-#  null.elev=NA  
-#}else{
-#null.elev=toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",]		
-#}
+null.aic <- toExport$delta[toExport$formula=="~1 ~ 1 ~ 1 ~ 1"]
 
 #if null didn't converge
 if(isEmpty(null.aic)==TRUE){
-	null=NA	
+	null <- NA
 }else{
-null=toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",]
+null <- toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",]
 }
 
 
-#if((null.elev.aic==0 || isEmpty(null.elev.aic)==TRUE) || (null.aic==0) ||isEmpty(null.aic)==TRUE){	
-if((null.aic==0) ||isEmpty(null.aic)==TRUE){  
+if((null.aic==0) ||isEmpty(null.aic)==TRUE){
+results.table.ma[[k]] <- rbind(null)
+temp <- data.frame(toExport$formula,toExport$delta,toExport$AICwt)
+names(temp) <- c("formula","delta","AICwt")
+results.table.aic[[k]] <- rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",])
 
-	
-#results.table.ma[[k]]=rbind(null,null.elev)	
-results.table.ma[[k]]=rbind(null)  
-
-
-temp=data.frame(toExport$formula,toExport$delta,toExport$AICwt)
-names(temp)=c("formula","delta","AICwt")
-#results.table.aic[[k]]=rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])}else{
-results.table.aic[[k]]=rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",])}else{
-
-#results.table.ma[[k]]=rbind(toExport[1,],null,null.elev)
-results.table.ma[[k]]=rbind(toExport[1,],null)
+}else{
+results.table.ma[[k]] <- rbind(toExport[1,],null)
 results.table.ma[[k]] <- cbind(nms[k], results.table.ma[[k]])
 names(results.table.ma)[k] <- nms[k]
-
-temp=data.frame(toExport$formula,toExport$delta,toExport$AICwt)
-names(temp)=c("formula","delta","AICwt")
-#results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])
-results.table.aic[[k]]=rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",])
+temp <- data.frame(toExport$formula,toExport$delta,toExport$AICwt)
+names(temp) <- c("formula","delta","AICwt")
+results.table.aic[[k]] <- rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",])
 results.table.aic[[k]] <- cbind(nms[k], results.table.aic[[k]])
 names(results.table.aic)[k] <- nms[k]
 }
 
-test=seq(3,length(toExport)-10,by=2)
-tmp=as.numeric(toExport[1,test])
-
-colext.transformed[[k]]=exp(tmp)
+test <- seq(3,length(toExport)-10,by=2)
+tmp <- as.numeric(toExport[1,test])
+colext.transformed[[k]] <- exp(tmp)
 colext.transformed[[k]] <- cbind(nms[k], toExport[1,2], colext.transformed[[k]])
 names(colext.transformed)[k] <- nms[k]
 }
 
-#add tmp, temp and toExport to the rm object 
-rm(fm0,fm0.1,fm1,fm1.1,fm1.2,fm2,fm2.1,fm2.2,fm3,fm3.1,fm3.2,
-   mods,ms, tmp, temp, toExport)
+# Remove all models and results
+rm(fm0, fm2, fm2.1, fm2.2, mods, ms, tmp, temp, toExport)
 }
 
-# Need to coerce the lists into dataframes before writing to a files
+############################################################################
+# End loop
+############################################################################
+
+
+
+
+######################################
+# Write Results
+######################################
+
+# Coerce the lists of results into dataframes and write to files
 results.table.ma.df <- ldply(results.table.ma, data.frame)
 results.table.aic.df <- ldply(results.table.aic, data.frame)
 colext.transformed.df <- ldply(colext.transformed, data.frame)
@@ -242,15 +223,4 @@ colext.transformed.df <- ldply(colext.transformed, data.frame)
 write.csv(results.table.ma.df, file="results.table.ma.csv")
 write.csv(results.table.aic.df, file="results.table.aic.csv")
 write.csv(colext.transformed.df, file="colext.transformed.csv")
-
-
-for(i in 1:length(nms)) {
-  outputname <- paste(nms[i], "colextAIC", "csv", sep=".")
-  if(is.na(results.all[[i]])==TRUE){
-    output <- NA
-  }else{
-    output <- results.all[[i]]@Full
-  } 
-  write.csv(output, file=outputname)
-} 
 
