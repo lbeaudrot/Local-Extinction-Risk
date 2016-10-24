@@ -15,12 +15,12 @@ load("BIOTIC_all.RData") # For 166 populations
 load("BIOTIC_ALL_YEARS.RData") # For 166 populations
 
 load("BIOTIC_Include.RData") # For 62 populations (excludes binomial cases)
-#load("BIOTIC_ALL_YEARS_Include.RData") # For 62 populations (excludes binomial cases)
+load("BIOTIC_ALL_YEARS_Include.RData") # For 62 populations (excludes binomial cases)
 
 #All500m_covariate_species <- All_species7sites
 All500m_covariate_species <- Species7sites_Include
 BIOTIC_166 <- BIOTIC_Include
-#BIOTIC_ALL_YEARS <- BIOTIC_ALL_YEARS_Include
+BIOTIC_ALL_YEARS <- BIOTIC_ALL_YEARS_Include
 
 # Matrices for each population are contained in the object "All500m_covariate_species"
 nms=names(All500m_covariate_species)
@@ -38,8 +38,8 @@ isEmpty <- function(x) {
 }
 
 ####
-for(k in 1:2){
-#for(k in 1:length(nms)){
+#for(k in 2:2){
+for(k in 1:length(nms)){
 print(k)
 
 # DEFINE SPECIES for analysis and site USING INDEX VALUE for list of all species (see previous call for list of species names)
@@ -67,7 +67,7 @@ Tmax <- as.data.frame(sapply(covs, "[", 5))
 Tvar <- as.data.frame(sapply(covs, "[", 6))
 Tsd <- as.data.frame(sapply(covs, "[", 7))
 Tmean <- as.data.frame(sapply(covs, "[", 8))
-#BioticYearly <- BIOTIC_ALL_YEARS[[index]]
+BioticYearly <- BIOTIC_ALL_YEARS[[index]]
 
 
 to=dim(Tmin)[2]
