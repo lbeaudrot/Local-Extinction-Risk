@@ -47,7 +47,7 @@ UDZ.year <- list(year=matrix(c("09", "10", "11", "12", "13", "14"), 61, 6, byrow
 BIF.year <- list(year=matrix(c("10", "11", "12", "13", "14"), 60, 5, byrow=TRUE)) # BIF 9 populations from 2010-2013 60 cameras c("10", "11", "12", "13", "14)
 PSH.year <- list(year=matrix(c("11", "12", "13", "14", "15"), 30, 5, byrow=TRUE)) # PSH 10 populations from 2011-2015 30 cameras c("11", "12", "13", "14", "15")
 YAN.year <- list(year=matrix(c("11", "12", "13", "14"), 61, 4, byrow=TRUE)) # YAN 10 populations from 2011-2014 61 cameras c("11", "12", "13, "14)
-NAK.year <- list(year=matrix(c("10", "11", "12", "13", "14", "15"), 60, 6, byrow=TRUE)) # NAK 5 populations from 2010-2015 60 cameras c("10", "11", "12", "13", "14", "15")
+NAK.year <- list(year=matrix(c("10", "11", "12", "14", "15"), 60, 5, byrow=TRUE)) # NAK 5 populations from 2010-2015 60 cameras c("10", "11", "12", "13", "14", "15")
 RNF.year <- list(year=matrix(c("10", "11", "12", "13", "14"), 60, 5, byrow=TRUE)) # RNF 8 populations from 2010-2014 60 cameras c("10", "11", "12", "13", "14)
 
 years <- c(rep(list(VB_.year), 7), 
