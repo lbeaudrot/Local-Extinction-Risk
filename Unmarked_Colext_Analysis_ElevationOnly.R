@@ -394,9 +394,8 @@ write.csv(results.table.ma.df, file="results.table.ma.csv")
 write.csv(results.table.aic.df, file="results.table.aic.csv")
 write.csv(colext.transformed.df, file="colext.transformed.csv")
 
-length(nms)
 for(i in 1:length(nms)) {
-  outputname <- paste(nms[i], "colextAIC", "csv", sep=".")
-  output <- results.all[[i]]@Full
-  write.csv(output, file=outputname)
-} 
+   outputname <- paste(nms[i], "colextAIC.elevation", "csv", sep=".")
+   output <- ifelse(is.na(results.all[[1]])==TRUE, "NA", results.all[[1]]@Full)
+   write.csv(output, file=outputname)
+ } 
