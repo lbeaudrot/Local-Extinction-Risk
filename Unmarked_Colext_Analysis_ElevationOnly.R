@@ -39,6 +39,7 @@ mods.all=list()
 results.table.ma=list()
 results.table.aic=list()
 colext.transformed=list()
+hold <- list()
 
 # Create "year" object for each site and repeat in a list as many times as we have populations from the site
 
@@ -99,7 +100,7 @@ for(k in 1:length(nms)){
   # A model is only included in the model set (i.e., mods) if convergence occurs and the condition number is < 2000 (i.e., CondNum < 2000).
   
   # Null model (no covariates) ###################################################################
-  try((fm0=colext(psiformula=~Elevation,
+  try((fm0=colext(psiformula=~1,
                   gammaformula=~1,
                   epsilonformula=~1,
                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
@@ -107,6 +108,28 @@ for(k in 1:length(nms)){
   if(exists("fm0")) {
     if(CondNum(fm0)<2000){
       if(CondNum(fm0)>0){mods=c(mods,fm0)}
+    } 
+  }
+  
+  try((fm0.1=colext(psiformula=~Elevation,
+                  gammaformula=~1,
+                  epsilonformula=~1,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+  
+  if(exists("fm0.1")) {
+    if(CondNum(fm0.1)<2000){
+      if(CondNum(fm0.1)>0){mods=c(mods,fm0.1)}
+    } 
+  }
+  
+  try((fm0.12=colext(psiformula=~Elevation^2,
+                  gammaformula=~1,
+                  epsilonformula=~1,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+  
+  if(exists("fm0.12")) {
+    if(CondNum(fm0.12)<2000){
+      if(CondNum(fm0.12)>0){mods=c(mods,fm0.12)}
     } 
   }
   
@@ -147,18 +170,7 @@ for(k in 1:length(nms)){
   }
   
   ################# WITH QUADRATICS ##############################################################
-  # Null model (no covariates) ###################################################################
-  try((fm10=colext(psiformula=~Elevation^2,
-                  gammaformula=~1,
-                  epsilonformula=~1,
-                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-  
-  if(exists("fm10")) {
-    if(CondNum(fm10)<2000){
-      if(CondNum(fm10)>0){mods=c(mods,fm10)}
-    } 
-  }
-  
+
   # Elevation as a covariate of colonization and extinction ######################################
   try((fm12=colext(psiformula=~Elevation^2,
                   gammaformula=~Elevation^2,
@@ -194,105 +206,7 @@ for(k in 1:length(nms)){
       if(CondNum(fm12.2)>0){mods=c(mods,fm12.2)}
     } 
   }
-  
-  ################# WITH ANNUAL COL/EXT ESTIMATES ##############################################################
-  # Null model (no covariates) ###################################################################
-  try((fm20=colext(psiformula=~Elevation,
-                   gammaformula=~year-1,
-                   epsilonformula=~year-1,
-                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-  
-  if(exists("fm20")) {
-    if(CondNum(fm20)<2000){
-      if(CondNum(fm20)>0){mods=c(mods,fm20)}
-    } 
-  }
-  
-  # Elevation as a covariate of colonization and extinction ######################################
-  try((fm22=colext(psiformula=~Elevation,
-                   gammaformula=~year-1 + Elevation,
-                   epsilonformula=~year-1 + Elevation,
-                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-  
-  if(exists("fm22")) {
-    if(CondNum(fm22)<2000){
-      if(CondNum(fm22)>0){mods=c(mods,fm22)}
-    } 
-  }
-  
-  # Elevation as a covariate of colonization only ################################################
-  try((fm22.1=colext(psiformula=~Elevation,
-                     gammaformula=~year-1 + Elevation,
-                     epsilonformula=~year-1,
-                     pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-  
-  if(exists("fm22.1")) {
-    if(CondNum(fm22.1)<2000){
-      if(CondNum(fm22.1)>0){mods=c(mods,fm22.1)}
-    } 
-  }
-  
-  # Elevation as a covariate of extinction only ##################################################
-  try((fm22.2=colext(psiformula=~Elevation,
-                     gammaformula=~year-1,
-                     epsilonformula=~year-1 + Elevation,
-                     pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-  
-  if(exists("fm22.2")) {
-    if(CondNum(fm22.2)<2000){
-      if(CondNum(fm22.2)>0){mods=c(mods,fm22.2)}
-    } 
-  }
-  
 
-  ################# WITH QUADRATICS AND ANNUAL COL/EXT ESTIMATES ##############################################################
-  # Null model (no covariates) ###################################################################
-  try((fm30=colext(psiformula=~Elevation^2,
-                   gammaformula=~year-1,
-                   epsilonformula=~year-1,
-                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-  
-  if(exists("fm30")) {
-    if(CondNum(fm30)<2000){
-      if(CondNum(fm30)>0){mods=c(mods,fm30)}
-    } 
-  }
-  
-  # Elevation as a covariate of colonization and extinction ######################################
-  try((fm32=colext(psiformula=~Elevation^2,
-                   gammaformula=~year-1 + Elevation^2,
-                   epsilonformula=~year-1 + Elevation^2,
-                   pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-  
-  if(exists("fm32")) {
-    if(CondNum(fm32)<2000){
-      if(CondNum(fm32)>0){mods=c(mods,fm32)}
-    } 
-  }
-  
-  # Elevation as a covariate of colonization only ################################################
-  try((fm32.1=colext(psiformula=~Elevation^2,
-                     gammaformula=~year-1 + Elevation^2,
-                     epsilonformula=~year-1,
-                     pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-  
-  if(exists("fm32.1")) {
-    if(CondNum(fm32.1)<2000){
-      if(CondNum(fm32.1)>0){mods=c(mods,fm32.1)}
-    } 
-  }
-  
-  # Elevation as a covariate of extinction only ##################################################
-  try((fm32.2=colext(psiformula=~Elevation^2,
-                     gammaformula=~year-1,
-                     epsilonformula=~year-1 + Elevation^2,
-                     pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
-  
-  if(exists("fm32.2")) {
-    if(CondNum(fm32.2)<2000){
-      if(CondNum(fm32.2)>0){mods=c(mods,fm32.2)}
-    } 
-  }  
     
   ######################################
   # Run Model Selection
@@ -332,46 +246,54 @@ for(k in 1:length(nms)){
     
     toExport <- as(ms,"data.frame")
     
-    null.aic <- toExport$delta[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1"]
+    null0.aic <- toExport$delta[toExport$formula=="~1 ~ 1 ~ 1 ~ 1"]
+    null01.aic <- toExport$delta[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1"]
+    null012.aic <- toExport$delta[toExport$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1"]
+
     
     #if null didn't converge
-    if(isEmpty(null.aic)==TRUE){
-      null <- NA
+    if(isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE){
+      nulls <- NA
     }else{
-      null <- toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",]
+      nulls <- rbind(toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",],
+                     toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",],
+                     toExport[toExport$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1",])
+      #nulls <- cbind(rep(nms[k],3), nulls)
     }
     
     
-    if((null.aic==0) ||isEmpty(null.aic)==TRUE){
-      results.table.ma[[k]] <- rbind(null)
-      temp <- data.frame(toExport$formula,toExport$delta,toExport$AICwt)
-      names(temp) <- c("formula","delta","AICwt")
-      results.table.aic[[k]] <- rbind(temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])
-      
-    }else{
-      results.table.ma[[k]] <- rbind(toExport[1,],null)
+    if(null0.aic==0 || null01.aic==0 || null012.aic==0){
+      results.table.ma[[k]] <- rbind(nulls)
       results.table.ma[[k]] <- cbind(nms[k], results.table.ma[[k]])
       names(results.table.ma)[k] <- nms[k]
       temp <- data.frame(toExport$formula,toExport$delta,toExport$AICwt)
       names(temp) <- c("formula","delta","AICwt")
-      results.table.aic[[k]] <- rbind(temp[1,],temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",])
+      results.table.aic[[k]] <- rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],
+                                      temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",],
+                                      temp[temp$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1",])
+      names(results.table.aic)[k] <- nms[k]
+      
+    }else{
+      results.table.ma[[k]] <- rbind(toExport[1,], nulls)
+      results.table.ma[[k]] <- cbind(nms[k], results.table.ma[[k]])
+      names(results.table.ma)[k] <- nms[k]
+      temp <- data.frame(toExport$formula,toExport$delta,toExport$AICwt)
+      names(temp) <- c("formula","delta","AICwt")
+      results.table.aic[[k]] <- rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],
+                                               temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",],
+                                               temp[temp$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1",])
       results.table.aic[[k]] <- cbind(nms[k], results.table.aic[[k]])
       names(results.table.aic)[k] <- nms[k]
     }
+  }    
     
-    test <- seq(3,length(toExport)-10,by=2)
-    tmp <- as.numeric(toExport[1,test])
-    colext.transformed[[k]] <- exp(tmp)
-    colext.transformed[[k]] <- cbind(nms[k], toExport[1,2], colext.transformed[[k]])
-    names(colext.transformed)[k] <- nms[k]
-  }
-  
   # Remove all models and results
-  rm(fm0, fm2, fm2.1, fm2.2, 
-     fm10, fm12, fm12.1, fm12.2,
-     fm20, fm22, fm22.1, fm22.2,
-     fm30, fm32, fm32.1, fm32.2,
-     mods, ms, tmp, temp, toExport)
+  rm(fm0, fm0.1, fm0.12, 
+     fm2, fm2.1, fm2.2, 
+     fm12, fm12.1, fm12.2,
+     #fm20, fm22, fm22.1, fm22.2,
+     #fm30, fm32, fm32.1, fm32.2,
+     mods, ms, temp, toExport)
 }
 
 ############################################################################
