@@ -262,7 +262,7 @@ for(k in 1:length(nms)){
     }
     
     
-    if(null0.aic==0 || null01.aic==0 || null012.aic==0){
+    if((null0.aic==0) || (null01.aic==0) || (null012.aic==0) || (isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE)){
       results.table.ma[[k]] <- rbind(nulls)
       results.table.ma[[k]] <- cbind(nms[k], results.table.ma[[k]])
       names(results.table.ma)[k] <- nms[k]
