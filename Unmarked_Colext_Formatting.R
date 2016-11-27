@@ -16,7 +16,8 @@ source("matrix creator LB.R")
 # Load TEAM data, fix data, and add site code; no need to separate events because matrix creator functions turns all detections into trinary matrix
 #ctdata <- f.teamdb.query("camera trap")
 #load("ct_data2014-10-31.gzip")
-load("ct_data2015-07-30.gzip")
+#load("ct_data2015-07-30.gzip")
+load("ct_data2016-11-26.gzip")
 
 alldata <- cam_trap_data
 alldata<-f.fix.data2(alldata)
@@ -67,7 +68,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   VBMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2012.01")
   VBMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2013.01")
   VBMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2014.01") #Added 7/30/2015
-
+  VBMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2015.01") #Added 11/26/2016
 
 
   UDZMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2009.01")
@@ -76,6 +77,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   UDZMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2012.01")
   UDZMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2013.01")
   UDZMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2014.01")
+  UDZMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2015.01") #Added 11/26/2016
 
 
 
@@ -85,13 +87,15 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   BIFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2011.01")
   BIFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2012.01")
   BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2014.01") #Added 7/30/2015
-
+  BIFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2015.01") #Added 11/26/2016
 
 
   PSHMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2011.01")
   PSHMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2012.01")
   PSHMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2013.01")
   PSHMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2014.01")
+  PSHMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2015.01")
+  PSHMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2016.01") #Added 11/26/2016
 
 
 
@@ -99,20 +103,25 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   YANMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2012.01")
   YANMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2013.01")
   YANMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2014.01") #Added 7/30/2015
-
+  YANMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2015.01") #Added 11/26/2016
+  
+  
   # NB NAK Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
   NAKMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2009.01")
   NAKMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2010.01")
   NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
   NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
   NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2013.01") #Changed from 2014.01 to 2013.01 on 7/30/2015
-
+  NAKMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01") #Added 11/26/2016
 
 
   RNFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2010.01")
   RNFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2011.01")
   RNFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2012.01")
   RNFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2013.01")
+  RNFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2014.01") #Added 11/26/2016 - few obs? check with Eileen
+  RNFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2015.01") #Added 11/26/2016 - few obs? check with Eileen
+  RNFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2016.01") #Added 11/26/2016 - few obs? check with Eileen
 
 # Create empty objects to fill with matrices collapsed to 15 secondary sampling periods
   VBMatrix2008.15 <- list()
@@ -123,6 +132,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   VBMatrix2013.15 <- list()
   VBMatrix2014.15 <- list()
   VBMatrix2015.15 <- list()
+  VBMatrix2016.15 <- list()
 
 
 
@@ -132,6 +142,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   UDZMatrix2012.15 <- list()
   UDZMatrix2013.15 <- list()
   UDZMatrix2014.15 <- list()
+  UDZMatrix2015.15 <- list()
 
 
 
@@ -140,6 +151,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   BIFMatrix2012.15 <- list()
   BIFMatrix2013.15 <- list()
   BIFMatrix2014.15 <- list()
+  BIFMatrix2015.15 <- list()
 
 
 
@@ -147,6 +159,8 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   PSHMatrix2012.15 <- list()
   PSHMatrix2013.15 <- list()
   PSHMatrix2014.15 <- list()
+  PSHMatrix2015.15 <- list()
+  PSHMatrix2016.15 <- list()
 
 
 
@@ -154,6 +168,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   YANMatrix2012.15 <- list()
   YANMatrix2013.15 <- list()
   YANMatrix2014.15 <- list()
+  YANMatrix2015.15 <- list()
 
 
 
@@ -162,6 +177,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   NAKMatrix2012.15 <- list()
   NAKMatrix2013.15 <- list()
   NAKMatrix2014.15 <- list()
+  NAKMatrix2015.15 <- list()
 
 
 
@@ -169,6 +185,9 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   RNFMatrix2011.15 <- list()
   RNFMatrix2012.15 <- list()
   RNFMatrix2013.15 <- list()
+  RNFMatrix2014.15 <- list()
+  RNFMatrix2015.15 <- list()
+  RNFMatrix2016.15 <- list()
 
 # Shrink data matrices to 15 secondary sampling periods
 for(i in 1:length(VBMatrix2008)){
@@ -180,8 +199,7 @@ for(i in 1:length(VBMatrix2008)){
   VBMatrix2013.15[[i]] <- f.shrink.matrix.to15(VBMatrix2013[[i]])
   VBMatrix2014.15[[i]] <- f.shrink.matrix.to15(VBMatrix2014[[i]])
   VBMatrix2015.15[[i]] <- f.shrink.matrix.to15(VBMatrix2015[[i]])
-
-
+  VBMatrix2016.15[[i]] <- f.shrink.matrix.to15(VBMatrix2016[[i]])
 }
 
 for(i in 1:length(UDZMatrix2010)){
@@ -191,8 +209,7 @@ for(i in 1:length(UDZMatrix2010)){
   UDZMatrix2012.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2012[[i]])
   UDZMatrix2013.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2013[[i]])
   UDZMatrix2014.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2014[[i]])
-
-
+  UDZMatrix2015.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2015[[i]])
 }
 
 for(i in 1:length(BIFMatrix2010)){
@@ -201,8 +218,7 @@ for(i in 1:length(BIFMatrix2010)){
   BIFMatrix2012.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2012[[i]])
   BIFMatrix2013.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2013[[i]])
   BIFMatrix2014.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2014[[i]])
-
-
+  BIFMatrix2015.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2015[[i]])
 }  
 
 for(i in 1:length(PSHMatrix2012)){
@@ -210,8 +226,8 @@ for(i in 1:length(PSHMatrix2012)){
   PSHMatrix2012.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2012[[i]])
   PSHMatrix2013.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2013[[i]])
   PSHMatrix2014.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2014[[i]])
-
-
+  PSHMatrix2015.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2015[[i]])
+  PSHMatrix2016.15[[i]] <- f.shrink.matrix.to15(PSHMatrix2016[[i]])
 }
 
 for(i in 1:length(YANMatrix2012)){
@@ -219,8 +235,7 @@ for(i in 1:length(YANMatrix2012)){
   YANMatrix2012.15[[i]] <- f.shrink.matrix.to15(YANMatrix2012[[i]])
   YANMatrix2013.15[[i]] <- f.shrink.matrix.to15(YANMatrix2013[[i]])
   YANMatrix2014.15[[i]] <- f.shrink.matrix.to15(YANMatrix2014[[i]])
-
-
+  YANMatrix2015.15[[i]] <- f.shrink.matrix.to15(YANMatrix2015[[i]])
 }
 
 for(i in 1:length(NAKMatrix2010)){
@@ -229,8 +244,7 @@ for(i in 1:length(NAKMatrix2010)){
   NAKMatrix2012.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2012[[i]])
   NAKMatrix2013.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2013[[i]])
   NAKMatrix2014.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2014[[i]])
-
-
+  NAKMatrix2015.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2015[[i]])
 }
 
 for(i in 1:length(RNFMatrix2011)){
@@ -238,6 +252,9 @@ for(i in 1:length(RNFMatrix2011)){
   RNFMatrix2011.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2011[[i]])
   RNFMatrix2012.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2012[[i]])
   RNFMatrix2013.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2013[[i]])
+  RNFMatrix2014.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2014[[i]])
+  RNFMatrix2015.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2015[[i]])
+  RNFMatrix2016.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2016[[i]])
 }
 
 # Extract all species for each site
@@ -247,7 +264,7 @@ for(i in 1:length(RNFMatrix2011)){
     for(i in 1:length(VBMatrix2008)){
       VB_.species[[i]] <- data.frame("2008"=VBMatrix2008.15[[i]], "2009"=VBMatrix2009.15[[i]], "2010"=VBMatrix2010.15[[i]], 
                                      "2011"=VBMatrix2011.15[[i]], "2012"=VBMatrix2012.15[[i]], "2013"=VBMatrix2013.15[[i]], 
-                                     "2014"=VBMatrix2014.15[[i]], "2015"=VBMatrix2015.15[[i]])
+                                     "2014"=VBMatrix2014.15[[i]], "2015"=VBMatrix2015.15[[i]], "2016"=VBMatrix2016.15[[i]])
     }
     names(VB_.species) <- paste("VB_", names(VBMatrix2008), sep=".")
 
@@ -255,7 +272,8 @@ for(i in 1:length(RNFMatrix2011)){
     UDZ.species <- list()
     for(i in 1:length(UDZMatrix2009)){
       UDZ.species[[i]] <- data.frame("2009"=UDZMatrix2009.15[[i]], "2010"=UDZMatrix2010.15[[i]], "2011"=UDZMatrix2011.15[[i]], 
-                                     "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]], "2014"=UDZMatrix2014.15[[i]])
+                                     "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]], "2014"=UDZMatrix2014.15[[i]],
+                                     "2015"=UDZMatrix2015.15[[i]])
     }
     names(UDZ.species) <- paste("UDZ", names(UDZMatrix2009), sep=".")
 
@@ -263,15 +281,16 @@ for(i in 1:length(RNFMatrix2011)){
     BIF.species <- list()
     for(i in 1:length(BIFMatrix2011)){
       BIF.species[[i]] <- data.frame("2010"=BIFMatrix2010.15[[i]], "2011"=BIFMatrix2011.15[[i]], "2012"=BIFMatrix2012.15[[i]], 
-                                     "2013"=BIFMatrix2013.15[[i]], "2014"=BIFMatrix2014.15[[i]])
+                                     "2013"=BIFMatrix2013.15[[i]], "2014"=BIFMatrix2014.15[[i]], "2015"=BIFMatrix2015.15[[i]])
     }
     names(BIF.species) <- paste("BIF", names(BIFMatrix2011), sep=".")
+    
 ## All Pasoh data (camera trap and covariates) need to be limited to Array 1 only
     # Extract all PSH species
     PSH.species <- list()
     for(i in 1:length(PSHMatrix2011)){
       PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]], 
-                                     "2014"=PSHMatrix2014.15[[i]])[1:30,]
+                                     "2014"=PSHMatrix2014.15[[i]], "2015"=PSHMatrix2015.15[[i]], "2016"=PSHMatrix2016.15[[i]])[1:30,]
     }
     names(PSH.species) <- paste("PSH", names(PSHMatrix2011), sep=".")
 
@@ -279,7 +298,7 @@ for(i in 1:length(RNFMatrix2011)){
     YAN.species <- list()
     for(i in 1:length(YANMatrix2011)){
       YAN.species[[i]] <- data.frame("2011"=YANMatrix2011.15[[i]], "2012"=YANMatrix2012.15[[i]], "2013"=YANMatrix2013.15[[i]], 
-                                     "2014"=YANMatrix2014.15[[i]])
+                                     "2014"=YANMatrix2014.15[[i]], "2015"=YANMatrix2015.15[[i]])
     }
     names(YAN.species) <- paste("YAN", names(YANMatrix2011), sep=".")
 
@@ -287,7 +306,7 @@ for(i in 1:length(RNFMatrix2011)){
     NAK.species <- list()
     for(i in 1:length(NAKMatrix2011)){
       NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], 
-                                     "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]])
+                                     "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]], "2015"=NAKMatrix2015.15[[i]])
     }
     names(NAK.species) <- paste("NAK", names(NAKMatrix2011), sep=".")
 
@@ -295,18 +314,17 @@ for(i in 1:length(RNFMatrix2011)){
     RNF.species <- list()
     for(i in 1:length(RNFMatrix2011)){
       RNF.species[[i]] <- data.frame("2010"=RNFMatrix2010.15[[i]], "2011"=RNFMatrix2011.15[[i]], "2012"=RNFMatrix2012.15[[i]], 
-                                     "2013"=RNFMatrix2013.15[[i]])
+                                     "2013"=RNFMatrix2013.15[[i]], "2014"=RNFMatrix2014.15[[i]], "2015"=RNFMatrix2015.15[[i]],
+                                     "2016"=RNFMatrix2016.15[[i]])
     }
     names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
 
 
 # Remove all populations of "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
 
-UDZ.species <- UDZ.species[-10] # Remove Dendrohyrax arboreus from UDZ
-#PSH.species <- PSH.species[-35]  # Remove Tragulus napu from PSH
-PSH.species <- PSH.species[-32]  # Remove Tragulus napu from PSH
-#PSH.species <- PSH.species[-18]  # Remove Muntiacus muntjak from PSH
-PSH.species <- PSH.species[-16]  # Remove Muntiacus muntjak from PSH
+#UDZ.species <- UDZ.species[-10] # Remove Dendrohyrax arboreus from UDZ
+PSH.species <- PSH.species[-33]  # Remove Tragulus napu from PSH
+PSH.species <- PSH.species[-17]  # Remove Muntiacus muntjak from PSH
 NAK.species <- NAK.species[-22]  # Remove Tragulus javanicus from NAK
 NAK.species <- NAK.species[-16] # Remove Muntiacus muntjak from NAK
 
@@ -501,10 +519,9 @@ UID <- UID[order(UID)]
 #### NEW FOR 7/30/2015 Data - need to remove Atelocynus microtis from data used in analysis and from UID; New species detection in YAN
 
 # Remove 4 extra species "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
-UID <- UID[-127]
-UID <- UID[-125]
-UID <- UID[-71]
-UID <- UID[-32]
+UID <- UID[-132]
+UID <- UID[-130]
+UID <- UID[-75]
 UID <- data.frame(UID, 1:length(UID))
 colnames(UID) <- c("bin", "UID")
 
@@ -531,9 +548,9 @@ for(i in 1:length(Sites7data)){
 SitesBinary[[4]] <- SitesBinary[[4]][,1:31]
 
 # Remove all populations of "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
-SitesBinary[[2]] <- SitesBinary[[2]][-10,] # Remove Dendrohyrax arboreus from UDZ
-SitesBinary[[4]] <- SitesBinary[[4]][-35,] # Remove Tragulus napu from PSH
-SitesBinary[[4]] <- SitesBinary[[4]][-18,] # Remove Muntiacus muntjak from PSH
+#SitesBinary[[2]] <- SitesBinary[[2]][-10,] # Remove Dendrohyrax arboreus from UDZ
+SitesBinary[[4]] <- SitesBinary[[4]][-33,] # Remove Tragulus napu from PSH
+SitesBinary[[4]] <- SitesBinary[[4]][-17,] # Remove Muntiacus muntjak from PSH
 SitesBinary[[6]] <- SitesBinary[[6]][-22,] # Remove Tragulus javanicus from NAK
 SitesBinary[[6]] <- SitesBinary[[6]][-16,] # Remove Muntiacus muntjak from NAK
 
@@ -574,9 +591,9 @@ for(i in 1:length(Sites7data)){
 names(SitesBinaryAnnual) <- Sitenames
 
 SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", ,1:31) # Remove arrays 2 and 3 at PSH
-SitesBinaryAnnual[[2]] <- lapply(SitesBinaryAnnual[[2]], "[", -10,)  # Remove Dendrohyrax arboreus from UDZ
-SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -35,)  # Remove Tragulus napu from PSH
-SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -18,)  # Remove Muntiacus muntjak from PSH
+#SitesBinaryAnnual[[2]] <- lapply(SitesBinaryAnnual[[2]], "[", -10,)  # Remove Dendrohyrax arboreus from UDZ
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -33,)  # Remove Tragulus napu from PSH
+SitesBinaryAnnual[[4]] <- lapply(SitesBinaryAnnual[[4]], "[", -17,)  # Remove Muntiacus muntjak from PSH
 SitesBinaryAnnual[[6]] <- lapply(SitesBinaryAnnual[[6]], "[", -22,)  # Remove Tragulus javanicus from NAK
 SitesBinaryAnnual[[6]] <- lapply(SitesBinaryAnnual[[6]], "[", -16,)  # Remove Muntiacus muntjak from NAK
 
@@ -1136,183 +1153,6 @@ save(All_covs, file="All_covs.RData")
 #save(RNF_covs, file="RNF_covs.RData")
 
 
-
-# Format Abiotic PCA variable(s) as alternative model input 
-VB_pca_input <- VB__covs[-3]
-VB_pca_input <- VB_pca_input[-2]
-VB_pca_input <- VB_pca_input[-1]
-VB_pca_data.melt <- melt(VB_pca_input)
-VB_pca_data.cast <- cast(VB_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
-VB_pca_data <- alply(VB_pca_data.cast, .margin=3)
-#colnames(VB.Elev) <- c("Elev")
-#VB_pca_data <- llply(VB_pca_data, .fun=cbind, Elevation=VB.Elev)
-VB_pca_data <- llply(VB_pca_data, .fun=t)
-VB__pca <- llply(VB_pca_data, prcomp)
-VB_pca_summary <- llply(VB__pca, summary)
-VB_pca_summary
-# Plot each year
-set.panel(2,length(VB_pca_summary)) 
-llply(VB__pca, plot, type="lines")
-llply(VB__pca, biplot)
-VB__pca <- llply(VB__pca, "[", 2)
-VB__pca <- llply(VB__pca, data.frame)
-VB__pca1 <- llply(VB__pca, "[", 1) 
-VB__pca1 <- data.frame(VB__pca1)
-
-
-
-UDZ_pca_input <- UDZ_covs[-3]
-UDZ_pca_input <- UDZ_pca_input[-2]
-UDZ_pca_input <- UDZ_pca_input[-1]
-UDZ_pca_data.melt <- melt(UDZ_pca_input)
-UDZ_pca_data.cast <- cast(UDZ_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
-UDZ_pca_data <- alply(UDZ_pca_data.cast, .margin=3)
-#colnames(UDZ.Elev) <- c("Elev")
-#UDZ_pca_data <- llply(UDZ_pca_data, .fun=cbind, Elevation=UDZ.Elev)
-UDZ_pca_data <- llply(UDZ_pca_data, .fun=t)
-UDZ_pca <- llply(UDZ_pca_data, prcomp)
-UDZ_pca_summary <- llply(UDZ_pca, summary)
-UDZ_pca_summary
-# Plot each year
-set.panel(2,length(UDZ_pca_summary)) 
-llply(UDZ_pca, plot, type="lines")
-llply(UDZ_pca, biplot)
-UDZ_pca <- llply(UDZ_pca, "[", 2)
-UDZ_pca <- llply(UDZ_pca, data.frame)
-UDZ_pca1 <- llply(UDZ_pca, "[", 1) 
-UDZ_pca1 <- data.frame(UDZ_pca1)
-
-
-BIF_pca_input <- BIF_covs[-3]
-BIF_pca_input <- BIF_pca_input[-2]
-BIF_pca_input <- BIF_pca_input[-1]
-BIF_pca_data.melt <- melt(BIF_pca_input)
-BIF_pca_data.cast <- cast(BIF_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
-BIF_pca_data <- alply(BIF_pca_data.cast, .margin=3)
-#colnames(BIF.Elev) <- c("Elev")
-#BIF_pca_data <- llply(BIF_pca_data, .fun=cbind, Elevation=BIF.Elev)
-BIF_pca_data <- llply(BIF_pca_data, .fun=t)
-BIF_pca <- llply(BIF_pca_data, prcomp)
-BIF_pca_summary <- llply(BIF_pca, summary)
-BIF_pca_summary
-# Plot each year
-set.panel(2,length(BIF_pca_summary)) 
-llply(BIF_pca, plot, type="lines")
-llply(BIF_pca, biplot)
-BIF_pca <- llply(BIF_pca, "[", 2)
-BIF_pca <- llply(BIF_pca, data.frame)
-BIF_pca1 <- llply(BIF_pca, "[", 1) 
-BIF_pca1 <- data.frame(BIF_pca1)
-
-PSH_pca_input <- PSH_covs[-3]
-PSH_pca_input <- PSH_pca_input[-2]
-PSH_pca_input <- PSH_pca_input[-1]
-PSH_pca_data.melt <- melt(PSH_pca_input)
-PSH_pca_data.cast <- cast(PSH_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
-PSH_pca_data <- alply(PSH_pca_data.cast, .margin=3)
-#colnames(PSH.Elev) <- c("Elev")
-#PSH_pca_data <- llply(PSH_pca_data, .fun=cbind, Elevation=PSH.Elev[1:30]) ### NB that CT-PSH-1-21 is missing and Year 4 Temp data are sparse ####
-PSH_pca_data <- llply(PSH_pca_data, .fun=t)
-PSH_pca <- llply(PSH_pca_data, prcomp)
-PSH_pca_summary <- llply(PSH_pca, summary)
-PSH_pca_summary
-# Plot each year
-set.panel(2,length(PSH_pca_summary)) 
-llply(PSH_pca, plot, type="lines")
-llply(PSH_pca, biplot)
-PSH_pca <- llply(PSH_pca, "[", 2)
-PSH_pca <- llply(PSH_pca, data.frame)
-PSH_pca1 <- llply(PSH_pca, "[", 1) 
-PSH_pca1 <- data.frame(PSH_pca1)
-
-YAN_pca_input <- YAN_covs[-3]
-YAN_pca_input <- YAN_pca_input[-2]
-YAN_pca_input <- YAN_pca_input[-1]
-YAN_pca_data.melt <- melt(YAN_pca_input)
-YAN_pca_data.cast <- cast(YAN_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
-YAN_pca_data <- alply(YAN_pca_data.cast, .margin=3)
-#colnames(YAN.Elev) <- c("Elev")
-#YAN_pca_data <- llply(YAN_pca_data, .fun=cbind, Elevation=YAN.Elev)
-YAN_pca_data <- llply(YAN_pca_data, .fun=t)
-YAN_pca <- llply(YAN_pca_data, prcomp)
-YAN_pca_summary <- llply(YAN_pca, summary)
-YAN_pca_summary
-# Plot each year
-set.panel(2,length(YAN_pca_summary)) 
-llply(YAN_pca, plot, type="lines")
-llply(YAN_pca, biplot)
-YAN_pca <- llply(YAN_pca, "[", 2)
-YAN_pca <- llply(YAN_pca, data.frame)
-YAN_pca1 <- llply(YAN_pca, "[", 1) 
-YAN_pca1 <- data.frame(YAN_pca1)
-
-data.frame(YAN_pca[[1]][2])[,1:2]
-
-
-
-NAK_pca_input <- NAK_covs[-3]
-NAK_pca_input <- NAK_pca_input[-2]
-NAK_pca_input <- NAK_pca_input[-1]
-NAK_pca_data.melt <- melt(NAK_pca_input)
-NAK_pca_data.cast <- cast(NAK_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
-NAK_pca_data <- alply(NAK_pca_data.cast, .margin=3)
-#colnames(NAK.Elev) <- c("Elev")
-#NAK_pca_data <- llply(NAK_pca_data, .fun=cbind, Elevation=NAK.Elev)
-NAK_pca_data <- llply(NAK_pca_data, .fun=t)
-NAK_pca <- llply(NAK_pca_data, prcomp)
-NAK_pca_summary <- llply(NAK_pca, summary)
-NAK_pca_summary
-# Plot each year
-set.panel(2,length(NAK_pca_summary)) 
-llply(NAK_pca, plot, type="lines")
-llply(NAK_pca, biplot)
-NAK_pca <- llply(NAK_pca, "[", 2)
-NAK_pca <- llply(NAK_pca, data.frame)
-NAK_pca1 <- llply(NAK_pca, "[", 1) 
-NAK_pca1 <- data.frame(NAK_pca1)
-
-RNF_pca_input <- RNF_covs[-3]
-RNF_pca_input <- RNF_pca_input[-2]
-RNF_pca_input <- RNF_pca_input[-1]
-
-# Need to find a way to melt the data and then cast into the desired dataframe
-# Go from list with dataframes of one variable for all years
-# To list with dataframes of all variables for one year
-RNF_pca_data.melt <- melt(RNF_pca_input)
-RNF_pca_data.cast <- cast(RNF_pca_data.melt, X1 ~ L1 ~ X2) #test3[,,1] # gives the desired CT X Temp matrix for Year 1
-RNF_pca_data <- alply(RNF_pca_data.cast, .margin=3)
-# Then add Elevation to each element of the list and run PCA
-#colnames(RNF.Elev) <- c("Elev")
-#RNF_pca_data <- llply(RNF_pca_data, .fun=cbind, Elevation=RNF.Elev)
-# Transpose each year of data then perform PCA and examine summary
-RNF_pca_data <- llply(RNF_pca_data, .fun=t)
-RNF_pca <- llply(RNF_pca_data, prcomp)
-RNF_pca_summary <- llply(RNF_pca, summary)
-RNF_pca_summary
-# Plot each year
-set.panel(2,length(RNF_pca_summary)) # can generalize to set.panel(2, length(test8))
-llply(RNF_pca, plot, type="lines")
-llply(RNF_pca, biplot)
-RNF_pca <- llply(RNF_pca, "[", 2)
-RNF_pca <- llply(RNF_pca, data.frame)
-RNF_pca1 <- llply(RNF_pca, "[", 1) 
-RNF_pca1 <- data.frame(RNF_pca1)
-
-
-
-
-
-PCA1_covs <- list(VB__pca1=VB__pca1,
-                 UDZ_pca1=UDZ_pca1, 
-                 BIF_pca1=BIF_pca1,
-                 PSH_pca1=PSH_pca1,
-                 YAN_pca1=YAN_pca1,
-                 NAK_pca1=NAK_pca1,
-                 RNF_pca1=RNF_pca1)
-
-save(PCA1_covs, file="PCA1_covs.RData")
-
-
 # Format EDI from Miguel for non-temporally varying covariate
 # Need to create a vector for each species for the site CTs based on CT communities in Z.
 load("Scaled_FPDist_0.5a.RData")
@@ -1437,7 +1277,7 @@ Cases <- Cases[match(names(All_species7sites), Cases$Full),]
 # NA value species are Helarctos malaynus at NAK and Tapirus terrestris at VB
 
 # Subset the following objects based on Cases: All_species7sites, BIOTIC_166, BIOTIC_ALL_YEARS
- 
+
 ExcludeBinomial <- Cases[Cases$Case!="binomial",]
 ExcludeBinomial <- na.omit(ExcludeBinomial)
 IncludeIndex <- match(ExcludeBinomial$Full, names(All_species7sites))
