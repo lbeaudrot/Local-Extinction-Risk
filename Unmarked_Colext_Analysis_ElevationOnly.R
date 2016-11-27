@@ -39,26 +39,6 @@ mods.all=list()
 results.table.ma=list()
 results.table.aic=list()
 colext.transformed=list()
-hold <- list()
-
-# Create "year" object for each site and repeat in a list as many times as we have populations from the site
-
-VB_.year <- list(year=matrix(c("08", "09", "10", "11", "12", "13", "14", "15"), 60, 8, byrow=TRUE)) # VB 7 populations from 2008-2015 60 cameras c("08", "09", "10", "11", "12", "13", "14", "15")
-UDZ.year <- list(year=matrix(c("09", "10", "11", "12", "13", "14"), 61, 6, byrow=TRUE)) # UDZ 13 populations from 2009-2014 61 cameras c("09", "10", "11", "12", "13", "14")
-BIF.year <- list(year=matrix(c("10", "11", "12", "13", "14"), 60, 5, byrow=TRUE)) # BIF 9 populations from 2010-2013 60 cameras c("10", "11", "12", "13", "14)
-PSH.year <- list(year=matrix(c("11", "12", "13", "14", "15"), 30, 5, byrow=TRUE)) # PSH 10 populations from 2011-2015 30 cameras c("11", "12", "13", "14", "15")
-YAN.year <- list(year=matrix(c("11", "12", "13", "14"), 61, 4, byrow=TRUE)) # YAN 10 populations from 2011-2014 61 cameras c("11", "12", "13, "14)
-NAK.year <- list(year=matrix(c("10", "11", "12", "14", "15"), 60, 5, byrow=TRUE)) # NAK 5 populations from 2010-2015 60 cameras c("10", "11", "12", "13", "14", "15")
-RNF.year <- list(year=matrix(c("10", "11", "12", "13", "14"), 60, 5, byrow=TRUE)) # RNF 8 populations from 2010-2014 60 cameras c("10", "11", "12", "13", "14)
-
-years <- c(rep(list(VB_.year), 7), 
-          rep(list(UDZ.year), 13),
-          rep(list(BIF.year), 9),
-          rep(list(PSH.year), 10),
-          rep(list(YAN.year), 10),
-          rep(list(NAK.year), 5),
-          rep(list(RNF.year), 8))
-
 
 ############################################################################
 ################ Begin loop to run all models and extract results ##########
@@ -73,8 +53,6 @@ for(k in 1:length(nms)){
   species <- Species_data[[k]]
   site <- substr(names(Species_data)[[k]],1,3)
   
-  # Define yearly site covariates (i.e. year)
-  year <- years[[k]]
   
   # Define site covariates
   site_covs <- paste(site, "covs", sep="_")
@@ -87,7 +65,7 @@ for(k in 1:length(nms)){
   to=dim(yrs)[2]
   
   # Create object with data formatted for unmarked
-  umf<-unmarkedMultFrame(y=species, siteCovs=site.covs, numPrimary=dim(yrs)[2], yearlySiteCovs=year)
+  umf<-unmarkedMultFrame(y=species, siteCovs=site.covs, numPrimary=dim(yrs)[2])
   
   # Create list to hold model set for model selection
   mods=list()
