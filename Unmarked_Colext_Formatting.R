@@ -62,6 +62,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
 # RNF runs 2010-2013
 
 # Create lists of full sized matrices for each site and year
+<<<<<<< HEAD
 # NB VB Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
 VBMatrix2008 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2007.01")
 VBMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2008.01")
@@ -93,6 +94,37 @@ BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2
 BIFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2014.01") #Added 7/30/2015
 #BIFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2015.01") #Added 11/26/2016; Removed bc temp data missing
 
+=======
+  # NB VB Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
+  VBMatrix2008 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2007.01")
+  VBMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2008.01")
+  VBMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2009.01")
+  VBMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2010.01")
+  VBMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2011.01")
+  VBMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2012.01")
+  VBMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2013.01")
+  VBMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2014.01") #Added 7/30/2015
+  VBMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2015.01") #Added 11/26/2016
+
+
+  UDZMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2009.01")
+  UDZMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2010.01")
+  UDZMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2011.01")
+  UDZMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2012.01")
+  UDZMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2013.01")
+  UDZMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2014.01")
+  UDZMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2015.01") #Added 11/26/2016
+
+
+
+  # NB BIF Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
+  BIFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2009.01")
+  BIFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2010.01")
+  BIFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2011.01")
+  BIFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2012.01")
+  BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2014.01") #Added 7/30/2015
+  BIFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2015.01") #Added 11/26/2016
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 PSHMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2011.01")
 PSHMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2012.01")
@@ -101,6 +133,15 @@ PSHMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2
 PSHMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2015.01")
 PSHMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2016.01") #Added 11/26/2016
 
+<<<<<<< HEAD
+=======
+  PSHMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2011.01")
+  PSHMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2012.01")
+  PSHMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2013.01")
+  PSHMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2014.01")
+  PSHMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2015.01")
+  PSHMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2016.01") #Added 11/26/2016
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 
 YANMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2011.01")
@@ -109,6 +150,7 @@ YANMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2
 YANMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2014.01") #Added 7/30/2015
 YANMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2015.01") #Added 11/26/2016
 
+<<<<<<< HEAD
 
 # NB NAK Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
 NAKMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2009.01")
@@ -118,6 +160,22 @@ NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2
 NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2013.01") #Changed from 2014.01 to 2013.01 on 7/30/2015
 #NAKMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01") #Added 11/26/2016; Removed bc temp data missing
 
+=======
+  YANMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2011.01")
+  YANMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2012.01")
+  YANMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2013.01")
+  YANMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2014.01") #Added 7/30/2015
+  YANMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2015.01") #Added 11/26/2016
+  
+  
+  # NB NAK Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
+  NAKMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2009.01")
+  NAKMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2010.01")
+  NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
+  NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
+  NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2013.01") #Changed from 2014.01 to 2013.01 on 7/30/2015
+  NAKMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01") #Added 11/26/2016
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 RNFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2010.01")
 RNFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2011.01")
@@ -127,6 +185,7 @@ RNFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2
 RNFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2015.01") #Added 11/26/2016 - few obs? check with Eileen
 #RNFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2016.01") #Added 11/26/2016 - few obs? check with Eileen; Removed bc temp data only available for 6 CTs
 
+<<<<<<< HEAD
 
 # Create empty objects to fill with matrices collapsed to 15 secondary sampling periods
 VBMatrix2008.15 <- list()
@@ -161,6 +220,54 @@ BIFMatrix2015.15 <- list()
 
 
 
+=======
+  RNFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2010.01")
+  RNFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2011.01")
+  RNFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2012.01")
+  RNFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2013.01")
+  RNFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2014.01") #Added 11/26/2016 - few obs? check with Eileen
+  RNFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2015.01") #Added 11/26/2016 - few obs? check with Eileen
+  RNFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2016.01") #Added 11/26/2016 - few obs? check with Eileen
+
+# Create empty objects to fill with matrices collapsed to 15 secondary sampling periods
+  VBMatrix2008.15 <- list()
+  VBMatrix2009.15 <- list()
+  VBMatrix2010.15 <- list()
+  VBMatrix2011.15 <- list()
+  VBMatrix2012.15 <- list()
+  VBMatrix2013.15 <- list()
+  VBMatrix2014.15 <- list()
+  VBMatrix2015.15 <- list()
+  VBMatrix2016.15 <- list()
+
+
+
+  UDZMatrix2009.15 <- list()
+  UDZMatrix2010.15 <- list()
+  UDZMatrix2011.15 <- list()
+  UDZMatrix2012.15 <- list()
+  UDZMatrix2013.15 <- list()
+  UDZMatrix2014.15 <- list()
+  UDZMatrix2015.15 <- list()
+
+
+
+  BIFMatrix2010.15 <- list()
+  BIFMatrix2011.15 <- list()
+  BIFMatrix2012.15 <- list()
+  BIFMatrix2013.15 <- list()
+  BIFMatrix2014.15 <- list()
+  BIFMatrix2015.15 <- list()
+
+
+
+  PSHMatrix2011.15 <- list()
+  PSHMatrix2012.15 <- list()
+  PSHMatrix2013.15 <- list()
+  PSHMatrix2014.15 <- list()
+  PSHMatrix2015.15 <- list()
+  PSHMatrix2016.15 <- list()
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 PSHMatrix2011.15 <- list()
 PSHMatrix2012.15 <- list()
@@ -170,6 +277,14 @@ PSHMatrix2015.15 <- list()
 PSHMatrix2016.15 <- list()
 
 
+<<<<<<< HEAD
+=======
+  YANMatrix2011.15 <- list()
+  YANMatrix2012.15 <- list()
+  YANMatrix2013.15 <- list()
+  YANMatrix2014.15 <- list()
+  YANMatrix2015.15 <- list()
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 YANMatrix2011.15 <- list()
 YANMatrix2012.15 <- list()
@@ -178,6 +293,15 @@ YANMatrix2014.15 <- list()
 YANMatrix2015.15 <- list()
 
 
+<<<<<<< HEAD
+=======
+  NAKMatrix2010.15 <- list()
+  NAKMatrix2011.15 <- list()
+  NAKMatrix2012.15 <- list()
+  NAKMatrix2013.15 <- list()
+  NAKMatrix2014.15 <- list()
+  NAKMatrix2015.15 <- list()
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 NAKMatrix2010.15 <- list()
 NAKMatrix2011.15 <- list()
@@ -187,6 +311,7 @@ NAKMatrix2014.15 <- list()
 #NAKMatrix2015.15 <- list()
 
 
+<<<<<<< HEAD
 
 RNFMatrix2010.15 <- list()
 RNFMatrix2011.15 <- list()
@@ -195,6 +320,15 @@ RNFMatrix2013.15 <- list()
 RNFMatrix2014.15 <- list()
 RNFMatrix2015.15 <- list()
 #RNFMatrix2016.15 <- list()
+=======
+  RNFMatrix2010.15 <- list()
+  RNFMatrix2011.15 <- list()
+  RNFMatrix2012.15 <- list()
+  RNFMatrix2013.15 <- list()
+  RNFMatrix2014.15 <- list()
+  RNFMatrix2015.15 <- list()
+  RNFMatrix2016.15 <- list()
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 # Shrink data matrices to 15 secondary sampling periods
 for(i in 1:length(VBMatrix2008)){
@@ -216,7 +350,11 @@ for(i in 1:length(UDZMatrix2010)){
   UDZMatrix2012.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2012[[i]])
   UDZMatrix2013.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2013[[i]])
   UDZMatrix2014.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2014[[i]])
+<<<<<<< HEAD
   #UDZMatrix2015.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2015[[i]])
+=======
+  UDZMatrix2015.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2015[[i]])
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 }
 
 for(i in 1:length(BIFMatrix2010)){
@@ -226,8 +364,11 @@ for(i in 1:length(BIFMatrix2010)){
   BIFMatrix2013.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2013[[i]])
   BIFMatrix2014.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2014[[i]])
   BIFMatrix2015.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2015[[i]])
+<<<<<<< HEAD
   #BIFMatrix2016.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2016[[i]])
   
+=======
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 }  
 
 for(i in 1:length(PSHMatrix2012)){
@@ -253,7 +394,11 @@ for(i in 1:length(NAKMatrix2010)){
   NAKMatrix2012.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2012[[i]])
   NAKMatrix2013.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2013[[i]])
   NAKMatrix2014.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2014[[i]])
+<<<<<<< HEAD
   #NAKMatrix2015.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2015[[i]])
+=======
+  NAKMatrix2015.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2015[[i]])
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 }
 
 for(i in 1:length(RNFMatrix2011)){
@@ -263,11 +408,16 @@ for(i in 1:length(RNFMatrix2011)){
   RNFMatrix2013.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2013[[i]])
   RNFMatrix2014.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2014[[i]])
   RNFMatrix2015.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2015[[i]])
+<<<<<<< HEAD
   #RNFMatrix2016.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2016[[i]])
+=======
+  RNFMatrix2016.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2016[[i]])
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 }
 
 # Extract all species for each site
 
+<<<<<<< HEAD
 # Extract all VB species
 VB_.species <- list()
 for(i in 1:length(VBMatrix2008)){
@@ -329,6 +479,67 @@ for(i in 1:length(RNFMatrix2011)){
   #"2016"=RNFMatrix2016.15[[i]])
 }
 names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
+=======
+    # Extract all VB species
+    VB_.species <- list()
+    for(i in 1:length(VBMatrix2008)){
+      VB_.species[[i]] <- data.frame("2008"=VBMatrix2008.15[[i]], "2009"=VBMatrix2009.15[[i]], "2010"=VBMatrix2010.15[[i]], 
+                                     "2011"=VBMatrix2011.15[[i]], "2012"=VBMatrix2012.15[[i]], "2013"=VBMatrix2013.15[[i]], 
+                                     "2014"=VBMatrix2014.15[[i]], "2015"=VBMatrix2015.15[[i]], "2016"=VBMatrix2016.15[[i]])
+    }
+    names(VB_.species) <- paste("VB_", names(VBMatrix2008), sep=".")
+
+    # Extract all UDZ species
+    UDZ.species <- list()
+    for(i in 1:length(UDZMatrix2009)){
+      UDZ.species[[i]] <- data.frame("2009"=UDZMatrix2009.15[[i]], "2010"=UDZMatrix2010.15[[i]], "2011"=UDZMatrix2011.15[[i]], 
+                                     "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]], "2014"=UDZMatrix2014.15[[i]],
+                                     "2015"=UDZMatrix2015.15[[i]])
+    }
+    names(UDZ.species) <- paste("UDZ", names(UDZMatrix2009), sep=".")
+
+    # Extract all BIF species
+    BIF.species <- list()
+    for(i in 1:length(BIFMatrix2011)){
+      BIF.species[[i]] <- data.frame("2010"=BIFMatrix2010.15[[i]], "2011"=BIFMatrix2011.15[[i]], "2012"=BIFMatrix2012.15[[i]], 
+                                     "2013"=BIFMatrix2013.15[[i]], "2014"=BIFMatrix2014.15[[i]], "2015"=BIFMatrix2015.15[[i]])
+    }
+    names(BIF.species) <- paste("BIF", names(BIFMatrix2011), sep=".")
+    
+## All Pasoh data (camera trap and covariates) need to be limited to Array 1 only
+    # Extract all PSH species
+    PSH.species <- list()
+    for(i in 1:length(PSHMatrix2011)){
+      PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]], 
+                                     "2014"=PSHMatrix2014.15[[i]], "2015"=PSHMatrix2015.15[[i]], "2016"=PSHMatrix2016.15[[i]])[1:30,]
+    }
+    names(PSH.species) <- paste("PSH", names(PSHMatrix2011), sep=".")
+
+    # Extract all YAN species
+    YAN.species <- list()
+    for(i in 1:length(YANMatrix2011)){
+      YAN.species[[i]] <- data.frame("2011"=YANMatrix2011.15[[i]], "2012"=YANMatrix2012.15[[i]], "2013"=YANMatrix2013.15[[i]], 
+                                     "2014"=YANMatrix2014.15[[i]], "2015"=YANMatrix2015.15[[i]])
+    }
+    names(YAN.species) <- paste("YAN", names(YANMatrix2011), sep=".")
+
+    # Extract all NAK species
+    NAK.species <- list()
+    for(i in 1:length(NAKMatrix2011)){
+      NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], 
+                                     "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]], "2015"=NAKMatrix2015.15[[i]])
+    }
+    names(NAK.species) <- paste("NAK", names(NAKMatrix2011), sep=".")
+
+    # Extract all RNF species
+    RNF.species <- list()
+    for(i in 1:length(RNFMatrix2011)){
+      RNF.species[[i]] <- data.frame("2010"=RNFMatrix2010.15[[i]], "2011"=RNFMatrix2011.15[[i]], "2012"=RNFMatrix2012.15[[i]], 
+                                     "2013"=RNFMatrix2013.15[[i]], "2014"=RNFMatrix2014.15[[i]], "2015"=RNFMatrix2015.15[[i]],
+                                     "2016"=RNFMatrix2016.15[[i]])
+    }
+    names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
+>>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 
 # Remove all populations of "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
