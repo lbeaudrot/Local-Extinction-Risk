@@ -291,8 +291,8 @@ results.table.ma.df <- ldply(results.table.ma, data.frame)
 results.table.aic.df <- ldply(results.table.aic, data.frame)
 #colext.transformed.df <- ldply(colext.transformed, data.frame)
 
-write.csv(results.table.ma.df, file="results.table.ma.csv")
-write.csv(results.table.aic.df, file="results.table.aic.csv")
+write.csv(results.table.ma.df, file="results.table.ma_Elevation.csv")
+write.csv(results.table.aic.df, file="results.table.aic_Elevation.csv")
 #write.csv(colext.transformed.df, file="colext.transformed.csv")
 
 
