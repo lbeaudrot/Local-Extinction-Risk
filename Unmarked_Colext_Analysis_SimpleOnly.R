@@ -1607,7 +1607,11 @@ write.csv(results.table.aic.df, file="results.table.aic_Covariate.csv")
 write.csv(colext.transformed.df, file="colext.transformed.csv")
 
 for(i in 1:length(nms)) {
-  outputname <- paste(nms[i], "colextAICcovariates", "csv", sep=".")
-  output <- results.all[[i]]@Full
+  outputname <- paste(nms[i], "colextAIC.covariates", "csv", sep=".")
+  if(is.na(results.all[[i]])==TRUE){
+    output <- NA
+  }else{
+    output <- results.all[[i]]@Full
+  } 
   write.csv(output, file=outputname)
-} 
+}
