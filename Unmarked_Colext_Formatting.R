@@ -46,6 +46,9 @@ eventsdata <- eventsdata[eventsdata$bin!="Speothos venaticus",]
 
 # Need to add Muntiacus montanus so that it appears in the UID
 
+# Remove CT-YAN-1-04 (inactive camera trap)
+eventsdata <- eventsdata[eventsdata$Sampling.Unit.Name!="CT-YAN-1-04",]
+
 ##################### CREATE INPUT DATA FOR UNMARKED ANALYSIS WITH 15 SECONDARY SAMPLING PERIODS #################
 # Create matrices with 15 secondary sampling periods for each year of data collection for each species for sites with >500 m elevation gradients
 # Check table to see sampling periods per site. Based on sampling periods:
@@ -77,7 +80,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   UDZMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2012.01")
   UDZMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2013.01")
   UDZMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2014.01")
-  UDZMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2015.01") #Added 11/26/2016
+  #UDZMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2015.01") #Added 11/26/2016; Removed bc temp data missing
 
 
 
@@ -86,8 +89,9 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   BIFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2010.01")
   BIFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2011.01")
   BIFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2012.01")
-  BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2014.01") #Added 7/30/2015
-  BIFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2015.01") #Added 11/26/2016
+  BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2013.01") #Added 11/28/2016
+  BIFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2014.01") #Added 7/30/2015
+  #BIFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2015.01") #Added 11/26/2016; Removed bc temp data missing
 
 
   PSHMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2011.01")
@@ -112,7 +116,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
   NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
   NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2013.01") #Changed from 2014.01 to 2013.01 on 7/30/2015
-  NAKMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01") #Added 11/26/2016
+  #NAKMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01") #Added 11/26/2016; Removed bc temp data missing
 
 
   RNFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2010.01")
@@ -121,7 +125,8 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   RNFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2013.01")
   RNFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2014.01") #Added 11/26/2016 - few obs? check with Eileen
   RNFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2015.01") #Added 11/26/2016 - few obs? check with Eileen
-  RNFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2016.01") #Added 11/26/2016 - few obs? check with Eileen
+  #RNFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2016.01") #Added 11/26/2016 - few obs? check with Eileen; Removed bc temp data only available for 6 CTs
+
 
 # Create empty objects to fill with matrices collapsed to 15 secondary sampling periods
   VBMatrix2008.15 <- list()
@@ -142,7 +147,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   UDZMatrix2012.15 <- list()
   UDZMatrix2013.15 <- list()
   UDZMatrix2014.15 <- list()
-  UDZMatrix2015.15 <- list()
+  #UDZMatrix2015.15 <- list()
 
 
 
@@ -152,6 +157,8 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   BIFMatrix2013.15 <- list()
   BIFMatrix2014.15 <- list()
   BIFMatrix2015.15 <- list()
+  #BIFMatrix2016.15 <- list()
+
 
 
 
@@ -177,7 +184,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   NAKMatrix2012.15 <- list()
   NAKMatrix2013.15 <- list()
   NAKMatrix2014.15 <- list()
-  NAKMatrix2015.15 <- list()
+  #NAKMatrix2015.15 <- list()
 
 
 
@@ -187,7 +194,7 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
   RNFMatrix2013.15 <- list()
   RNFMatrix2014.15 <- list()
   RNFMatrix2015.15 <- list()
-  RNFMatrix2016.15 <- list()
+  #RNFMatrix2016.15 <- list()
 
 # Shrink data matrices to 15 secondary sampling periods
 for(i in 1:length(VBMatrix2008)){
@@ -209,7 +216,7 @@ for(i in 1:length(UDZMatrix2010)){
   UDZMatrix2012.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2012[[i]])
   UDZMatrix2013.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2013[[i]])
   UDZMatrix2014.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2014[[i]])
-  UDZMatrix2015.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2015[[i]])
+  #UDZMatrix2015.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2015[[i]])
 }
 
 for(i in 1:length(BIFMatrix2010)){
@@ -219,6 +226,8 @@ for(i in 1:length(BIFMatrix2010)){
   BIFMatrix2013.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2013[[i]])
   BIFMatrix2014.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2014[[i]])
   BIFMatrix2015.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2015[[i]])
+  #BIFMatrix2016.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2016[[i]])
+
 }  
 
 for(i in 1:length(PSHMatrix2012)){
@@ -244,7 +253,7 @@ for(i in 1:length(NAKMatrix2010)){
   NAKMatrix2012.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2012[[i]])
   NAKMatrix2013.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2013[[i]])
   NAKMatrix2014.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2014[[i]])
-  NAKMatrix2015.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2015[[i]])
+  #NAKMatrix2015.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2015[[i]])
 }
 
 for(i in 1:length(RNFMatrix2011)){
@@ -254,7 +263,7 @@ for(i in 1:length(RNFMatrix2011)){
   RNFMatrix2013.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2013[[i]])
   RNFMatrix2014.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2014[[i]])
   RNFMatrix2015.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2015[[i]])
-  RNFMatrix2016.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2016[[i]])
+  #RNFMatrix2016.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2016[[i]])
 }
 
 # Extract all species for each site
@@ -272,8 +281,8 @@ for(i in 1:length(RNFMatrix2011)){
     UDZ.species <- list()
     for(i in 1:length(UDZMatrix2009)){
       UDZ.species[[i]] <- data.frame("2009"=UDZMatrix2009.15[[i]], "2010"=UDZMatrix2010.15[[i]], "2011"=UDZMatrix2011.15[[i]], 
-                                     "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]], "2014"=UDZMatrix2014.15[[i]],
-                                     "2015"=UDZMatrix2015.15[[i]])
+                                     "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]], "2014"=UDZMatrix2014.15[[i]])
+                                     #"2015"=UDZMatrix2015.15[[i]])
     }
     names(UDZ.species) <- paste("UDZ", names(UDZMatrix2009), sep=".")
 
@@ -282,6 +291,7 @@ for(i in 1:length(RNFMatrix2011)){
     for(i in 1:length(BIFMatrix2011)){
       BIF.species[[i]] <- data.frame("2010"=BIFMatrix2010.15[[i]], "2011"=BIFMatrix2011.15[[i]], "2012"=BIFMatrix2012.15[[i]], 
                                      "2013"=BIFMatrix2013.15[[i]], "2014"=BIFMatrix2014.15[[i]], "2015"=BIFMatrix2015.15[[i]])
+                                     #"2016"=BIFMatrix2016.15[[i]])
     }
     names(BIF.species) <- paste("BIF", names(BIFMatrix2011), sep=".")
     
@@ -306,7 +316,8 @@ for(i in 1:length(RNFMatrix2011)){
     NAK.species <- list()
     for(i in 1:length(NAKMatrix2011)){
       NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], 
-                                     "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]], "2015"=NAKMatrix2015.15[[i]])
+                                     "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]])
+                                     #"2015"=NAKMatrix2015.15[[i]])
     }
     names(NAK.species) <- paste("NAK", names(NAKMatrix2011), sep=".")
 
@@ -314,8 +325,8 @@ for(i in 1:length(RNFMatrix2011)){
     RNF.species <- list()
     for(i in 1:length(RNFMatrix2011)){
       RNF.species[[i]] <- data.frame("2010"=RNFMatrix2010.15[[i]], "2011"=RNFMatrix2011.15[[i]], "2012"=RNFMatrix2012.15[[i]], 
-                                     "2013"=RNFMatrix2013.15[[i]], "2014"=RNFMatrix2014.15[[i]], "2015"=RNFMatrix2015.15[[i]],
-                                     "2016"=RNFMatrix2016.15[[i]])
+                                     "2013"=RNFMatrix2013.15[[i]], "2014"=RNFMatrix2014.15[[i]], "2015"=RNFMatrix2015.15[[i]])
+                                     #"2016"=RNFMatrix2016.15[[i]])
     }
     names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
 
@@ -920,18 +931,23 @@ CT.Temp$Temp.SD <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp
       BIF.FG120 <- scale(BIF.FG120)
       BIF.FG120[is.na(BIF.FG120)] <- 0
 
+      BIF.Tmin <- BIF.Tmin[,1:6] # SUBSET SO THAT # YEARS MATCHES FOR SP & TEMP DATA
       BIF.Tmin <- scale(BIF.Tmin)
       BIF.Tmin[is.na(BIF.Tmin)] <- 0
 
+      BIF.Tmax <- BIF.Tmax[,1:6]
       BIF.Tmax <- scale(BIF.Tmax)
       BIF.Tmax[is.na(BIF.Tmax)] <- 0
 
+      BIF.Tvar <- BIF.Tvar[,1:6]
       BIF.Tvar <- scale(BIF.Tvar)
       BIF.Tvar[is.na(BIF.Tvar)] <- 0
 
+      BIF.SD <- BIF.SD[,1:6]
       BIF.SD <- scale(BIF.SD)
       BIF.SD[is.na(BIF.SD)] <- 0
 
+      BIF.Mean <- BIF.Mean[,1:6]
       BIF.Mean <- scale(BIF.Mean)
       BIF.Mean[is.na(BIF.Mean)] <- 0
 
@@ -1107,18 +1123,23 @@ CT.Temp$Temp.SD <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp
       RNF.FG120 <- scale(RNF.FG120)
       RNF.FG120[is.na(RNF.FG120)] <- 0
 
+      RNF.Tmin <- RNF.Tmin[,1:6] # SUBSET SO THAT # YEARS MATCHES FOR SP & TEMP DATA
       RNF.Tmin <- scale(RNF.Tmin)
       RNF.Tmin[is.na(RNF.Tmin)] <- 0
 
+      RNF.Tmax <- RNF.Tmax[,1:6]
       RNF.Tmax <- scale(RNF.Tmax)
       RNF.Tmax[is.na(RNF.Tmax)] <- 0
 
+      RNF.Tvar <- RNF.Tvar[,1:6]
       RNF.Tvar <- scale(RNF.Tvar)
       RNF.Tvar[is.na(RNF.Tvar)] <- 0
 
+      RNF.SD <- RNF.SD[,1:6]
       RNF.SD <- scale(RNF.SD)
       RNF.SD[is.na(RNF.SD)] <- 0
 
+      RNF.Mean <- RNF.Mean[,1:6]
       RNF.Mean <- scale(RNF.Mean)
       RNF.Mean[is.na(RNF.Mean)] <- 0
 
@@ -1132,13 +1153,17 @@ CT.Temp$Temp.SD <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp
                 Tsd=RNF.SD,
                 Tmean=RNF.Mean)
 
-All_covs <- list(VB__covs=VB__covs,
-                 UDZ_covs=UDZ_covs, 
-                 BIF_covs=BIF_covs,
-                 PSH_covs=PSH_covs,
-                 YAN_covs=YAN_covs,
-                 NAK_covs=NAK_covs,
-                 RNF_covs=RNF_covs)
+# Remove X year from NAK to match available species data and temperature data
+# NEED TO DO THIS TO MATCH UP ALL SITES SO THAT MODELS WILL CONVERGE! (e.g. chimpanzees at BIF won't converge w/out correction)
+# BIF_covs[[6]] <- lapply(BIF_covs[[4:8]], "[", ,1:6)
+          
+All_covs <- list(VB__covs=VB__covs, #9 YEARS
+                 UDZ_covs=UDZ_covs, #6 YEARS
+                 BIF_covs=BIF_covs, #7 YEARS (sp only 6)
+                 PSH_covs=PSH_covs, #6 YEARS
+                 YAN_covs=YAN_covs, #5 YEARS
+                 NAK_covs=NAK_covs, #5 YEARS
+                 RNF_covs=RNF_covs) #7 YEARS (SP ONLY 6)
 
 save(All_covs, file="All_covs.RData")
 #save(All_covs, file="All_covs_unscaled.RData")
@@ -1267,12 +1292,16 @@ BIOTIC_ALL_YEARS <- c(VBannual_BIOTIC, SiteList[[2]], SiteList[[3]], SiteList[[4
 
 save(BIOTIC_ALL_YEARS, file="BIOTIC_ALL_YEARS.RData")
 
+
+
+
+
+
 # Subset input data to exclude binomial cases (i.e rare populations) based on Cases$Full
 # Note that this reduces the # of populations from 166 to 62 (35 constant; 27 simple)
 Cases <- read.csv("Cases.csv")
 Full <- paste(Cases$site, "species", Cases$site.sp, sep=".")
 Cases <- cbind(Cases, Full)
-
 Cases <- Cases[match(names(All_species7sites), Cases$Full),]
 # NA value species are Helarctos malaynus at NAK and Tapirus terrestris at VB
 
