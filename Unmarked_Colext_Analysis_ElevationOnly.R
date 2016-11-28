@@ -240,7 +240,7 @@ for(k in 1:length(nms)){
     }
     
     
-    if((null0.aic==0) || (null01.aic==0) || (null012.aic==0) || (isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE)){
+    if((null0.aic==0) || (null01.aic==0) || (null012.aic==0) || (isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE) || (isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE)){
       results.table.ma[[k]] <- rbind(nulls)
       results.table.ma[[k]] <- cbind(nms[k], results.table.ma[[k]])
       names(results.table.ma)[k] <- nms[k]
@@ -271,7 +271,8 @@ for(k in 1:length(nms)){
      fm12, fm12.1, fm12.2,
      #fm20, fm22, fm22.1, fm22.2,
      #fm30, fm32, fm32.1, fm32.2,
-     mods, ms, temp, toExport)
+     mods, ms, temp, toExport,
+     null0.aic, null01.aic, null012.aic, nulls)
 }
 
 ############################################################################
@@ -288,11 +289,11 @@ for(k in 1:length(nms)){
 # Coerce the lists of results into dataframes and write to files
 results.table.ma.df <- ldply(results.table.ma, data.frame)
 results.table.aic.df <- ldply(results.table.aic, data.frame)
-colext.transformed.df <- ldply(colext.transformed, data.frame)
+#colext.transformed.df <- ldply(colext.transformed, data.frame)
 
 write.csv(results.table.ma.df, file="results.table.ma.csv")
 write.csv(results.table.aic.df, file="results.table.aic.csv")
-write.csv(colext.transformed.df, file="colext.transformed.csv")
+#write.csv(colext.transformed.df, file="colext.transformed.csv")
 
 
 for(i in 1:length(nms)) {
