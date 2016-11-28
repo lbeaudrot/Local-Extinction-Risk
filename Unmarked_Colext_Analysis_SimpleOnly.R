@@ -1510,7 +1510,7 @@ if(exists("30.3")) {
     # Extract Results
     ######################################
     
-   toExport <- as(ms,"data.frame")
+    toExport <- as(ms,"data.frame")
     
     null0.aic <- toExport$delta[toExport$formula=="~1 ~ 1 ~ 1 ~ 1"]
     null01.aic <- toExport$delta[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1"]
@@ -1528,7 +1528,7 @@ if(exists("30.3")) {
     }
     
     
-    if((null0.aic==0) || (null01.aic==0) || (null012.aic==0) || (isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE)){
+    if((null0.aic==0) || (null01.aic==0) || (null012.aic==0) || (isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE) || (isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE)){
       results.table.ma[[k]] <- rbind(nulls)
       results.table.ma[[k]] <- cbind(nms[k], results.table.ma[[k]])
       names(results.table.ma)[k] <- nms[k]
@@ -1551,7 +1551,7 @@ if(exists("30.3")) {
       results.table.aic[[k]] <- cbind(nms[k], results.table.aic[[k]])
       names(results.table.aic)[k] <- nms[k]
     }
-  }
+  }    
   
   # Remove all models and results
   
@@ -1581,7 +1581,8 @@ if(exists("30.3")) {
      fm31,fm31.1,fm31.2,fm31.3,fm31.4,fm31.5,
      fm32,fm32.1,fm32.2,fm32.3,fm32.4,fm32.5,
      fm33,fm33.1,fm33.2,fm33.3,fm33.4,fm33.5,
-     mods, ms, temp, toExport)
+     mods, ms, temp, toExport,
+     null0.aic, null01.aic, null012.aic, nulls)
 }
 
 ############################################################################
@@ -1601,8 +1602,8 @@ results.table.ma.df <- ldply(results.table.ma, data.frame)
 results.table.aic.df <- ldply(results.table.aic, data.frame)
 colext.transformed.df <- ldply(colext.transformed, data.frame)
 
-write.csv(results.table.ma.df, file="results.table.ma.csv")
-write.csv(results.table.aic.df, file="results.table.aic.csv")
+write.csv(results.table.ma.df, file="results.table.ma_Covariate.csv")
+write.csv(results.table.aic.df, file="results.table.aic_Covariate.csv")
 write.csv(colext.transformed.df, file="colext.transformed.csv")
 
 for(i in 1:length(nms)) {
