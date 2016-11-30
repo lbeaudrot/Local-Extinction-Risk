@@ -1,5 +1,3 @@
-# TEAM Local Extinction Risk project 
-# Data preparation for unmarked analysis: Format camera trap for 32 populations modeled with covariates in WPI and covariate data on CT specific temperature, elevation and forest loss
 rm(list=ls())
 
 library(lubridate)
@@ -62,39 +60,6 @@ table(eventsdata$Site.Code, eventsdata$Sampling.Period)
 # RNF runs 2010-2013
 
 # Create lists of full sized matrices for each site and year
-<<<<<<< HEAD
-# NB VB Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
-VBMatrix2008 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2007.01")
-VBMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2008.01")
-VBMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2009.01")
-VBMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2010.01")
-VBMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2011.01")
-VBMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2012.01")
-VBMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2013.01")
-VBMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2014.01") #Added 7/30/2015
-VBMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2015.01") #Added 11/26/2016
-
-
-UDZMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2009.01")
-UDZMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2010.01")
-UDZMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2011.01")
-UDZMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2012.01")
-UDZMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2013.01")
-UDZMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2014.01")
-#UDZMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="UDZ",], "2015.01") #Added 11/26/2016; Removed bc temp data missing
-
-
-
-# NB BIF Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
-BIFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2009.01")
-BIFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2010.01")
-BIFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2011.01")
-BIFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2012.01")
-BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2013.01") #Added 11/28/2016
-BIFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2014.01") #Added 7/30/2015
-#BIFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2015.01") #Added 11/26/2016; Removed bc temp data missing
-
-=======
   # NB VB Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
   VBMatrix2008 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2007.01")
   VBMatrix2009 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="VB-",], "2008.01")
@@ -122,51 +87,20 @@ BIFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2
   BIFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2010.01")
   BIFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2011.01")
   BIFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2012.01")
-<<<<<<< HEAD
   BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2013.01") #Added 11/28/2016
   BIFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2014.01") #Added 7/30/2015
   #BIFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2015.01") #Added 11/26/2016; Removed bc temp data missing
-=======
-  BIFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2014.01") #Added 7/30/2015
-  BIFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="BIF",], "2015.01") #Added 11/26/2016
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 
-PSHMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2011.01")
-PSHMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2012.01")
-PSHMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2013.01")
-PSHMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2014.01")
-PSHMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2015.01")
-PSHMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2016.01") #Added 11/26/2016
 
-<<<<<<< HEAD
-=======
   PSHMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2011.01")
   PSHMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2012.01")
   PSHMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2013.01")
   PSHMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2014.01")
   PSHMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2015.01")
   PSHMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="PSH",], "2016.01") #Added 11/26/2016
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 
-YANMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2011.01")
-YANMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2012.01")
-YANMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2013.01")
-YANMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2014.01") #Added 7/30/2015
-YANMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2015.01") #Added 11/26/2016
 
-<<<<<<< HEAD
-
-# NB NAK Sampling.Period does not align with actual sampling dates (Photo dates are one year ahead of Sampling.Period)
-NAKMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2009.01")
-NAKMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2010.01")
-NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
-NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
-NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2013.01") #Changed from 2014.01 to 2013.01 on 7/30/2015
-#NAKMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01") #Added 11/26/2016; Removed bc temp data missing
-
-=======
   YANMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2011.01")
   YANMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2012.01")
   YANMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="YAN",], "2013.01")
@@ -180,57 +114,9 @@ NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2
   NAKMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2011.01")
   NAKMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2012.01")
   NAKMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2013.01") #Changed from 2014.01 to 2013.01 on 7/30/2015
-<<<<<<< HEAD
   #NAKMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01") #Added 11/26/2016; Removed bc temp data missing
-=======
-  NAKMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="NAK",], "2014.01") #Added 11/26/2016
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
-
-RNFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2010.01")
-RNFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2011.01")
-RNFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2012.01")
-RNFMatrix2013 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2013.01")
-RNFMatrix2014 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2014.01") #Added 11/26/2016 - few obs? check with Eileen
-RNFMatrix2015 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2015.01") #Added 11/26/2016 - few obs? check with Eileen
-#RNFMatrix2016 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2016.01") #Added 11/26/2016 - few obs? check with Eileen; Removed bc temp data only available for 6 CTs
-
-<<<<<<< HEAD
-
-# Create empty objects to fill with matrices collapsed to 15 secondary sampling periods
-VBMatrix2008.15 <- list()
-VBMatrix2009.15 <- list()
-VBMatrix2010.15 <- list()
-VBMatrix2011.15 <- list()
-VBMatrix2012.15 <- list()
-VBMatrix2013.15 <- list()
-VBMatrix2014.15 <- list()
-VBMatrix2015.15 <- list()
-VBMatrix2016.15 <- list()
-
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 
 
-UDZMatrix2009.15 <- list()
-UDZMatrix2010.15 <- list()
-UDZMatrix2011.15 <- list()
-UDZMatrix2012.15 <- list()
-UDZMatrix2013.15 <- list()
-UDZMatrix2014.15 <- list()
-#UDZMatrix2015.15 <- list()
-
-
-
-BIFMatrix2010.15 <- list()
-BIFMatrix2011.15 <- list()
-BIFMatrix2012.15 <- list()
-BIFMatrix2013.15 <- list()
-BIFMatrix2014.15 <- list()
-BIFMatrix2015.15 <- list()
-#BIFMatrix2016.15 <- list()
-
-
-
-=======
   RNFMatrix2010 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2010.01")
   RNFMatrix2011 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2011.01")
   RNFMatrix2012 <- f.matrix.creatorLB(eventsdata[eventsdata$Site.Code=="RNF",], "2012.01")
@@ -280,79 +166,33 @@ BIFMatrix2015.15 <- list()
   PSHMatrix2014.15 <- list()
   PSHMatrix2015.15 <- list()
   PSHMatrix2016.15 <- list()
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
-
-PSHMatrix2011.15 <- list()
-PSHMatrix2012.15 <- list()
-PSHMatrix2013.15 <- list()
-PSHMatrix2014.15 <- list()
-PSHMatrix2015.15 <- list()
-PSHMatrix2016.15 <- list()
 
 
-<<<<<<< HEAD
-=======
+
   YANMatrix2011.15 <- list()
   YANMatrix2012.15 <- list()
   YANMatrix2013.15 <- list()
   YANMatrix2014.15 <- list()
   YANMatrix2015.15 <- list()
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
-
-YANMatrix2011.15 <- list()
-YANMatrix2012.15 <- list()
-YANMatrix2013.15 <- list()
-YANMatrix2014.15 <- list()
-YANMatrix2015.15 <- list()
 
 
-<<<<<<< HEAD
-=======
+
   NAKMatrix2010.15 <- list()
   NAKMatrix2011.15 <- list()
   NAKMatrix2012.15 <- list()
   NAKMatrix2013.15 <- list()
   NAKMatrix2014.15 <- list()
-<<<<<<< HEAD
   #NAKMatrix2015.15 <- list()
 
 
 
-=======
-  NAKMatrix2015.15 <- list()
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
-
-NAKMatrix2010.15 <- list()
-NAKMatrix2011.15 <- list()
-NAKMatrix2012.15 <- list()
-NAKMatrix2013.15 <- list()
-NAKMatrix2014.15 <- list()
-#NAKMatrix2015.15 <- list()
-
-
-<<<<<<< HEAD
-
-RNFMatrix2010.15 <- list()
-RNFMatrix2011.15 <- list()
-RNFMatrix2012.15 <- list()
-RNFMatrix2013.15 <- list()
-RNFMatrix2014.15 <- list()
-RNFMatrix2015.15 <- list()
-#RNFMatrix2016.15 <- list()
-=======
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
   RNFMatrix2010.15 <- list()
   RNFMatrix2011.15 <- list()
   RNFMatrix2012.15 <- list()
   RNFMatrix2013.15 <- list()
   RNFMatrix2014.15 <- list()
   RNFMatrix2015.15 <- list()
-<<<<<<< HEAD
   #RNFMatrix2016.15 <- list()
-=======
-  RNFMatrix2016.15 <- list()
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 
 # Shrink data matrices to 15 secondary sampling periods
 for(i in 1:length(VBMatrix2008)){
@@ -374,15 +214,7 @@ for(i in 1:length(UDZMatrix2010)){
   UDZMatrix2012.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2012[[i]])
   UDZMatrix2013.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2013[[i]])
   UDZMatrix2014.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2014[[i]])
-<<<<<<< HEAD
   #UDZMatrix2015.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2015[[i]])
-=======
-<<<<<<< HEAD
-  #UDZMatrix2015.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2015[[i]])
-=======
-  UDZMatrix2015.15[[i]] <- f.shrink.matrix.to15(UDZMatrix2015[[i]])
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 }
 
 for(i in 1:length(BIFMatrix2010)){
@@ -392,16 +224,8 @@ for(i in 1:length(BIFMatrix2010)){
   BIFMatrix2013.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2013[[i]])
   BIFMatrix2014.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2014[[i]])
   BIFMatrix2015.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2015[[i]])
-<<<<<<< HEAD
   #BIFMatrix2016.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2016[[i]])
 
-=======
-<<<<<<< HEAD
-  #BIFMatrix2016.15[[i]] <- f.shrink.matrix.to15(BIFMatrix2016[[i]])
-  
-=======
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 }  
 
 for(i in 1:length(PSHMatrix2012)){
@@ -427,15 +251,7 @@ for(i in 1:length(NAKMatrix2010)){
   NAKMatrix2012.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2012[[i]])
   NAKMatrix2013.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2013[[i]])
   NAKMatrix2014.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2014[[i]])
-<<<<<<< HEAD
   #NAKMatrix2015.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2015[[i]])
-=======
-<<<<<<< HEAD
-  #NAKMatrix2015.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2015[[i]])
-=======
-  NAKMatrix2015.15[[i]] <- f.shrink.matrix.to15(NAKMatrix2015[[i]])
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 }
 
 for(i in 1:length(RNFMatrix2011)){
@@ -445,82 +261,11 @@ for(i in 1:length(RNFMatrix2011)){
   RNFMatrix2013.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2013[[i]])
   RNFMatrix2014.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2014[[i]])
   RNFMatrix2015.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2015[[i]])
-<<<<<<< HEAD
   #RNFMatrix2016.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2016[[i]])
-=======
-<<<<<<< HEAD
-  #RNFMatrix2016.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2016[[i]])
-=======
-  RNFMatrix2016.15[[i]] <- f.shrink.matrix.to15(RNFMatrix2016[[i]])
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 }
 
 # Extract all species for each site
 
-<<<<<<< HEAD
-# Extract all VB species
-VB_.species <- list()
-for(i in 1:length(VBMatrix2008)){
-  VB_.species[[i]] <- data.frame("2008"=VBMatrix2008.15[[i]], "2009"=VBMatrix2009.15[[i]], "2010"=VBMatrix2010.15[[i]], 
-                                 "2011"=VBMatrix2011.15[[i]], "2012"=VBMatrix2012.15[[i]], "2013"=VBMatrix2013.15[[i]], 
-                                 "2014"=VBMatrix2014.15[[i]], "2015"=VBMatrix2015.15[[i]], "2016"=VBMatrix2016.15[[i]])
-}
-names(VB_.species) <- paste("VB_", names(VBMatrix2008), sep=".")
-
-# Extract all UDZ species
-UDZ.species <- list()
-for(i in 1:length(UDZMatrix2009)){
-  UDZ.species[[i]] <- data.frame("2009"=UDZMatrix2009.15[[i]], "2010"=UDZMatrix2010.15[[i]], "2011"=UDZMatrix2011.15[[i]], 
-                                 "2012"=UDZMatrix2012.15[[i]], "2013"=UDZMatrix2013.15[[i]], "2014"=UDZMatrix2014.15[[i]])
-  #"2015"=UDZMatrix2015.15[[i]])
-}
-names(UDZ.species) <- paste("UDZ", names(UDZMatrix2009), sep=".")
-
-# Extract all BIF species
-BIF.species <- list()
-for(i in 1:length(BIFMatrix2011)){
-  BIF.species[[i]] <- data.frame("2010"=BIFMatrix2010.15[[i]], "2011"=BIFMatrix2011.15[[i]], "2012"=BIFMatrix2012.15[[i]], 
-                                 "2013"=BIFMatrix2013.15[[i]], "2014"=BIFMatrix2014.15[[i]], "2015"=BIFMatrix2015.15[[i]])
-  #"2016"=BIFMatrix2016.15[[i]])
-}
-names(BIF.species) <- paste("BIF", names(BIFMatrix2011), sep=".")
-
-## All Pasoh data (camera trap and covariates) need to be limited to Array 1 only
-# Extract all PSH species
-PSH.species <- list()
-for(i in 1:length(PSHMatrix2011)){
-  PSH.species[[i]] <- data.frame("2011"=PSHMatrix2011.15[[i]], "2012"=PSHMatrix2012.15[[i]], "2013"=PSHMatrix2013.15[[i]], 
-                                 "2014"=PSHMatrix2014.15[[i]], "2015"=PSHMatrix2015.15[[i]], "2016"=PSHMatrix2016.15[[i]])[1:30,]
-}
-names(PSH.species) <- paste("PSH", names(PSHMatrix2011), sep=".")
-
-# Extract all YAN species
-YAN.species <- list()
-for(i in 1:length(YANMatrix2011)){
-  YAN.species[[i]] <- data.frame("2011"=YANMatrix2011.15[[i]], "2012"=YANMatrix2012.15[[i]], "2013"=YANMatrix2013.15[[i]], 
-                                 "2014"=YANMatrix2014.15[[i]], "2015"=YANMatrix2015.15[[i]])
-}
-names(YAN.species) <- paste("YAN", names(YANMatrix2011), sep=".")
-
-# Extract all NAK species
-NAK.species <- list()
-for(i in 1:length(NAKMatrix2011)){
-  NAK.species[[i]] <- data.frame("2010"=NAKMatrix2010.15[[i]], "2011"=NAKMatrix2011.15[[i]], "2012"=NAKMatrix2012.15[[i]], 
-                                 "2013"=NAKMatrix2013.15[[i]], "2014"=NAKMatrix2014.15[[i]])
-  #"2015"=NAKMatrix2015.15[[i]])
-}
-names(NAK.species) <- paste("NAK", names(NAKMatrix2011), sep=".")
-
-# Extract all RNF species
-RNF.species <- list()
-for(i in 1:length(RNFMatrix2011)){
-  RNF.species[[i]] <- data.frame("2010"=RNFMatrix2010.15[[i]], "2011"=RNFMatrix2011.15[[i]], "2012"=RNFMatrix2012.15[[i]], 
-                                 "2013"=RNFMatrix2013.15[[i]], "2014"=RNFMatrix2014.15[[i]], "2015"=RNFMatrix2015.15[[i]])
-  #"2016"=RNFMatrix2016.15[[i]])
-}
-names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
-=======
     # Extract all VB species
     VB_.species <- list()
     for(i in 1:length(VBMatrix2008)){
@@ -582,7 +327,6 @@ names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
                                      #"2016"=RNFMatrix2016.15[[i]])
     }
     names(RNF.species) <- paste("RNF", names(RNFMatrix2011), sep=".")
->>>>>>> 0d278d6ae4a6365ae8a14d143e12ac5faac3d387
 
 
 # Remove all populations of "Dendrohyrax arboreus", "Tragulus javanicus", "Tragulus napu" and "Muntiacus muntjak"
@@ -594,12 +338,12 @@ NAK.species <- NAK.species[-22]  # Remove Tragulus javanicus from NAK
 NAK.species <- NAK.species[-16] # Remove Muntiacus muntjak from NAK
 
 All_species7sites <- c(VB_.species=VB_.species,
-                       UDZ.species=UDZ.species,
-                       BIF.species=BIF.species,
-                       PSH.species=PSH.species,
-                       YAN.species=YAN.species,
-                       NAK.species=NAK.species,
-                       RNF.species=RNF.species)
+                          UDZ.species=UDZ.species,
+                          BIF.species=BIF.species,
+                          PSH.species=PSH.species,
+                          YAN.species=YAN.species,
+                          NAK.species=NAK.species,
+                          RNF.species=RNF.species)
 
 save(All_species7sites, file="All_species7sites.RData")
 
@@ -631,7 +375,7 @@ save(All_species7sites, file="All_species7sites.RData")
 #  UDZ.Paraxerus_vexillarius <- UDZ.species$"UDZ.Paraxerus vexillarius"
 #  UDZ.Cercocebus_sanjei <- UDZ.species$"UDZ.Cercocebus sanjei"
 #  UDZ.Rhynchocyon_udzungwensis <- UDZ.species$"UDZ.Rhynchocyon udzungwensis"
-#UDZ.Nesotragus_moschatus <- #NB mismatch of names causing species to be absent from matched list
+  #UDZ.Nesotragus_moschatus <- #NB mismatch of names causing species to be absent from matched list
 
 #  UDZ_covariate_species <- list(UDZ.Guttera_pucherani=UDZ.Guttera_pucherani, 
 #                              UDZ.Bdeogale_crassicauda=UDZ.Bdeogale_crassicauda, 
@@ -829,22 +573,22 @@ SitesBinaryAnnual <- list()
 SpID <- vector()
 
 SiteYears <- length(table(Sites7data[[1]]$Sampling.Period)) + length(table(Sites7data[[2]]$Sampling.Period)) +
-  length(table(Sites7data[[3]]$Sampling.Period)) + length(table(Sites7data[[4]]$Sampling.Period)) + 
-  length(table(Sites7data[[5]]$Sampling.Period)) + length(table(Sites7data[[6]]$Sampling.Period)) + 
-  length(table(Sites7data[[7]]$Sampling.Period))  
+             length(table(Sites7data[[3]]$Sampling.Period)) + length(table(Sites7data[[4]]$Sampling.Period)) + 
+             length(table(Sites7data[[5]]$Sampling.Period)) + length(table(Sites7data[[6]]$Sampling.Period)) + 
+             length(table(Sites7data[[7]]$Sampling.Period))  
 
 # First get inner loop to work (i.e. get it to make a separate matrix for each year at one site)
 # Then add outer loop to loop over all sites
 
 for(i in 1:length(Sites7data)){
   for(j in 1:length(table(Sites7data[[i]]$Sampling.Period))){
-    sptable <- table(Sites7data[[i]]$bin, Sites7data[[i]]$Sampling.Unit.Name, Sites7data[[i]]$Sampling.Period)[,,j]
-    sptable <- sptable[match(spnames[[i]], rownames(sptable)),]
-    sptable <- ifelse(sptable>0,1,0)
-    sptable <- sptable[order(rownames(sptable)),]
-    SpID    <- UID$UID[match(as.factor(rownames(sptable)), UID$bin)]
-    sptable <- cbind(SpID, sptable)
-    temp[[j]] <- sptable
+  sptable <- table(Sites7data[[i]]$bin, Sites7data[[i]]$Sampling.Unit.Name, Sites7data[[i]]$Sampling.Period)[,,j]
+  sptable <- sptable[match(spnames[[i]], rownames(sptable)),]
+  sptable <- ifelse(sptable>0,1,0)
+  sptable <- sptable[order(rownames(sptable)),]
+  SpID    <- UID$UID[match(as.factor(rownames(sptable)), UID$bin)]
+  sptable <- cbind(SpID, sptable)
+  temp[[j]] <- sptable
   }
   names(temp) <- names(table(Sites7data[[i]]$Sampling.Period))
   SitesBinaryAnnual[[i]] <- temp
@@ -919,8 +663,8 @@ OccColExt.Raw <- list()
 OccColExt.Per <- list()
 
 for(j in 1:length(SitesBinaryAnnual)){
-  Species <- data.frame(SitesBinaryAnnual[[j]][2])[,1]
-  for(i in 1:(length(SitesBinaryAnnual[[j]])-1)){
+    Species <- data.frame(SitesBinaryAnnual[[j]][2])[,1]
+for(i in 1:(length(SitesBinaryAnnual[[j]])-1)){
     Ti[[i]] <- data.frame(SitesBinaryAnnual[[j]][i+1]) - data.frame(SitesBinaryAnnual[[j]][i])
     
     Occ[[i]] <- data.frame(lapply(SitesBinaryAnnual[[j]], "rowSums")[i+1]) - data.frame(lapply(SitesBinaryAnnual[[j]], "[", ,1)[1]) # Note initial year of occupancy data is omitted
@@ -928,17 +672,17 @@ for(j in 1:length(SitesBinaryAnnual)){
     Col[[i]] <- Ti[[i]]
     Col[[i]][Col[[i]]==-1] <- 0
     Col[[i]] <- rowSums(Col[[i]])
-    
+
     Ext[[i]] <- Ti[[i]]
     Ext[[i]][Ext[[i]]==1] <- 0
     Ext[[i]] <- rowSums(Ext[[i]])
-    
+
     Tsum[[i]] <- data.frame(Col[[i]], Ext[[i]])
     
     Species <- data.frame(Species, Occ[[i]], Col[[i]], Ext[[i]])
     Percent <- data.frame(Species=Species[,1], round((Species[,2:dim(Species)[2]]/(dim(Ti[[1]])[2]-1))*100,1))
   }
-  
+
   OccColExt.Raw[[j]] <- Species
   OccColExt.Per[[j]] <- Percent
   #rm(temp)
@@ -967,14 +711,14 @@ save(OccColExt.Per, file="OccColExt.Per.RData")
 ################## CAMERA TRAP TEMPERATURE DATA FORMATTING ####################
 
 # Clean temperature data and convert F measurements to C
-library(stringr)
-eventsdata$Temperature <- str_trim(eventsdata$Temperature, side="both")
-temp.degrees <- sub(" .*","", eventsdata$Temperature)
-temp.unit <- str_sub(eventsdata$Temperature, nchar(eventsdata$Temperature), nchar(eventsdata$Temperature))
-temp.unit <- str_trim(temp.unit, side="both")
-#Convert F temperature values to Celcius; Change C Temperatures to numeric format from character
-temp.degreesC <- as.numeric(ifelse(temp.unit=="F", f.FtoC(as.numeric(temp.degrees)), temp.degrees))
-eventsdata <- cbind(eventsdata, temp.degreesC)
+  library(stringr)
+  eventsdata$Temperature <- str_trim(eventsdata$Temperature, side="both")
+  temp.degrees <- sub(" .*","", eventsdata$Temperature)
+  temp.unit <- str_sub(eventsdata$Temperature, nchar(eventsdata$Temperature), nchar(eventsdata$Temperature))
+  temp.unit <- str_trim(temp.unit, side="both")
+  #Convert F temperature values to Celcius; Change C Temperatures to numeric format from character
+  temp.degreesC <- as.numeric(ifelse(temp.unit=="F", f.FtoC(as.numeric(temp.degrees)), temp.degrees))
+  eventsdata <- cbind(eventsdata, temp.degreesC)
 
 # Note that CT-PSH-1-21 has problematic temperature values (Max=67 degrees) 
 # Change all temp values to NA for CT-PSH-1-21
@@ -983,19 +727,19 @@ eventsdata <- cbind(eventsdata, temp.degreesC)
 # Try changing value downstream instead of ahead of aggregation.
 
 # Determine the annual min, max and variance of the non-calibrated temperature data for each CT without using interpolated data
-Temp.Min <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=min)
-names(Temp.Min) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min")
-Temp.Max <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=max)
-names(Temp.Max) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Max")
-Temp.Var <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=var)
-names(Temp.Var) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Var")
-Temp.Mean <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=mean)
-names(Temp.Mean) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Mean")
-Temp.SD <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=sd)
-names(Temp.SD) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.SD")
-CT.Year <- as.integer(substr(Temp.SD$Sampling.Period,1,4))
-CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var, Temp.Mean$Temp.Mean, Temp.SD$Temp.SD, Year=CT.Year)
-names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var", "Temp.Mean", "Temp.SD", "Year")
+  Temp.Min <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=min)
+  names(Temp.Min) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min")
+  Temp.Max <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=max)
+  names(Temp.Max) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Max")
+  Temp.Var <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=var)
+  names(Temp.Var) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Var")
+  Temp.Mean <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=mean)
+  names(Temp.Mean) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Mean")
+  Temp.SD <- aggregate(eventsdata$temp.degreesC ~ eventsdata$Site.Code + eventsdata$Sampling.Unit.Name + eventsdata$Sampling.Period, FUN=sd)
+  names(Temp.SD) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.SD")
+  CT.Year <- as.integer(substr(Temp.SD$Sampling.Period,1,4))
+  CT.Temp <- cbind(Temp.Min, Temp.Max$Temp.Max, Temp.Var$Temp.Var, Temp.Mean$Temp.Mean, Temp.SD$Temp.SD, Year=CT.Year)
+  names(CT.Temp) <- c("Site.Code", "Sampling.Unit.Name", "Sampling.Period", "Temp.Min", "Temp.Max", "Temp.Var", "Temp.Mean", "Temp.SD", "Year")
 
 # Note that CT-PSH-1-21 has problematic temperature values (Max=67 degrees) 
 # Change all temp values to NA for CT-PSH-1-21
@@ -1014,11 +758,11 @@ CT.Temp$Temp.SD <- ifelse(CT.Temp$Sampling.Unit.Name=="CT-PSH-1-21", NA, CT.Temp
 
 ########### NB: THE FOLLOW TWO FILES FOR ELEV AND FOREST LOSS WILL NEED TO BE UPDATED WITH NEW FILES FROM ALEX ################
 # Bring in new elevation data from Alex Zvoleff as of 10/21/2014
-load("ct_pts_elev.RData")
+  load("ct_pts_elev.RData")
 
 # Create object with temperature covariate data to use for all sites with 500 m elevation gradients 
 
-Alltemp500 <- data.frame(Site.Code=CT.Temp$Site.Code, 
+  Alltemp500 <- data.frame(Site.Code=CT.Temp$Site.Code, 
                          Sampling.Unit.Name=CT.Temp$Sampling.Unit.Name,
                          Year=as.factor(CT.Temp$Year),
                          Temp.Min=CT.Temp$Temp.Min, 
@@ -1029,163 +773,162 @@ Alltemp500 <- data.frame(Site.Code=CT.Temp$Site.Code,
 
 ######################## FORMAT OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
 # Read in elevation data
-#ELEV <- read.csv("CT_edgedist_elevation_final.txt") # Elevation data from Melissa Rosa to be replaced with Data from Alex Zvoleff
-ELEV <- ct_pts_elev
-
+  #ELEV <- read.csv("CT_edgedist_elevation_final.txt") # Elevation data from Melissa Rosa to be replaced with Data from Alex Zvoleff
+  ELEV <- ct_pts_elev
+  
 
 # Read in CT specific forest loss data from Alex (spans 2000-2013)
-traps_fc <- read.csv("traps_fc.csv")
-#load("ct_fc_loss.RData")
-#traps_fc <- ct_loss  
+  traps_fc <- read.csv("traps_fc.csv")
+  #load("ct_fc_loss.RData")
+  #traps_fc <- ct_loss  
 
-ftraps120 <- traps_fc[traps_fc$buffer_m=="120m buffer",]
-ftraps120 <- cbind(ftraps120, ELEV[match(ftraps120$trap_ID, ELEV$ct_ID),])
-ftraps120_500m <- ftraps120[ftraps120$sitecode=="VB"|
-                              ftraps120$sitecode=="UDZ"|
-                              ftraps120$sitecode=="BIF"|
-                              ftraps120$sitecode=="PSH"|
-                              ftraps120$sitecode=="YAN"|
-                              ftraps120$sitecode=="NAK"|
-                              ftraps120$sitecode=="RNF",]
+  ftraps120 <- traps_fc[traps_fc$buffer_m=="120m buffer",]
+  ftraps120 <- cbind(ftraps120, ELEV[match(ftraps120$trap_ID, ELEV$ct_ID),])
+  ftraps120_500m <- ftraps120[ftraps120$sitecode=="VB"|
+                                ftraps120$sitecode=="UDZ"|
+                                ftraps120$sitecode=="BIF"|
+                                ftraps120$sitecode=="PSH"|
+                                ftraps120$sitecode=="YAN"|
+                                ftraps120$sitecode=="NAK"|
+                                ftraps120$sitecode=="RNF",]
 
-ELEV_FL <- data.frame(Site.Code=ftraps120_500m$sitecode, 
-                      Sampling.Unit.Name=ftraps120_500m$ct_ID, 
-                      Elevation=ftraps120_500m$elev_m,
-                      FL120=ftraps120_500m$fc_frac_loss, 
-                      FG120=ftraps120_500m$fc_frac_gain)
+  ELEV_FL <- data.frame(Site.Code=ftraps120_500m$sitecode, 
+                             Sampling.Unit.Name=ftraps120_500m$ct_ID, 
+                             Elevation=ftraps120_500m$elev_m,
+                             FL120=ftraps120_500m$fc_frac_loss, 
+                             FG120=ftraps120_500m$fc_frac_gain)
 # Remove inactive camera traps from YAN to preseve integrity of covariate structure below  
-ELEV_FL <- ELEV_FL[-437,] # Remove CT-YAN-1-04
-ELEV_FL <- ELEV_FL[-395,] # Remove CT-YAN-2-16   
+  ELEV_FL <- ELEV_FL[-437,] # Remove CT-YAN-1-04
+  ELEV_FL <- ELEV_FL[-395,] # Remove CT-YAN-2-16   
 
 
 # Read in site level forest loss calculations from Alex (spans 5 years prior to CT sampling start at each site)
 # NB manually update VB sitecode to "VB-" in csv file to enable merging
-#site_fc <- read.csv("20141004_forest_loss.csv")
+  #site_fc <- read.csv("20141004_forest_loss.csv")
 # Extract site level forest loss for protected areas
-#FL_PA <- site_fc[site_fc$aoi=="PA",]
+  #FL_PA <- site_fc[site_fc$aoi=="PA",]
 
 
 ######################## COMBINE TEMPERATURE COVARIATE DATA WITH OTHER COVARIATE DATA SOURCES (i.e. Elevation, forest loss) ###################
 
 
 # Create site specific covariate lists with scaled covariates
-CT.Temp.VB <- melt(Alltemp500[Alltemp500$Site.Code=="VB-",])
-ELEV_FL.VB <- melt(ELEV_FL[ELEV_FL$Site.Code=="VB",])
-VB.Elev <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,2]
-VB.FL120 <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,3]
-VB.FG120 <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,4] 
-VB.Tmin <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-VB.Tmax <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-VB.Tvar <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-VB.SD <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
-VB.Mean <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+  CT.Temp.VB <- melt(Alltemp500[Alltemp500$Site.Code=="VB-",])
+  ELEV_FL.VB <- melt(ELEV_FL[ELEV_FL$Site.Code=="VB",])
+    VB.Elev <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,2]
+    VB.FL120 <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,3]
+    VB.FG120 <- cast(ELEV_FL.VB, Sampling.Unit.Name ~ variable)[,4] 
+    VB.Tmin <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    VB.Tmax <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    VB.Tvar <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    VB.SD <- round(as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    VB.Mean <- as.data.frame(cast(CT.Temp.VB, Sampling.Unit.Name ~ Year ~ variable)[,,5])
 
 
-VB.Elev <- scale(VB.Elev)
-VB.Elev[is.na(VB.Elev)] <- 0
+      VB.Elev <- scale(VB.Elev)
+      VB.Elev[is.na(VB.Elev)] <- 0
 
-VB.FL120 <- scale(VB.FL120)
-VB.FL120[is.na(VB.FL120)] <- 0
+      VB.FL120 <- scale(VB.FL120)
+      VB.FL120[is.na(VB.FL120)] <- 0
 
-VB.FG120 <- scale(VB.FG120)
-VB.FG120[is.na(VB.FG120)] <- 0
+      VB.FG120 <- scale(VB.FG120)
+      VB.FG120[is.na(VB.FG120)] <- 0
 
-VB.Tmin <- scale(VB.Tmin)
-VB.Tmin[is.na(VB.Tmin)] <- 0
+      VB.Tmin <- scale(VB.Tmin)
+      VB.Tmin[is.na(VB.Tmin)] <- 0
 
-VB.Tmax <- scale(VB.Tmax)
-VB.Tmax[is.na(VB.Tmax)] <- 0
+      VB.Tmax <- scale(VB.Tmax)
+      VB.Tmax[is.na(VB.Tmax)] <- 0
 
-VB.Tvar <- scale(VB.Tvar)
-VB.Tvar[is.na(VB.Tvar)] <- 0
+      VB.Tvar <- scale(VB.Tvar)
+      VB.Tvar[is.na(VB.Tvar)] <- 0
 
-VB.SD <- scale(VB.SD)
-VB.SD[is.na(VB.SD)] <- 0
+      VB.SD <- scale(VB.SD)
+      VB.SD[is.na(VB.SD)] <- 0
 
-VB.Mean <- scale(VB.Mean)
-VB.Mean[is.na(VB.Mean)] <- 0
-
-
-VB__covs <- list(Elevation=VB.Elev,
-                 ForestLossCT=VB.FL120,
-                 ForestGainCT=VB.FG120,
-                 Tmin=VB.Tmin,
-                 Tmax=VB.Tmax,
-                 Tvar=VB.Tvar,
-                 Tsd=VB.SD,
-                 Tmean=VB.Mean)
-
-CT.Temp.UDZ <- melt(Alltemp500[Alltemp500$Site.Code=="UDZ",])
-ELEV_FL.UDZ <- melt(ELEV_FL[ELEV_FL$Site.Code=="UDZ",])
-UDZ.Elev <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,2]
-UDZ.FL120 <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,3]
-UDZ.FG120 <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,4] 
-UDZ.Tmin <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-UDZ.Tmax <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-UDZ.Tvar <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-UDZ.SD <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
-UDZ.Mean <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+      VB.Mean <- scale(VB.Mean)
+      VB.Mean[is.na(VB.Mean)] <- 0
 
 
-UDZ.Elev <- scale(UDZ.Elev)
-UDZ.Elev[is.na(UDZ.Elev)] <- 0
+          VB__covs <- list(Elevation=VB.Elev,
+                ForestLossCT=VB.FL120,
+                ForestGainCT=VB.FG120,
+                Tmin=VB.Tmin,
+                Tmax=VB.Tmax,
+                Tvar=VB.Tvar,
+                Tsd=VB.SD,
+                Tmean=VB.Mean)
 
-UDZ.FL120 <- scale(UDZ.FL120)
-UDZ.FL120[is.na(UDZ.FL120)] <- 0
-
-UDZ.FG120 <- scale(UDZ.FG120)
-UDZ.FG120[is.na(UDZ.FG120)] <- 0
-
-UDZ.Tmin <- scale(UDZ.Tmin)
-UDZ.Tmin[is.na(UDZ.Tmin)] <- 0
-
-UDZ.Tmax <- scale(UDZ.Tmax)
-UDZ.Tmax[is.na(UDZ.Tmax)] <- 0
-
-UDZ.Tvar <- scale(UDZ.Tvar)
-UDZ.Tvar[is.na(UDZ.Tvar)] <- 0
-
-UDZ.SD <- scale(UDZ.SD)
-UDZ.SD[is.na(UDZ.SD)] <- 0
-
-UDZ.Mean <- scale(UDZ.Mean)
-UDZ.Mean[is.na(UDZ.Mean)] <- 0
+    CT.Temp.UDZ <- melt(Alltemp500[Alltemp500$Site.Code=="UDZ",])
+  ELEV_FL.UDZ <- melt(ELEV_FL[ELEV_FL$Site.Code=="UDZ",])
+    UDZ.Elev <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,2]
+    UDZ.FL120 <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,3]
+    UDZ.FG120 <- cast(ELEV_FL.UDZ, Sampling.Unit.Name ~ variable)[,4] 
+    UDZ.Tmin <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    UDZ.Tmax <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    UDZ.Tvar <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    UDZ.SD <- round(as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    UDZ.Mean <- as.data.frame(cast(CT.Temp.UDZ, Sampling.Unit.Name ~ Year ~ variable)[,,5])
 
 
-UDZ_covs <- list(Elevation=UDZ.Elev,
-                 ForestLossCT=UDZ.FL120,
-                 ForestGainCT=UDZ.FG120,
-                 Tmin=UDZ.Tmin,
-                 Tmax=UDZ.Tmax,
-                 Tvar=UDZ.Tvar,
-                 Tsd=UDZ.SD,
-                 Tmean=UDZ.Mean)
+      UDZ.Elev <- scale(UDZ.Elev)
+      UDZ.Elev[is.na(UDZ.Elev)] <- 0
+
+      UDZ.FL120 <- scale(UDZ.FL120)
+      UDZ.FL120[is.na(UDZ.FL120)] <- 0
+
+      UDZ.FG120 <- scale(UDZ.FG120)
+      UDZ.FG120[is.na(UDZ.FG120)] <- 0
+
+      UDZ.Tmin <- scale(UDZ.Tmin)
+      UDZ.Tmin[is.na(UDZ.Tmin)] <- 0
+
+      UDZ.Tmax <- scale(UDZ.Tmax)
+      UDZ.Tmax[is.na(UDZ.Tmax)] <- 0
+
+      UDZ.Tvar <- scale(UDZ.Tvar)
+      UDZ.Tvar[is.na(UDZ.Tvar)] <- 0
+
+      UDZ.SD <- scale(UDZ.SD)
+      UDZ.SD[is.na(UDZ.SD)] <- 0
+
+      UDZ.Mean <- scale(UDZ.Mean)
+      UDZ.Mean[is.na(UDZ.Mean)] <- 0
+
+
+          UDZ_covs <- list(Elevation=UDZ.Elev,
+                ForestLossCT=UDZ.FL120,
+                ForestGainCT=UDZ.FG120,
+                Tmin=UDZ.Tmin,
+                Tmax=UDZ.Tmax,
+                Tvar=UDZ.Tvar,
+                Tsd=UDZ.SD,
+                Tmean=UDZ.Mean)
 
 
 
 
-CT.Temp.BIF <- melt(Alltemp500[Alltemp500$Site.Code=="BIF",])
-ELEV_FL.BIF <- melt(ELEV_FL[ELEV_FL$Site.Code=="BIF",])
-BIF.Elev <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,2]
-BIF.FL120 <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,3]
-BIF.FG120 <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,4] 
-BIF.Tmin <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-BIF.Tmax <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-BIF.Tvar <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-BIF.SD <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
-BIF.Mean <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+  CT.Temp.BIF <- melt(Alltemp500[Alltemp500$Site.Code=="BIF",])
+  ELEV_FL.BIF <- melt(ELEV_FL[ELEV_FL$Site.Code=="BIF",])
+    BIF.Elev <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,2]
+    BIF.FL120 <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,3]
+    BIF.FG120 <- cast(ELEV_FL.BIF, Sampling.Unit.Name ~ variable)[,4] 
+    BIF.Tmin <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    BIF.Tmax <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    BIF.Tvar <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    BIF.SD <- round(as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    BIF.Mean <- as.data.frame(cast(CT.Temp.BIF, Sampling.Unit.Name ~ Year ~ variable)[,,5])
 
 
-BIF.Elev <- scale(BIF.Elev)
-BIF.Elev[is.na(BIF.Elev)] <- 0
+      BIF.Elev <- scale(BIF.Elev)
+      BIF.Elev[is.na(BIF.Elev)] <- 0
 
-BIF.FL120 <- scale(BIF.FL120)
-BIF.FL120[is.na(BIF.FL120)] <- 0
+      BIF.FL120 <- scale(BIF.FL120)
+      BIF.FL120[is.na(BIF.FL120)] <- 0
 
-BIF.FG120 <- scale(BIF.FG120)
-BIF.FG120[is.na(BIF.FG120)] <- 0
+      BIF.FG120 <- scale(BIF.FG120)
+      BIF.FG120[is.na(BIF.FG120)] <- 0
 
-<<<<<<< HEAD
       BIF.Tmin <- BIF.Tmin[,1:6] # SUBSET SO THAT # YEARS MATCHES FOR SP & TEMP DATA
       BIF.Tmin <- scale(BIF.Tmin)
       BIF.Tmin[is.na(BIF.Tmin)] <- 0
@@ -1205,201 +948,179 @@ BIF.FG120[is.na(BIF.FG120)] <- 0
       BIF.Mean <- BIF.Mean[,1:6]
       BIF.Mean <- scale(BIF.Mean)
       BIF.Mean[is.na(BIF.Mean)] <- 0
-=======
-BIF.Tmin <- BIF.Tmin[,1:6] # SUBSET SO THAT # YEARS MATCHES FOR SP & TEMP DATA
-BIF.Tmin <- scale(BIF.Tmin)
-BIF.Tmin[is.na(BIF.Tmin)] <- 0
-
-BIF.Tmax <- BIF.Tmax[,1:6]
-BIF.Tmax <- scale(BIF.Tmax)
-BIF.Tmax[is.na(BIF.Tmax)] <- 0
-
-BIF.Tvar <- BIF.Tvar[,1:6]
-BIF.Tvar <- scale(BIF.Tvar)
-BIF.Tvar[is.na(BIF.Tvar)] <- 0
-
-BIF.SD <- BIF.SD[,1:6]
-BIF.SD <- scale(BIF.SD)
-BIF.SD[is.na(BIF.SD)] <- 0
-
-BIF.Mean <- BIF.Mean[,1:6]
-BIF.Mean <- scale(BIF.Mean)
-BIF.Mean[is.na(BIF.Mean)] <- 0
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 
 
-BIF_covs <- list(Elevation=BIF.Elev,
-                 ForestLossCT=BIF.FL120,
-                 ForestGainCT=BIF.FG120,
-                 Tmin=BIF.Tmin,
-                 Tmax=BIF.Tmax,
-                 Tvar=BIF.Tvar,
-                 Tsd=BIF.SD,
-                 Tmean=BIF.Mean)
+          BIF_covs <- list(Elevation=BIF.Elev,
+                ForestLossCT=BIF.FL120,
+                ForestGainCT=BIF.FG120,
+                Tmin=BIF.Tmin,
+                Tmax=BIF.Tmax,
+                Tvar=BIF.Tvar,
+                Tsd=BIF.SD,
+                Tmean=BIF.Mean)
 
 
 ## All Pasoh data (camera trap and covariates) need to be limited to Array 1 only
-CT.Temp.PSH <- melt(Alltemp500[Alltemp500$Site.Code=="PSH",])
-ELEV_FL.PSH <- melt(ELEV_FL[ELEV_FL$Site.Code=="PSH",])
-PSH.Elev <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,2]
-PSH.FL120 <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,3]
-PSH.FG120 <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,4] 
-PSH.Tmin <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-PSH.Tmax <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-PSH.Tvar <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-PSH.SD <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
-PSH.Mean <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+  CT.Temp.PSH <- melt(Alltemp500[Alltemp500$Site.Code=="PSH",])
+  ELEV_FL.PSH <- melt(ELEV_FL[ELEV_FL$Site.Code=="PSH",])
+    PSH.Elev <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,2]
+    PSH.FL120 <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,3]
+    PSH.FG120 <- cast(ELEV_FL.PSH, Sampling.Unit.Name ~ variable)[,4] 
+    PSH.Tmin <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    PSH.Tmax <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    PSH.Tvar <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    PSH.SD <- round(as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    PSH.Mean <- as.data.frame(cast(CT.Temp.PSH, Sampling.Unit.Name ~ Year ~ variable)[,,5])
 
 
-PSH.Elev <- scale(PSH.Elev)
-PSH.Elev[is.na(PSH.Elev)] <- 0
+      PSH.Elev <- scale(PSH.Elev)
+      PSH.Elev[is.na(PSH.Elev)] <- 0
 
-PSH.FL120 <- scale(PSH.FL120)
-PSH.FL120[is.na(PSH.FL120)] <- 0
+      PSH.FL120 <- scale(PSH.FL120)
+      PSH.FL120[is.na(PSH.FL120)] <- 0
 
-PSH.FG120 <- scale(PSH.FG120)
-PSH.FG120[is.na(PSH.FG120)] <- 0
+      PSH.FG120 <- scale(PSH.FG120)
+      PSH.FG120[is.na(PSH.FG120)] <- 0
 
-PSH.Tmin <- scale(PSH.Tmin)
-PSH.Tmin[is.na(PSH.Tmin)] <- 0
+      PSH.Tmin <- scale(PSH.Tmin)
+      PSH.Tmin[is.na(PSH.Tmin)] <- 0
 
-PSH.Tmax <- scale(PSH.Tmax)
-PSH.Tmax[is.na(PSH.Tmax)] <- 0
+      PSH.Tmax <- scale(PSH.Tmax)
+      PSH.Tmax[is.na(PSH.Tmax)] <- 0
 
-PSH.Tvar <- scale(PSH.Tvar)
-PSH.Tvar[is.na(PSH.Tvar)] <- 0
+      PSH.Tvar <- scale(PSH.Tvar)
+      PSH.Tvar[is.na(PSH.Tvar)] <- 0
 
-PSH.SD <- scale(PSH.SD)
-PSH.SD[is.na(PSH.SD)] <- 0
+      PSH.SD <- scale(PSH.SD)
+      PSH.SD[is.na(PSH.SD)] <- 0
 
-PSH.Mean <- scale(PSH.Mean)
-PSH.Mean[is.na(PSH.Mean)] <- 0
+      PSH.Mean <- scale(PSH.Mean)
+      PSH.Mean[is.na(PSH.Mean)] <- 0
 
 # Limit PSH covariate data to array 1 (rows 1:30)
-PSH_covs <- list(Elevation=PSH.Elev[1:30],
-                 ForestLossCT=PSH.FL120[1:30],
-                 ForestGainCT=PSH.FG120[1:30],
-                 Tmin=PSH.Tmin[1:30,],
-                 Tmax=PSH.Tmax[1:30,],
-                 Tvar=PSH.Tvar[1:30,],
-                 Tsd=PSH.SD[1:30,],
-                 Tmean=PSH.Mean[1:30,])
+          PSH_covs <- list(Elevation=PSH.Elev[1:30],
+                ForestLossCT=PSH.FL120[1:30],
+                ForestGainCT=PSH.FG120[1:30],
+                Tmin=PSH.Tmin[1:30,],
+                Tmax=PSH.Tmax[1:30,],
+                Tvar=PSH.Tvar[1:30,],
+                Tsd=PSH.SD[1:30,],
+                Tmean=PSH.Mean[1:30,])
 
 # Need to remove CT-YAN-2-16.1 and CT-YAN-1-04 from Elevation data 
-CT.Temp.YAN <- melt(Alltemp500[Alltemp500$Site.Code=="YAN",])
-ELEV_FL.YAN <- melt(ELEV_FL[ELEV_FL$Site.Code=="YAN",])
-YAN.Elev <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,2]
-YAN.FL120 <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,3]
-YAN.FG120 <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,4] 
-YAN.Tmin <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-YAN.Tmax <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-YAN.Tvar <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-YAN.SD <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
-YAN.Mean <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+  CT.Temp.YAN <- melt(Alltemp500[Alltemp500$Site.Code=="YAN",])
+  ELEV_FL.YAN <- melt(ELEV_FL[ELEV_FL$Site.Code=="YAN",])
+    YAN.Elev <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,2]
+    YAN.FL120 <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,3]
+    YAN.FG120 <- cast(ELEV_FL.YAN, Sampling.Unit.Name ~ variable)[,4] 
+    YAN.Tmin <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    YAN.Tmax <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    YAN.Tvar <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    YAN.SD <- round(as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    YAN.Mean <- as.data.frame(cast(CT.Temp.YAN, Sampling.Unit.Name ~ Year ~ variable)[,,5])
 
 
-YAN.Elev <- scale(YAN.Elev)
-YAN.Elev[is.na(YAN.Elev)] <- 0
+      YAN.Elev <- scale(YAN.Elev)
+      YAN.Elev[is.na(YAN.Elev)] <- 0
 
-YAN.FL120 <- scale(YAN.FL120)
-YAN.FL120[is.na(YAN.FL120)] <- 0
+      YAN.FL120 <- scale(YAN.FL120)
+      YAN.FL120[is.na(YAN.FL120)] <- 0
 
-YAN.FG120 <- scale(YAN.FG120)
-YAN.FG120[is.na(YAN.FG120)] <- 0
+      YAN.FG120 <- scale(YAN.FG120)
+      YAN.FG120[is.na(YAN.FG120)] <- 0
 
-YAN.Tmin <- scale(YAN.Tmin)
-YAN.Tmin[is.na(YAN.Tmin)] <- 0
+      YAN.Tmin <- scale(YAN.Tmin)
+      YAN.Tmin[is.na(YAN.Tmin)] <- 0
 
-YAN.Tmax <- scale(YAN.Tmax)
-YAN.Tmax[is.na(YAN.Tmax)] <- 0
+      YAN.Tmax <- scale(YAN.Tmax)
+      YAN.Tmax[is.na(YAN.Tmax)] <- 0
 
-YAN.Tvar <- scale(YAN.Tvar)
-YAN.Tvar[is.na(YAN.Tvar)] <- 0
+      YAN.Tvar <- scale(YAN.Tvar)
+      YAN.Tvar[is.na(YAN.Tvar)] <- 0
 
-YAN.SD <- scale(YAN.SD)
-YAN.SD[is.na(YAN.SD)] <- 0
+      YAN.SD <- scale(YAN.SD)
+      YAN.SD[is.na(YAN.SD)] <- 0
 
-YAN.Mean <- scale(YAN.Mean)
-YAN.Mean[is.na(YAN.Mean)] <- 0
-
-
-YAN_covs <- list(Elevation=YAN.Elev,
-                 ForestLossCT=YAN.FL120,
-                 ForestGainCT=YAN.FG120,
-                 Tmin=YAN.Tmin,
-                 Tmax=YAN.Tmax,
-                 Tvar=YAN.Tvar,
-                 Tsd=YAN.SD,
-                 Tmean=YAN.Mean)
-
-CT.Temp.NAK <- melt(Alltemp500[Alltemp500$Site.Code=="NAK",])
-ELEV_FL.NAK <- melt(ELEV_FL[ELEV_FL$Site.Code=="NAK",])
-NAK.Elev <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,2]
-NAK.FL120 <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,3]
-NAK.FG120 <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,4] 
-NAK.Tmin <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-NAK.Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-NAK.Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-NAK.SD <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
-NAK.Mean <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+      YAN.Mean <- scale(YAN.Mean)
+      YAN.Mean[is.na(YAN.Mean)] <- 0
 
 
-NAK.Elev <- scale(NAK.Elev)
-NAK.Elev[is.na(NAK.Elev)] <- 0
+          YAN_covs <- list(Elevation=YAN.Elev,
+                ForestLossCT=YAN.FL120,
+                ForestGainCT=YAN.FG120,
+                Tmin=YAN.Tmin,
+                Tmax=YAN.Tmax,
+                Tvar=YAN.Tvar,
+                Tsd=YAN.SD,
+                Tmean=YAN.Mean)
 
-NAK.FL120 <- scale(NAK.FL120)
-NAK.FL120[is.na(NAK.FL120)] <- 0
-
-NAK.FG120 <- scale(NAK.FG120)
-NAK.FG120[is.na(NAK.FG120)] <- 0
-
-NAK.Tmin <- scale(NAK.Tmin)
-NAK.Tmin[is.na(NAK.Tmin)] <- 0
-
-NAK.Tmax <- scale(NAK.Tmax)
-NAK.Tmax[is.na(NAK.Tmax)] <- 0
-
-NAK.Tvar <- scale(NAK.Tvar)
-NAK.Tvar[is.na(NAK.Tvar)] <- 0
-
-NAK.SD <- scale(NAK.SD)
-NAK.SD[is.na(NAK.SD)] <- 0
-
-NAK.Mean <- scale(NAK.Mean)
-NAK.Mean[is.na(NAK.Mean)] <- 0
+  CT.Temp.NAK <- melt(Alltemp500[Alltemp500$Site.Code=="NAK",])
+  ELEV_FL.NAK <- melt(ELEV_FL[ELEV_FL$Site.Code=="NAK",])
+    NAK.Elev <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,2]
+    NAK.FL120 <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,3]
+    NAK.FG120 <- cast(ELEV_FL.NAK, Sampling.Unit.Name ~ variable)[,4] 
+    NAK.Tmin <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    NAK.Tmax <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    NAK.Tvar <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    NAK.SD <- round(as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    NAK.Mean <- as.data.frame(cast(CT.Temp.NAK, Sampling.Unit.Name ~ Year ~ variable)[,,5])
 
 
-NAK_covs <- list(Elevation=NAK.Elev,
-                 ForestLossCT=NAK.FL120,
-                 ForestGainCT=NAK.FG120,
-                 Tmin=NAK.Tmin,
-                 Tmax=NAK.Tmax,
-                 Tvar=NAK.Tvar,
-                 Tsd=NAK.SD,
-                 Tmean=NAK.Mean)
+      NAK.Elev <- scale(NAK.Elev)
+      NAK.Elev[is.na(NAK.Elev)] <- 0
 
-CT.Temp.RNF <- melt(Alltemp500[Alltemp500$Site.Code=="RNF",])
-ELEV_FL.RNF <- melt(ELEV_FL[ELEV_FL$Site.Code=="RNF",])
-RNF.Elev <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,2]
-RNF.FL120 <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,3]
-RNF.FG120 <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,4] 
-RNF.Tmin <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
-RNF.Tmax <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
-RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
-RNF.SD <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
-RNF.Mean <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,5])
+      NAK.FL120 <- scale(NAK.FL120)
+      NAK.FL120[is.na(NAK.FL120)] <- 0
+
+      NAK.FG120 <- scale(NAK.FG120)
+      NAK.FG120[is.na(NAK.FG120)] <- 0
+
+      NAK.Tmin <- scale(NAK.Tmin)
+      NAK.Tmin[is.na(NAK.Tmin)] <- 0
+
+      NAK.Tmax <- scale(NAK.Tmax)
+      NAK.Tmax[is.na(NAK.Tmax)] <- 0
+
+      NAK.Tvar <- scale(NAK.Tvar)
+      NAK.Tvar[is.na(NAK.Tvar)] <- 0
+
+      NAK.SD <- scale(NAK.SD)
+      NAK.SD[is.na(NAK.SD)] <- 0
+
+      NAK.Mean <- scale(NAK.Mean)
+      NAK.Mean[is.na(NAK.Mean)] <- 0
 
 
-RNF.Elev <- scale(RNF.Elev)
-RNF.Elev[is.na(RNF.Elev)] <- 0
+          NAK_covs <- list(Elevation=NAK.Elev,
+                ForestLossCT=NAK.FL120,
+                ForestGainCT=NAK.FG120,
+                Tmin=NAK.Tmin,
+                Tmax=NAK.Tmax,
+                Tvar=NAK.Tvar,
+                Tsd=NAK.SD,
+                Tmean=NAK.Mean)
 
-RNF.FL120 <- scale(RNF.FL120)
-RNF.FL120[is.na(RNF.FL120)] <- 0
+  CT.Temp.RNF <- melt(Alltemp500[Alltemp500$Site.Code=="RNF",])
+  ELEV_FL.RNF <- melt(ELEV_FL[ELEV_FL$Site.Code=="RNF",])
+    RNF.Elev <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,2]
+    RNF.FL120 <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,3]
+    RNF.FG120 <- cast(ELEV_FL.RNF, Sampling.Unit.Name ~ variable)[,4] 
+    RNF.Tmin <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,1])
+    RNF.Tmax <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,2])
+    RNF.Tvar <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,3]),2)
+    RNF.SD <- round(as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,4]),2)
+    RNF.Mean <- as.data.frame(cast(CT.Temp.RNF, Sampling.Unit.Name ~ Year ~ variable)[,,5])
 
-RNF.FG120 <- scale(RNF.FG120)
-RNF.FG120[is.na(RNF.FG120)] <- 0
 
-<<<<<<< HEAD
+      RNF.Elev <- scale(RNF.Elev)
+      RNF.Elev[is.na(RNF.Elev)] <- 0
+
+      RNF.FL120 <- scale(RNF.FL120)
+      RNF.FL120[is.na(RNF.FL120)] <- 0
+
+      RNF.FG120 <- scale(RNF.FG120)
+      RNF.FG120[is.na(RNF.FG120)] <- 0
+
       RNF.Tmin <- RNF.Tmin[,1:6] # SUBSET SO THAT # YEARS MATCHES FOR SP & TEMP DATA
       RNF.Tmin <- scale(RNF.Tmin)
       RNF.Tmin[is.na(RNF.Tmin)] <- 0
@@ -1429,46 +1150,11 @@ RNF.FG120[is.na(RNF.FG120)] <- 0
                 Tvar=RNF.Tvar,
                 Tsd=RNF.SD,
                 Tmean=RNF.Mean)
-=======
-RNF.Tmin <- RNF.Tmin[,1:6] # SUBSET SO THAT # YEARS MATCHES FOR SP & TEMP DATA
-RNF.Tmin <- scale(RNF.Tmin)
-RNF.Tmin[is.na(RNF.Tmin)] <- 0
-
-RNF.Tmax <- RNF.Tmax[,1:6]
-RNF.Tmax <- scale(RNF.Tmax)
-RNF.Tmax[is.na(RNF.Tmax)] <- 0
-
-RNF.Tvar <- RNF.Tvar[,1:6]
-RNF.Tvar <- scale(RNF.Tvar)
-RNF.Tvar[is.na(RNF.Tvar)] <- 0
-
-RNF.SD <- RNF.SD[,1:6]
-RNF.SD <- scale(RNF.SD)
-RNF.SD[is.na(RNF.SD)] <- 0
-
-RNF.Mean <- RNF.Mean[,1:6]
-RNF.Mean <- scale(RNF.Mean)
-RNF.Mean[is.na(RNF.Mean)] <- 0
-
-
-RNF_covs <- list(Elevation=RNF.Elev,
-                 ForestLossCT=RNF.FL120,
-                 ForestGainCT=RNF.FG120,
-                 Tmin=RNF.Tmin,
-                 Tmax=RNF.Tmax,
-                 Tvar=RNF.Tvar,
-                 Tsd=RNF.SD,
-                 Tmean=RNF.Mean)
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 
 # Remove X year from NAK to match available species data and temperature data
 # NEED TO DO THIS TO MATCH UP ALL SITES SO THAT MODELS WILL CONVERGE! (e.g. chimpanzees at BIF won't converge w/out correction)
 # BIF_covs[[6]] <- lapply(BIF_covs[[4:8]], "[", ,1:6)
-<<<<<<< HEAD
           
-=======
-
->>>>>>> 26eb9af4cb33722b1b6a6aa48970038512365472
 All_covs <- list(VB__covs=VB__covs, #9 YEARS
                  UDZ_covs=UDZ_covs, #6 YEARS
                  BIF_covs=BIF_covs, #7 YEARS (sp only 6)
@@ -1500,7 +1186,7 @@ Z[[1]][1]
 # the following loop produces output for a single species (#21) for all camera traps
 test <- vector()
 for(i in 1:length(Z[[1]])){
-  test[i] <- Z[[1]][[i]]["21"]
+    test[i] <- Z[[1]][[i]]["21"]
   test[i] <- ifelse(is.na(test[i])==TRUE, 0, test[i])
 }
 
@@ -1509,8 +1195,8 @@ test <- vector()
 hold <-list()
 #hold <- data.frame(Sampling.Unit.Name=colnames(SitesBinary[[1]])[2:length(colnames(SitesBinary[[1]]))])
 
-for(j in 1:length(SitesBinary[[1]][,1])){
-  for(i in 1:length(Z[[1]])){
+  for(j in 1:length(SitesBinary[[1]][,1])){
+    for(i in 1:length(Z[[1]])){
     test[i] <- Z[[1]][[i]][as.character(SitesBinary[[1]][,1])[j]]
     test[i] <- ifelse(is.na(test[i])==TRUE, 0, test[i]) 
     hold[[j]] <- test
@@ -1528,16 +1214,16 @@ BIOTIC_all <- list()
 for(k in 1:length(SitesBinary)){
   for(j in 1:length(SitesBinary[[k]][,1])){
     for(i in 1:length(Z[[k]])){
-      BIOTIC_pop[i] <- Z[[k]][[i]][as.character(SitesBinary[[k]][,1])[j]]
-      BIOTIC_pop[i] <- ifelse(is.na(BIOTIC_pop[i])==TRUE, 0, BIOTIC_pop[i]) 
+    BIOTIC_pop[i] <- Z[[k]][[i]][as.character(SitesBinary[[k]][,1])[j]]
+    BIOTIC_pop[i] <- ifelse(is.na(BIOTIC_pop[i])==TRUE, 0, BIOTIC_pop[i]) 
     }   
     BIOTIC_site[[j]] <- BIOTIC_pop
     rm(BIOTIC_pop) # removes object and replaces is that the correct number of CT are used 
     BIOTIC_pop <- vector()
   }
   BIOTIC_all[[k]] <- BIOTIC_site
-  names(BIOTIC_all[[k]]) <- rownames(SitesBinary[[k]])  # Brings back species names, but could also name with UID index if needed later
-  rm(BIOTIC_site)
+    names(BIOTIC_all[[k]]) <- rownames(SitesBinary[[k]])  # Brings back species names, but could also name with UID index if needed later
+   rm(BIOTIC_site)
   BIOTIC_site <- list()
 }
 names(BIOTIC_all) <- Sitenames
@@ -1564,20 +1250,20 @@ for(k in 1:length(SitesBinaryAnnual)){
       for(i in 1:length(Z[[k]][[m]])){
         BIOTIC_pop[i] <- Z[[k]][[m]][[i]][as.character(SitesBinaryAnnual[[k]][[m]][,1])[j]]
         BIOTIC_pop[i] <- ifelse(is.na(BIOTIC_pop[i])==TRUE, 0, BIOTIC_pop[i]) 
-      }   
+        }   
       BIOTIC_site[[j]] <- BIOTIC_pop
       rm(BIOTIC_pop) # removes object and replaces is that the correct number of CT are used 
       BIOTIC_pop <- list()
-    }
+      }
     BIOTIC_year[[m]] <- BIOTIC_site
     rm(BIOTIC_site)
     BIOTIC_site <- list()
-  }
+    }
   BIOTIC_all[[k]] <- BIOTIC_year
   #names(BIOTIC_all[[k]][[m]]) <- rownames(SitesBinaryAnnual[[k]][[m]])  # Brings back species names, but could also name with UID index if needed later
   rm(BIOTIC_year)
   BIOTIC_year <- list()
-}
+  }
 
 names(BIOTIC_all) <- Sitenames
 
@@ -1710,4 +1396,3 @@ f.matrix.creatorLB<-function(data,year){
   res
   
 }
-
