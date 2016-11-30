@@ -80,7 +80,7 @@ for(k in 1:length(nms)){
   try((fm0=colext(psiformula=~1,
                   gammaformula=~1,
                   epsilonformula=~1,
-                  pformula=~1,data=umf,method="SANN",control=list(maxit=20000))),silent=TRUE)
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
   
   if(exists("fm0")) {
     if(CondNum(fm0)<2000){
@@ -91,7 +91,7 @@ for(k in 1:length(nms)){
 #  try((fm0.1=colext(psiformula=~Elevation,
 #                  gammaformula=~1,
 #                  epsilonformula=~1,
-#                  pformula=~1,data=umf,method="SANN",control=list(maxit=20000))),silent=TRUE)
+#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
   
 #  if(exists("fm0.1")) {
 #    if(CondNum(fm0.1)<2000){
@@ -102,7 +102,7 @@ for(k in 1:length(nms)){
 #  try((fm0.12=colext(psiformula=~Elevation^2,
 #                  gammaformula=~1,
 #                  epsilonformula=~1,
-#                  pformula=~1,data=umf,method="SANN",control=list(maxit=20000))),silent=TRUE)
+#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
   
 #  if(exists("fm0.12")) {
 #    if(CondNum(fm0.12)<2000){
@@ -110,11 +110,50 @@ for(k in 1:length(nms)){
 #    } 
 #  }
   
+   # NO COVARIATES FOR INITIAL OCCUPANCY
+   # Elevation as a covariate of colonization and extinction ######################################
+  try((fm1=colext(psiformula=~1,
+                  gammaformula=~Elevation,
+                  epsilonformula=~Elevation,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+  
+  if(exists("fm1")) {
+    if(CondNum(fm1)<2000){
+      if(CondNum(fm1)>0){mods=c(mods,fm1)}
+    } 
+  }
+  
+  # Elevation as a covariate of colonization only ################################################
+  try((fm1.1=colext(psiformula=~1,
+                    gammaformula=~Elevation,
+                    epsilonformula=~1,
+                    pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+  
+  if(exists("fm1.1")) {
+    if(CondNum(fm1.1)<2000){
+      if(CondNum(fm1.1)>0){mods=c(mods,fm1.1)}
+    } 
+  }
+  
+  # Elevation as a covariate of extinction only ##################################################
+  try((fm1.2=colext(psiformula=~1,
+                    gammaformula=~1,
+                    epsilonformula=~Elevation,
+                    pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+  
+  if(exists("fm1.2")) {
+    if(CondNum(fm1.2)<2000){
+      if(CondNum(fm1.2)>0){mods=c(mods,fm1.2)}
+    } 
+  }
+  
+  
+  # ELEVATION AS A COVARIATE FOR INITIAL OCCUPANCY
   # Elevation as a covariate of colonization and extinction ######################################
   try((fm2=colext(psiformula=~Elevation,
                   gammaformula=~Elevation,
                   epsilonformula=~Elevation,
-                  pformula=~1,data=umf,method="SANN",control=list(maxit=20000))),silent=TRUE)
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
   
   if(exists("fm2")) {
     if(CondNum(fm2)<2000){
@@ -126,7 +165,7 @@ for(k in 1:length(nms)){
   try((fm2.1=colext(psiformula=~Elevation,
                     gammaformula=~Elevation,
                     epsilonformula=~1,
-                    pformula=~1,data=umf,method="SANN",control=list(maxit=20000))),silent=TRUE)
+                    pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
   
   if(exists("fm2.1")) {
     if(CondNum(fm2.1)<2000){
@@ -138,7 +177,7 @@ for(k in 1:length(nms)){
   try((fm2.2=colext(psiformula=~Elevation,
                     gammaformula=~1,
                     epsilonformula=~Elevation,
-                    pformula=~1,data=umf,method="SANN",control=list(maxit=20000))),silent=TRUE)
+                    pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
   
   if(exists("fm2.2")) {
     if(CondNum(fm2.2)<2000){
@@ -152,7 +191,7 @@ for(k in 1:length(nms)){
 #  try((fm12=colext(psiformula=~Elevation^2,
 #                  gammaformula=~Elevation^2,
 #                  epsilonformula=~Elevation^2,
-#                  pformula=~1,data=umf,method="SANN",control=list(maxit=20000))),silent=TRUE)
+#                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
   
 #  if(exists("fm12")) {
 #    if(CondNum(fm12)<2000){
@@ -164,7 +203,7 @@ for(k in 1:length(nms)){
 #  try((fm12.1=colext(psiformula=~Elevation^2,
 #                    gammaformula=~Elevation^2,
 #                    epsilonformula=~1,
-#                    pformula=~1,data=umf,method="SANN",control=list(maxit=20000))),silent=TRUE)
+#                    pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
   
 #  if(exists("fm12.1")) {
 #    if(CondNum(fm12.1)<2000){
@@ -176,7 +215,7 @@ for(k in 1:length(nms)){
 #  try((fm12.2=colext(psiformula=~Elevation^2,
 #                    gammaformula=~1,
 #                    epsilonformula=~Elevation^2,
-#                    pformula=~1,data=umf,method="SANN",control=list(maxit=20000))),silent=TRUE)
+#                    pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
   
 #  if(exists("fm12.2")) {
 #    if(CondNum(fm12.2)<2000){
@@ -268,12 +307,13 @@ for(k in 1:length(nms)){
     
   # Remove all models and results
   rm(fm0, #fm0.1, fm0.12, 
+     fm1, fm1.1, fm1.2,
      fm2, fm2.1, fm2.2, 
      #fm12, fm12.1, fm12.2,
      #fm20, fm22, fm22.1, fm22.2,
      #fm30, fm32, fm32.1, fm32.2,
      mods, ms, temp, toExport,
-     null0.aic, null01.aic, null012.aic, nulls)
+     null0.aic, nulls)
 }
 
 ############################################################################
