@@ -25,30 +25,34 @@ CondNum <- function(model){
 # Load formatted data
 ######################################
 
-load("Species7sites_Include.RData")
-load("reshuffled.col.RData") #reshuffling columns (i.e. time)
+
+
+#load("reshuffled.col.RData") #reshuffling columns (i.e. time)
+#load("reshuffled.all.RData") #reshuffling all values in the matrix
 load("reshuffled.row.RData") #reshuffling rows (i.e. space)
-load("reshuffled.all.RData") #reshuffling all values in the matrix
-load("All_covs.RData")
 
 
-Species_data <- Species7sites_Include
-nms=names(Species_data)
+#load("Species7sites_Include.RData")
+#load("All_covs.RData")
+
+#Species_data <- Species7sites_Include
+#nms=names(Species_data)
   
-null_species <- c("BIF.Cephalophus_nigrifrons",#22
-                  "BIF.Pan_troglodytes",#27
-                  "NAK.Tragulus_kanchil",#54
-                  "UDZ.Cricetomys_gambianus",#13
-                  "UDZ.Potamochoerus_larvatus",#19
-                  "VB_.Dasypus_novemcinctus",#3
-                  "VB_.Pecari_tajacu",#6
-                  "YAN.Eira_barbara",#43
-                  "YAN.Mazama_americana")#45
+#null_species <- c("BIF.Cephalophus_nigrifrons",#22
+#                  "BIF.Pan_troglodytes",#27
+#                  "NAK.Tragulus_kanchil",#54
+#                  "UDZ.Cricetomys_gambianus",#13
+#                  "UDZ.Potamochoerus_larvatus",#19
+#                  "VB_.Dasypus_novemcinctus",#3
+#                  "VB_.Pecari_tajacu",#6
+#                  "YAN.Eira_barbara",#43
+#                  "YAN.Mazama_americana")#45
 
 Species_use <- reshuffled.row
 
-names(Species_use) <- null_species
+#names(Species_use) <- null_species
 
+null_species <- names(Species_use)
 
 
 # Empty objects for loop
@@ -152,6 +156,43 @@ for(k in 1:length(Species_use)){
   }
   
   
+  # ELEVATION AS A COVARIATE FOR INITIAL OCCUPANCY
+  # Elevation as a covariate of colonization and extinction ######################################
+  try((fm5=colext(psiformula=~Elevation,
+                  gammaformula=~Elevation,
+                  epsilonformula=~Elevation,
+                  pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+  
+  if(exists("fm5")) {
+    if(CondNum(fm5)<2000){
+      if(CondNum(fm5)>0){mods=c(mods,fm5)}
+    } 
+  }
+  
+  # Elevation as a covariate of colonization only ################################################
+  try((fm5.1=colext(psiformula=~Elevation,
+                    gammaformula=~Elevation,
+                    epsilonformula=~1,
+                    pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+  
+  if(exists("fm5.1")) {
+    if(CondNum(fm5.1)<2000){
+      if(CondNum(fm5.1)>0){mods=c(mods,fm5.1)}
+    } 
+  }
+  
+  # Elevation as a covariate of extinction only ##################################################
+  try((fm5.2=colext(psiformula=~Elevation,
+                    gammaformula=~1,
+                    epsilonformula=~Elevation,
+                    pformula=~1,data=umf,method="L-BFGS-B",control=list(maxit=20000))),silent=TRUE)
+  
+  if(exists("fm5.2")) {
+    if(CondNum(fm5.2)<2000){
+      if(CondNum(fm5.2)>0){mods=c(mods,fm5.2)}
+    } 
+  }
+  
   ######################################
   # Run Model Selection
   ######################################
@@ -203,6 +244,7 @@ for(k in 1:length(Species_use)){
   
     # Remove all models and results
   rm(fm0, fm2, fm3, fm4, 
+     fm5, fm5.1, fm5.2,
      models, mods, ms, temp, toExport, null.aic, null)
   }
 }
@@ -212,7 +254,8 @@ for(k in 1:length(Species_use)){
 # End loop
 ############################################################################
 
-
+### NEED TO FIGURE OUT HOW TO WRITE RESULTS EFFICIENTLY FOR 62 POPULATIONS
+# WITH 250 SIMULATIONS EACH
 
 
 ######################################
@@ -220,25 +263,25 @@ for(k in 1:length(Species_use)){
 ######################################
 
 # Coerce the lists of results into dataframes and write to files
-results.table.ma.df.k1 <- ldply(results.table.ma[[1]], data.frame)
-results.table.ma.df.k2 <- ldply(results.table.ma[[2]], data.frame)
-results.table.ma.df.k3 <- ldply(results.table.ma[[3]], data.frame)
-results.table.ma.df.k4 <- ldply(results.table.ma[[4]], data.frame)
-results.table.ma.df.k5 <- ldply(results.table.ma[[5]], data.frame)
-results.table.ma.df.k6 <- ldply(results.table.ma[[6]], data.frame)
-results.table.ma.df.k7 <- ldply(results.table.ma[[7]], data.frame)
-results.table.ma.df.k8 <- ldply(results.table.ma[[8]], data.frame)
-results.table.ma.df.k9 <- ldply(results.table.ma[[9]], data.frame)
+results.table.ma.df.k1 <- ldply(results.table.ma.k[[1]], data.frame)
+results.table.ma.df.k2 <- ldply(results.table.ma.k[[2]], data.frame)
+results.table.ma.df.k3 <- ldply(results.table.ma.k[[3]], data.frame)
+results.table.ma.df.k4 <- ldply(results.table.ma.k[[4]], data.frame)
+results.table.ma.df.k5 <- ldply(results.table.ma.k[[5]], data.frame)
+results.table.ma.df.k6 <- ldply(results.table.ma.k[[6]], data.frame)
+results.table.ma.df.k7 <- ldply(results.table.ma.k[[7]], data.frame)
+results.table.ma.df.k8 <- ldply(results.table.ma.k[[8]], data.frame)
+results.table.ma.df.k9 <- ldply(results.table.ma.k[[9]], data.frame)
 
-results.table.aic.df.k1 <- ldply(results.table.aic[[1]], data.frame)
-results.table.aic.df.k2 <- ldply(results.table.aic[[2]], data.frame)
-results.table.aic.df.k3 <- ldply(results.table.aic[[3]], data.frame)
-results.table.aic.df.k4 <- ldply(results.table.aic[[4]], data.frame)
-results.table.aic.df.k5 <- ldply(results.table.aic[[5]], data.frame)
-results.table.aic.df.k6 <- ldply(results.table.aic[[6]], data.frame)
-results.table.aic.df.k7 <- ldply(results.table.aic[[7]], data.frame)
-results.table.aic.df.k8 <- ldply(results.table.aic[[8]], data.frame)
-results.table.aic.df.k9 <- ldply(results.table.aic[[9]], data.frame)
+results.table.aic.df.k1 <- ldply(results.table.aic.k[[1]], data.frame)
+results.table.aic.df.k2 <- ldply(results.table.aic.k[[2]], data.frame)
+results.table.aic.df.k3 <- ldply(results.table.aic.k[[3]], data.frame)
+results.table.aic.df.k4 <- ldply(results.table.aic.k[[4]], data.frame)
+results.table.aic.df.k5 <- ldply(results.table.aic.k[[5]], data.frame)
+results.table.aic.df.k6 <- ldply(results.table.aic.k[[6]], data.frame)
+results.table.aic.df.k7 <- ldply(results.table.aic.k[[7]], data.frame)
+results.table.aic.df.k8 <- ldply(results.table.aic.k[[8]], data.frame)
+results.table.aic.df.k9 <- ldply(results.table.aic.k[[9]], data.frame)
 
 write.csv(results.table.ma.df.k1, file="results.table.ma_BIF.Cephalophus_nigrifrons.csv")
 write.csv(results.table.ma.df.k2, file="results.table.ma_BIF.Pan_troglodytes.csv")
