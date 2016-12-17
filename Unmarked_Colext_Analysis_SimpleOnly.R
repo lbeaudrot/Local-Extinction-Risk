@@ -1513,30 +1513,33 @@ for(k in 1:length(nms)){
     toExport <- as(ms,"data.frame")
     
     null0.aic <- toExport$delta[toExport$formula=="~1 ~ 1 ~ 1 ~ 1"]
-    null01.aic <- toExport$delta[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1"]
-    null012.aic <- toExport$delta[toExport$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1"]
+    #null01.aic <- toExport$delta[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1"]
+    #null012.aic <- toExport$delta[toExport$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1"]
     
     
     #if null didn't converge
-    if(isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE){
+    if(isEmpty(null0.aic)==TRUE){
+    #if(isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE){
       nulls <- NA
     }else{
-      nulls <- rbind(toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",],
-                     toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",],
-                     toExport[toExport$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1",])
+      nulls <- rbind(toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",])
+                    #rbind(toExport[toExport$formula=="~1 ~ 1 ~ 1 ~ 1",],
+                    #toExport[toExport$formula=="~Elevation ~ 1 ~ 1 ~ 1",],
+                    #toExport[toExport$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1",])
       #nulls <- cbind(rep(nms[k],3), nulls)
     }
     
-    
-    if((null0.aic==0) || (null01.aic==0) || (null012.aic==0) || (isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE) || (isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE)){
+    if((null0.aic==0) || (isEmpty(null0.aic)==TRUE)){
+    #if((null0.aic==0) || (null01.aic==0) || (null012.aic==0) || (isEmpty(null0.aic)==TRUE && isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE) || (isEmpty(null01.aic)==TRUE && isEmpty(null012.aic)==TRUE)){
       results.table.ma[[k]] <- rbind(nulls)
       results.table.ma[[k]] <- cbind(nms[k], results.table.ma[[k]])
       names(results.table.ma)[k] <- nms[k]
       temp <- data.frame(toExport$formula,toExport$delta,toExport$AICwt)
       names(temp) <- c("formula","delta","AICwt")
-      results.table.aic[[k]] <- rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],
-                                      temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",],
-                                      temp[temp$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1",])
+      results.table.aic[[k]] <- rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",])
+                                      #rbind(temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],
+                                      #temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",],
+                                      #temp[temp$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1",])
       names(results.table.aic)[k] <- nms[k]
       
     }else{
@@ -1545,9 +1548,10 @@ for(k in 1:length(nms)){
       names(results.table.ma)[k] <- nms[k]
       temp <- data.frame(toExport$formula,toExport$delta,toExport$AICwt)
       names(temp) <- c("formula","delta","AICwt")
-      results.table.aic[[k]] <- rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],
-                                      temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",],
-                                      temp[temp$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1",])
+      results.table.aic[[k]] <- rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",])
+                                      #rbind(temp[1,],temp[temp$formula=="~1 ~ 1 ~ 1 ~ 1",],
+                                      #temp[temp$formula=="~Elevation ~ 1 ~ 1 ~ 1",],
+                                      #temp[temp$formula=="~Elevation^2 ~ 1 ~ 1 ~ 1",])
       results.table.aic[[k]] <- cbind(nms[k], results.table.aic[[k]])
       names(results.table.aic)[k] <- nms[k]
     }
