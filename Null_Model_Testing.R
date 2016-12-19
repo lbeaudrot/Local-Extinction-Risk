@@ -26,31 +26,9 @@ CondNum <- function(model){
 ######################################
 
 
-
-#load("reshuffled.col.RData") #reshuffling columns (i.e. time)
-#load("reshuffled.all.RData") #reshuffling all values in the matrix
 load("reshuffled.row.RData") #reshuffling rows (i.e. space)
 
-
-#load("Species7sites_Include.RData")
-#load("All_covs.RData")
-
-#Species_data <- Species7sites_Include
-#nms=names(Species_data)
-  
-#null_species <- c("BIF.Cephalophus_nigrifrons",#22
-#                  "BIF.Pan_troglodytes",#27
-#                  "NAK.Tragulus_kanchil",#54
-#                  "UDZ.Cricetomys_gambianus",#13
-#                  "UDZ.Potamochoerus_larvatus",#19
-#                  "VB_.Dasypus_novemcinctus",#3
-#                  "VB_.Pecari_tajacu",#6
-#                  "YAN.Eira_barbara",#43
-#                  "YAN.Mazama_americana")#45
-
 Species_use <- reshuffled.row
-
-#names(Species_use) <- null_species
 
 null_species <- names(Species_use)
 
@@ -254,61 +232,65 @@ for(k in 1:length(Species_use)){
 # End loop
 ############################################################################
 
-### NEED TO FIGURE OUT HOW TO WRITE RESULTS EFFICIENTLY FOR 62 POPULATIONS
-# WITH 250 SIMULATIONS EACH
+# FIRST SAVE LOOP OUTPUT AS Rdata OBJECT
+
+save(results.table.ma.k, file="results.table.ma_250shuffles.RData")
+save(results.table.aic.k, file="results.table.aic_250shuffles.RData")
+
+### THEN FIGURE OUT HOW TO WRITE SUMMARY RESULTS EFFICIENTLY FOR 62 POPULATIONS WITH 250 SIMULATIONS EACH
+# Automate this process for all 62 populations
+# Extract only top row formula and second row delta (if applicable) from each element in the list, convert into a dataframe
+# Then select only the rows where actual top model occurs and if null=0 or if elevation model delta >2
+# take the length/dimensions of the output
 
 
-######################################
-# Write Results
-######################################
+pops <- list()
+hold1 <- list()
+hold2 <- data.frame()
+outs <- vector()
+null.df <- matrix(NA, nrow=250, ncol=2, dimnames=list(NULL,cn))
+ifempty <- as.vector(c(NA, NA))
+pops.df.list <- list()
 
-# Coerce the lists of results into dataframes and write to files
-results.table.ma.df.k1 <- ldply(results.table.ma.k[[1]], data.frame)
-results.table.ma.df.k2 <- ldply(results.table.ma.k[[2]], data.frame)
-results.table.ma.df.k3 <- ldply(results.table.ma.k[[3]], data.frame)
-results.table.ma.df.k4 <- ldply(results.table.ma.k[[4]], data.frame)
-results.table.ma.df.k5 <- ldply(results.table.ma.k[[5]], data.frame)
-results.table.ma.df.k6 <- ldply(results.table.ma.k[[6]], data.frame)
-results.table.ma.df.k7 <- ldply(results.table.ma.k[[7]], data.frame)
-results.table.ma.df.k8 <- ldply(results.table.ma.k[[8]], data.frame)
-results.table.ma.df.k9 <- ldply(results.table.ma.k[[9]], data.frame)
+for(p in 1:length(results.table.aic.k)){
+  for(s in 1:length(results.table.aic.k[[p]])){
+    hold1 <- results.table.aic.k[[p]][s]
+    hold2 <- ldply(hold1)
+    outs <- cbind(as.character(hold2$formula[1]), ifelse(hold2$formula[1]=="~1 ~ 1 ~ 1 ~ 1", 0, hold2$delta[2]))
+    outs <- cbind(ifelse(isEmpty(outs)==TRUE, ifempty, outs[1]), ifelse(isEmpty(outs)==TRUE, ifempty, outs[2]))
+    #outs <- ifelse(dim(outs)[1]==0, ifempty, outs)
+    null.df[s,] <- outs
+  }
+  pops[[p]] <- null.df
+  pops.df.list[[p]] <- as.matrix(pops[[p]], nrow=250, ncol=2)
+  pops.df.list[[p]] <- as.data.frame(pops.df.list[[p]])
+  pops.df.list[[p]]$delta <- as.numeric(as.character(pops.df.list[[p]]$delta)) # Creates a data fame of 250 results for each population
+}
 
-results.table.aic.df.k1 <- ldply(results.table.aic.k[[1]], data.frame)
-results.table.aic.df.k2 <- ldply(results.table.aic.k[[2]], data.frame)
-results.table.aic.df.k3 <- ldply(results.table.aic.k[[3]], data.frame)
-results.table.aic.df.k4 <- ldply(results.table.aic.k[[4]], data.frame)
-results.table.aic.df.k5 <- ldply(results.table.aic.k[[5]], data.frame)
-results.table.aic.df.k6 <- ldply(results.table.aic.k[[6]], data.frame)
-results.table.aic.df.k7 <- ldply(results.table.aic.k[[7]], data.frame)
-results.table.aic.df.k8 <- ldply(results.table.aic.k[[8]], data.frame)
-results.table.aic.df.k9 <- ldply(results.table.aic.k[[9]], data.frame)
 
-write.csv(results.table.ma.df.k1, file="results.table.ma_BIF.Cephalophus_nigrifrons.csv")
-write.csv(results.table.ma.df.k2, file="results.table.ma_BIF.Pan_troglodytes.csv")
-write.csv(results.table.ma.df.k3, file="results.table.ma_NAK.Tragulus_kanchil.csv")
-write.csv(results.table.ma.df.k4, file="results.table.ma_UDZ.Cricetomys_gambianus.csv")
-write.csv(results.table.ma.df.k5, file="results.table.ma_UDZ.Potamochoerus_larvatus.csv")
-write.csv(results.table.ma.df.k6, file="results.table.ma_VB_.Dasypus_novemcinctus.csv")
-write.csv(results.table.ma.df.k7, file="results.table.ma_VB_.Pecari_tajacu.csv")
-write.csv(results.table.ma.df.k8, file="results.table.ma_YAN.Eira_barbara.csv")
-write.csv(results.table.ma.df.k9, file="results.table.ma_YAN.Mazama_americana.csv")
+# Then select only the rows where actual top model occurs and if null=0 or if elevation model delta >2
+# take the length/dimensions of the output
 
-write.csv(results.table.aic.df.k1, file="results.table.aic_BIF.Cephalophus_nigrifrons.csv")
-write.csv(results.table.aic.df.k2, file="results.table.aic_BIF.Pan_troglodytes.csv")
-write.csv(results.table.aic.df.k3, file="results.table.aic_NAK.Tragulus_kanchil.csv")
-write.csv(results.table.aic.df.k4, file="results.table.aic_UDZ.Cricetomys_gambianus.csv")
-write.csv(results.table.aic.df.k5, file="results.table.aic_UDZ.Potamochoerus_larvatus.csv")
-write.csv(results.table.aic.df.k6, file="results.table.aic_VB_.Dasypus_novemcinctus.csv")
-write.csv(results.table.aic.df.k7, file="results.table.aic_VB_.Pecari_tajacu.csv")
-write.csv(results.table.aic.df.k8, file="results.table.aic_YAN.Eira_barbara.csv")
-write.csv(results.table.aic.df.k9, file="results.table.aic_YAN.Mazama_americana.csv")
 
-#for(i in 1:length(nms)) {
-#  outputname <- paste(nms[i], "colextAIC.elevation", "csv", sep=".")
-#  if(is.na(results.all[[i]])==TRUE){
-#    output <- NA
-#  }else{
-#    output <- results.all[[i]]@Full
-#  } 
-#  write.csv(output, file=outputname)
-#}
+pops.significant <- list()
+pops.sig.table <- list()
+
+for(p in 1:length(pops.df.list)){
+  #pops.table[[p]] <- table(pops.df.list[[p]]$formula)
+  pops.significant[[p]] <- pops.df.list[[p]][pops.df.list[[p]]$delta>2,]
+  pops.sig.table[[p]] <- table(pops.significant[[p]]$formula)
+}
+names(pops.sig.table) <- nms
+
+pops.sig.table.df <- ldply(pops.sig.table, data.frame)
+sig.per <- (pops.sig.table.df$Freq/250)*100
+sig.flag <- ifelse(sig.per>5, 1, 0)
+pops.sig.table.df <- data.frame(pops.sig.table.df, sig.per, sig.flag)
+
+null.flagged <- pops.sig.table.df[pops.sig.table.df$sig.flag==1,]
+write.csv(null.flagged, file="null.flagged.csv")
+
+
+
+
+
